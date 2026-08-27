@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import * as Toast from "@radix-ui/react-toast";
-import { type ToastItem, ToastContext } from "@/hooks/useToast.ts";
+import { type ToastItem, ToastContext } from "@hooks/useToast.ts";
 
 interface ToastProviderProps {
   children: React.ReactNode;

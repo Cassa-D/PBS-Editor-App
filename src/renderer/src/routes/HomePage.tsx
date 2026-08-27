@@ -8,7 +8,7 @@ import {
   Star,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import UpdatesSection from "@/components/layout/UpdatesSection";
+import UpdatesSection from "@components/layout/UpdatesSection";
 
 const HomePage = () => {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
@@ -62,17 +62,6 @@ const HomePage = () => {
       hoverGlow: "hover:shadow-pink-500/25",
       link: "/items",
     },
-    // {
-    //   title: "Constants",
-    //   description:
-    //     "Edit game constants like types, genderRatios, and more. Reactively updates choices in editor.",
-    //   icon: Settings,
-    //   color: "from-emerald-500 to-teal-500",
-    //   bgColor: "bg-emerald-500/10",
-    //   borderColor: "border-emerald-500/20",
-    //   hoverGlow: "hover:shadow-emerald-500/25",
-    //   link: "/constants",
-    // },
   ];
 
   return (
@@ -148,57 +137,57 @@ const HomePage = () => {
         </div>
 
         {/* Navigation Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {navigationCards.map((card, index) => {
-            const IconComponent = card.icon;
-            const isHovered = hoveredCard === index;
+        {/*<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">*/}
+        {/*  {navigationCards.map((card, index) => {*/}
+        {/*    const IconComponent = card.icon;*/}
+        {/*    const isHovered = hoveredCard === index;*/}
 
-            return (
-              <button
-                key={card.title}
-                className={`group cursor-pointer relative p-6 rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:scale-105 ${card.bgColor} ${card.borderColor} ${card.hoverGlow} hover:shadow-2xl`}
-                onMouseEnter={() => setHoveredCard(index)}
-                onMouseLeave={() => setHoveredCard(null)}
-                onClick={() => navigate(card.link)}
-              >
-                {/* Gradient overlay on hover */}
-                <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}
-                ></div>
+        {/*    return (*/}
+        {/*      <button*/}
+        {/*        key={card.title}*/}
+        {/*        className={`group cursor-pointer relative p-6 rounded-2xl border backdrop-blur-sm transition-all duration-500 hover:-translate-y-2 hover:scale-105 ${card.bgColor} ${card.borderColor} ${card.hoverGlow} hover:shadow-2xl`}*/}
+        {/*        onMouseEnter={() => setHoveredCard(index)}*/}
+        {/*        onMouseLeave={() => setHoveredCard(null)}*/}
+        {/*        onClick={() => navigate(card.link)}*/}
+        {/*      >*/}
+        {/*        /!* Gradient overlay on hover *!/*/}
+        {/*        <div*/}
+        {/*          className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${card.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}*/}
+        {/*        ></div>*/}
 
-                <div className="relative z-10">
-                  <div
-                    className={`w-12 h-12 rounded-xl bg-gradient-to-r ${card.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
-                  >
-                    <IconComponent className="w-6 h-6 text-white" />
-                  </div>
+        {/*        <div className="relative z-10">*/}
+        {/*          <div*/}
+        {/*            className={`w-12 h-12 rounded-xl bg-gradient-to-r ${card.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}*/}
+        {/*          >*/}
+        {/*            <IconComponent className="w-6 h-6 text-white" />*/}
+        {/*          </div>*/}
 
-                  <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-slate-300 transition-all duration-300">
-                    {card.title}
-                  </h3>
+        {/*          <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:bg-clip-text group-hover:from-white group-hover:to-slate-300 transition-all duration-300">*/}
+        {/*            {card.title}*/}
+        {/*          </h3>*/}
 
-                  <p className="text-slate-400 text-sm leading-relaxed mb-4">
-                    {card.description}
-                  </p>
+        {/*          <p className="text-slate-400 text-sm leading-relaxed mb-4">*/}
+        {/*            {card.description}*/}
+        {/*          </p>*/}
 
-                  <div className="flex items-center text-slate-300 group-hover:text-white transition-colors">
-                    <span className="text-sm font-medium">
-                      Edit {card.title}
-                    </span>
-                    <ChevronRight
-                      className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-                        isHovered ? "translate-x-1" : ""
-                      }`}
-                    />
-                  </div>
-                </div>
+        {/*          <div className="flex items-center text-slate-300 group-hover:text-white transition-colors">*/}
+        {/*            <span className="text-sm font-medium">*/}
+        {/*              Edit {card.title}*/}
+        {/*            </span>*/}
+        {/*            <ChevronRight*/}
+        {/*              className={`w-4 h-4 ml-2 transition-transform duration-300 ${*/}
+        {/*                isHovered ? "translate-x-1" : ""*/}
+        {/*              }`}*/}
+        {/*            />*/}
+        {/*          </div>*/}
+        {/*        </div>*/}
 
-                {/* Hover border effect */}
-                <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-white/10 transition-colors duration-500"></div>
-              </button>
-            );
-          })}
-        </div>
+        {/*        /!* Hover border effect *!/*/}
+        {/*        <div className="absolute inset-0 rounded-2xl border-2 border-transparent group-hover:border-white/10 transition-colors duration-500"></div>*/}
+        {/*      </button>*/}
+        {/*    );*/}
+        {/*  })}*/}
+        {/*</div>*/}
       </div>
     </div>
   );

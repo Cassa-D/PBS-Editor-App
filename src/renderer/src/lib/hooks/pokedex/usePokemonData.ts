@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { type Pokemon, defaultPokemon } from "@/lib/models/Pokemon";
-import { importPokemon } from "@/lib/services/importPokemon";
+import { type Pokemon, defaultPokemon } from "@lib/models/Pokemon";
+import { importPokemon } from "@lib/services/importPokemon";
 import { useIndexedDB } from "../useIndexedDB.ts";
 
 export const usePokemonData = () => {

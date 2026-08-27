@@ -1,8 +1,8 @@
-import FormSection from "@/components/layout/FormSection";
-import CustomSelect from "@/components/ui/CustomSelect";
-import InputField from "@/components/ui/InputField";
-import type { Move } from "@/lib/models/Move";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import FormSection from "@components/layout/FormSection";
+import CustomSelect from "@components/ui/CustomSelect";
+import InputField from "@components/ui/InputField";
+import type { Move } from "@lib/models/Move";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 
 interface BasicMoveInfoProps {
   move: Move;

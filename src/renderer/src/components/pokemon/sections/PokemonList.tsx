@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import { type Pokemon } from "@/lib/models/Pokemon";
-import NewPokemonForm from "@/components/Forms/NewPokemonForm";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import { type Pokemon } from "@lib/models/Pokemon";
+import NewPokemonForm from "@components/Forms/NewPokemonForm";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import PokemonListItem from "../PokemonListItem.tsx";
 
 interface PokemonListProps {

@@ -1,7 +1,7 @@
-import { defaultItem, type Item } from "@/lib/models/Item";
+import { defaultItem, type Item } from "@lib/models/Item";
 import { useEffect, useState } from "react";
 import { useIndexedDB } from "../useIndexedDB.ts";
-import { importItems } from "@/lib/services/importItems";
+import { importItems } from "@lib/services/importItems";
 
 
 export const useItemData = () => {

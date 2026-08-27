@@ -12,8 +12,8 @@ import {
   BattleUses,
   ItemFlags,
   type PokemonType,
-} from "@/lib/models/constants";
-import { moveFlags } from "@/lib/models/Move";
+} from "@lib/models/constants";
+import { moveFlags } from "@lib/models/Move";
 import { useEffect, useState } from "react";
 import { useIndexedDB } from "../useIndexedDB.ts";
 import _ from "lodash";

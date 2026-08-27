@@ -1,8 +1,8 @@
-import FormSection from "@/components/layout/FormSection";
-import CustomSelect from "@/components/ui/CustomSelect";
-import InfoTooltip from "@/components/ui/InfoTooltip";
-import InputField from "@/components/ui/InputField";
-import { moveTargets, type Move } from "@/lib/models/Move";
+import FormSection from "@components/layout/FormSection";
+import CustomSelect from "@components/ui/CustomSelect";
+import InfoTooltip from "@components/ui/InfoTooltip";
+import InputField from "@components/ui/InputField";
+import { moveTargets, type Move } from "@lib/models/Move";
 import React from "react";
 
 const AdvancedProperties = ({

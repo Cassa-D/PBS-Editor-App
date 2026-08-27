@@ -1,6 +1,6 @@
-import { defaultMove, type Move } from "@/lib/models/Move";
+import { defaultMove, type Move } from "@lib/models/Move";
 import { useEffect, useState } from "react";
-import { importMoves } from "@/lib/services/importMoves";
+import { importMoves } from "@lib/services/importMoves";
 import { useIndexedDB } from "../useIndexedDB.ts";
 
 export const useMoveData = () => {

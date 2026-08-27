@@ -1,8 +1,8 @@
-import type { Ability } from "@/models/Ability.ts";
-import { getPocketNumber, type PokemonEvolution } from "@/models/constants.ts";
-import type { Item } from "@/models/Item.ts";
-import type { Move } from "@/models/Move.ts";
-import type { Pokemon } from "@/models/Pokemon.ts";
+import type { Ability } from "@models/Ability.ts";
+import { getPocketNumber, type PokemonEvolution } from "@models/constants.ts";
+import type { Item } from "@models/Item.ts";
+import type { Move } from "@models/Move.ts";
+import type { Pokemon } from "@models/Pokemon.ts";
 
 const downloadAsTxt = (filename: string = "pokemon.txt", content: string) => {
   const blob = new Blob([content], { type: "text/plain;charset=utf-8" });

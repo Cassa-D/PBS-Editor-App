@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
-import type { PokemonMove } from "@/models/Pokemon.ts";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
+import type { PokemonMove } from "@models/Pokemon.ts";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import Autocomplete from "../ui/Autocomplete.tsx";
 import { useState, useEffect } from "react";
 import React from "react";

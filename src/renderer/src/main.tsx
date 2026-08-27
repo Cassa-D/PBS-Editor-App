@@ -3,16 +3,16 @@ import "./index.css";
 import App from "./App.tsx";
 import { createBrowserRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
-import PokemonPage from "@/routes/PokemonPage.tsx";
-import { PokedexProvider } from "@/providers/PokedexProvider.tsx";
-import ConstantsPage from "@/routes/ConstantsPage.tsx";
-import AbilitiesPage from "@/routes/AbilitiesPage.tsx";
-import MovesPage from "@/routes/MovesPage.tsx";
-import { AlertProvider } from "@/providers/AlertProvider.tsx";
-import HomePage from "@/routes/HomePage.tsx";
-import ToastProvider from "@/providers/ToastProvider.tsx";
+import PokemonPage from "@routes/PokemonPage.tsx";
+import { PokedexProvider } from "@providers/PokedexProvider.tsx";
+import ConstantsPage from "@routes/ConstantsPage.tsx";
+import AbilitiesPage from "@routes/AbilitiesPage.tsx";
+import MovesPage from "@routes/MovesPage.tsx";
+import { AlertProvider } from "@providers/AlertProvider.tsx";
+import HomePage from "@routes/HomePage.tsx";
+import ToastProvider from "@providers/ToastProvider.tsx";
 import { Tooltip } from "radix-ui";
-import ItemsPage from "@/routes/ItemsPage.tsx";
+import ItemsPage from "@routes/ItemsPage.tsx";
 
 const router = createBrowserRouter(
   [
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
     },
   ],
   {
-    basename: "/PBS-Editor/",
+    basename: "/pbs-editor-app/",
   }
 );
 

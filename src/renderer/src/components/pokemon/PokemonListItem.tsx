@@ -1,4 +1,4 @@
-import type { Pokemon } from "@/lib/models/Pokemon";
+import type { Pokemon } from "@lib/models/Pokemon";
 import React from "react";
 import TypeBubble from "../ui/TypeBubble.tsx";
 

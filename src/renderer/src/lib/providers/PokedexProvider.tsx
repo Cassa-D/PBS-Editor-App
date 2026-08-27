@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from "react";
-import { usePokedex } from "@/hooks/usePokedex.ts";
+import { usePokedex } from "@hooks/usePokedex.ts";
 
 const PokedexContext = createContext<ReturnType<typeof usePokedex> | undefined>(
   undefined

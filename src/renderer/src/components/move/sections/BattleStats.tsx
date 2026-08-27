@@ -1,6 +1,6 @@
-import FormSection from "@/components/layout/FormSection";
-import InputField from "@/components/ui/InputField";
-import type { Move } from "@/lib/models/Move";
+import FormSection from "@components/layout/FormSection";
+import InputField from "@components/ui/InputField";
+import type { Move } from "@lib/models/Move";
 import React from "react";
 
 const BattleStats = ({

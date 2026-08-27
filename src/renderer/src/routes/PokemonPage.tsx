@@ -1,20 +1,20 @@
 import { useState, useEffect, useMemo } from "react";
-import { type Pokemon } from "@/models/Pokemon.ts";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
-import PokemonList from "@/components/pokemon/sections/PokemonList";
-import PokemonHeader from "@/components/pokemon/sections/PokemonHeader";
-import PokemonBasicInfo from "@/components/pokemon/sections/PokemonBasicInfo";
-import StatsInputSection from "@/components/pokemon/sections/StatsInputSection";
-import TypesAbilitiesSection from "@/components/pokemon/sections/TypesAbilitiesSection";
-import MoveSection from "@/components/pokemon/sections/MoveSection";
-import EggGroupSection from "@/components/pokemon/sections/EggGroupSection";
-import OffspringSection from "@/components/pokemon/sections/OffspringSection";
-import PhysicalAttributesSection from "@/components/pokemon/sections/PhysicalAttributesSection";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
-import GameMechanicsSection from "@/components/pokemon/sections/GameMechanicsSection";
-import WildItemsSection from "@/components/pokemon/sections/WildItemsSection";
-import FlagsSection from "@/components/pokemon/sections/FlagsSection";
-import { validatePokemon } from "@/lib/services/pokemonValidator";
+import { type Pokemon } from "@models/Pokemon.ts";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
+import PokemonList from "@components/pokemon/sections/PokemonList";
+import PokemonHeader from "@components/pokemon/sections/PokemonHeader";
+import PokemonBasicInfo from "@components/pokemon/sections/PokemonBasicInfo";
+import StatsInputSection from "@components/pokemon/sections/StatsInputSection";
+import TypesAbilitiesSection from "@components/pokemon/sections/TypesAbilitiesSection";
+import MoveSection from "@components/pokemon/sections/MoveSection";
+import EggGroupSection from "@components/pokemon/sections/EggGroupSection";
+import OffspringSection from "@components/pokemon/sections/OffspringSection";
+import PhysicalAttributesSection from "@components/pokemon/sections/PhysicalAttributesSection";
+import { useAlertContext } from "@lib/providers/AlertProvider";
+import GameMechanicsSection from "@components/pokemon/sections/GameMechanicsSection";
+import WildItemsSection from "@components/pokemon/sections/WildItemsSection";
+import FlagsSection from "@components/pokemon/sections/FlagsSection";
+import { validatePokemon } from "@lib/services/pokemonValidator";
 
 const PokemonPage = () => {
   const {

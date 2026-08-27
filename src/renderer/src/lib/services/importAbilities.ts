@@ -1,4 +1,4 @@
-import { defaultAbility, type Ability } from "@/models/Ability.ts";
+import { defaultAbility, type Ability } from "@models/Ability.ts";
 
 export const importAbilities = (data: string) => {
   const sections: string[] = data.split("#-------------------------------");

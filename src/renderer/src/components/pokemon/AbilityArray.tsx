@@ -1,9 +1,9 @@
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import Autocomplete from "../ui/Autocomplete.tsx";
 import { Plus, X } from "lucide-react";
 import React from "react";
-import { defaultAbility } from "@/lib/models/Ability";
+import { defaultAbility } from "@lib/models/Ability";
 
 interface AbilityArrayProps {
   pokemon: Pokemon;

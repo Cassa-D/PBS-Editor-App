@@ -1,7 +1,7 @@
-import Modal from "@/components/ui/Modal";
-import { getCurrentVersion } from "@/lib/data/versionHistory";
-import { useIndexedDB } from "@/lib/hooks/useIndexedDB";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import Modal from "@components/ui/Modal";
+import { getCurrentVersion } from "@lib/data/versionHistory";
+import { useIndexedDB } from "@lib/hooks/useIndexedDB";
+import { useAlertContext } from "@lib/providers/AlertProvider";
 
 interface SettingsModalProps {
   triggerElement?: React.ReactNode;

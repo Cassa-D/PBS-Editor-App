@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { defaultAbility, type Ability } from "@/lib/models/Ability";
+import { defaultAbility, type Ability } from "@lib/models/Ability";
 import { useIndexedDB } from "../useIndexedDB.ts";
-import { importAbilities } from "@/lib/services/importAbilities";
+import { importAbilities } from "@lib/services/importAbilities";
 
 export const useAbilityData = () => {
   const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);

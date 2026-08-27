@@ -1,6 +1,6 @@
-import TypeBubble from "@/components/ui/TypeBubble";
-import ActionButtons from "@/components/ui/ActionButtons";
-import type { Move } from "@/lib/models/Move";
+import TypeBubble from "@components/ui/TypeBubble";
+import ActionButtons from "@components/ui/ActionButtons";
+import type { Move } from "@lib/models/Move";
 import React from "react";
 
 interface MoveHeaderProps {

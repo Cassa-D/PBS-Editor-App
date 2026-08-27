@@ -1,5 +1,5 @@
 import React from "react";
-import type { Ability } from "@/lib/models/Ability";
+import type { Ability } from "@lib/models/Ability";
 
 interface AbilityListItemProps {
   ability: Ability;

@@ -1,4 +1,4 @@
-import type { Pokemon } from "@/lib/models/Pokemon";
+import type { Pokemon } from "@lib/models/Pokemon";
 import FormSection from "../../layout/FormSection.tsx";
 import TypeSelector from "../TypeSelector.tsx";
 import AbilityArray from "../AbilityArray.tsx";

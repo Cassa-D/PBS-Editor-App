@@ -1,7 +1,7 @@
-import ArraySection from "@/components/layout/ArraySection";
-import Autocomplete from "@/components/ui/Autocomplete";
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import ArraySection from "@components/layout/ArraySection";
+import Autocomplete from "@components/ui/Autocomplete";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import { X } from "lucide-react";
 import type React from "react";
 

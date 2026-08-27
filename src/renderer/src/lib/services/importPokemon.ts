@@ -8,12 +8,12 @@ import type {
   PokemonHabitat,
   PokemonShape,
   PokemonType,
-} from "@/models/constants.ts";
+} from "@models/constants.ts";
 import {
   type Pokemon,
   type PokemonMove,
   defaultPokemon,
-} from "@/models/Pokemon.ts";
+} from "@models/Pokemon.ts";
 
 export const importPokemon = (data: string) => {
   // Check for a required pokemon field to make

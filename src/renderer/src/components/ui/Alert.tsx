@@ -1,5 +1,5 @@
 import { AlertDialog } from "radix-ui";
-import "@/theme/Alert.css";
+import "@theme/Alert.css";
 
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 

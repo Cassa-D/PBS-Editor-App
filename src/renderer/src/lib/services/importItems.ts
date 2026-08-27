@@ -1,5 +1,5 @@
-import {defaultItem, type Item} from "@/models/Item.ts";
-import { getPocketFromNumber, type PokemonType } from "@/models/constants.ts";
+import {defaultItem, type Item} from "@models/Item.ts";
+import { getPocketFromNumber, type PokemonType } from "@models/constants.ts";
 
 export const importItems = (data: string): Item[] => {
   const sections: string[] = data.split("#-------------------------------");

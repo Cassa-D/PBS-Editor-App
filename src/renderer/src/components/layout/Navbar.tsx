@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import {
   Home,
-  LoaderPinwheel,
-  HandFist,
-  Crown,
+  // LoaderPinwheel,
+  // HandFist,
+  // Crown,
   Database,
-  FileDown,
+  // FileDown,
   Menu,
   X,
   Settings,
-  Candy
+  // Candy
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import ExportImportModal from "../export/ExportImportModal.tsx";
+// import ExportImportModal from "../export/ExportImportModal.tsx";
 import SettingsModal from "./SettingsModal.tsx";
 
 function Sidebar() {
@@ -24,18 +24,18 @@ function Sidebar() {
 
   const navItems = [
     { id: "home", icon: Home, label: "Home" },
-    { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon" },
-    { id: "moves", icon: HandFist, label: "Moves" },
-    { id: "abilities", icon: Crown, label: "Abilities" },
-    { id: "items", icon: Candy, label: "Items" },
+    // { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon" },
+    // { id: "moves", icon: HandFist, label: "Moves" },
+    // { id: "abilities", icon: Crown, label: "Abilities" },
+    // { id: "items", icon: Candy, label: "Items" },
     { id: "constants", icon: Database, label: "Constants" },
   ];
 
   const bottomItems = [
-    { id: "export", icon: FileDown, label: "Export" },
-    { id: "import", icon: Settings, label: "Import" },
+    // { id: 'export', icon: FileDown, label: 'Export' },
+    { id: 'settings', icon: Settings, label: 'Settings' }
     // { id: "settings", icon: Settings, label: "Settings" },
-  ];
+  ]
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
@@ -130,21 +130,21 @@ function Sidebar() {
 
       {/* Bottom Buttons */}
       <div className="border-t border-slate-700 cursor-pointer">
-        <ExportImportModal
+        {/*<ExportImportModal*/}
+        {/*  triggerElement={*/}
+        {/*    <NavItem*/}
+        {/*      key={bottomItems[0].id}*/}
+        {/*      item={bottomItems[0]}*/}
+        {/*      onClick={() => {}}*/}
+        {/*      isActive={false}*/}
+        {/*    />*/}
+        {/*  }*/}
+        {/*/>*/}
+        <SettingsModal
           triggerElement={
             <NavItem
               key={bottomItems[0].id}
               item={bottomItems[0]}
-              onClick={() => {}}
-              isActive={false}
-            />
-          }
-        />
-        <SettingsModal
-          triggerElement={
-            <NavItem
-              key={bottomItems[1].id}
-              item={bottomItems[1]}
               onClick={() => {}}
               isActive={false}
             />

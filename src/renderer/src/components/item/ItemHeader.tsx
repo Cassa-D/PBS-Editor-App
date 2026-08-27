@@ -1,6 +1,6 @@
-import ActionButtons from "@/components/ui/ActionButtons";
-import type { Item } from "@/lib/models/Item";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import ActionButtons from "@components/ui/ActionButtons";
+import type { Item } from "@lib/models/Item";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import TypeBubble from "../ui/TypeBubble.tsx";
 import MegaBubble from "../ui/MegaBubble.tsx";
 import StyleBubble from "../ui/StyleBubble.tsx";

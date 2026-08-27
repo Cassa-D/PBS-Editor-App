@@ -1,6 +1,6 @@
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import CustomSelect from "@/components/ui/CustomSelect";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import CustomSelect from "@components/ui/CustomSelect";
 import { Plus, X } from "lucide-react";
 import React from "react";
 

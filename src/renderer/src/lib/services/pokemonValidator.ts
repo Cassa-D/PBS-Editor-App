@@ -1,4 +1,4 @@
-import type { Pokemon } from "@/models/Pokemon.ts";
+import type { Pokemon } from "@models/Pokemon.ts";
 
 export const validatePokemon = (mon: Pokemon) => {
   const errors: string[] = [];

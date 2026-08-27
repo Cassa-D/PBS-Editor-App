@@ -1,6 +1,6 @@
 import { ArrowDownToLine, RotateCcw, Save } from "lucide-react";
 import DeleteButton from "./DeleteButton.tsx";
-import { theme } from "@/theme/colors.ts";
+import { theme } from "@theme/colors.ts";
 
 interface ActionButtonsProps {
   onSetDefault: () => void;

@@ -1,4 +1,4 @@
-import type { Pokemon } from "@/lib/models/Pokemon";
+import type { Pokemon } from "@lib/models/Pokemon";
 
 interface StatsInputSectionProps {
   title: string;

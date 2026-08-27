@@ -1,12 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { type Ability } from "@/models/Ability.ts";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
-import AbilityList from "@/components/ability/AbilityList";
-import AbilityHeader from "@/components/ability/sections/AbilityHeader";
-import FormSection from "@/components/layout/FormSection";
-import InputField from "@/components/ui/InputField";
-import AbilityFlagsSection from "@/components/ability/sections/AbilityFlagsSection";
+import { type Ability } from "@models/Ability.ts";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
+import { useAlertContext } from "@lib/providers/AlertProvider";
+import AbilityList from "@components/ability/AbilityList";
+import AbilityHeader from "@components/ability/sections/AbilityHeader";
+import FormSection from "@components/layout/FormSection";
+import InputField from "@components/ui/InputField";
+import AbilityFlagsSection from "@components/ability/sections/AbilityFlagsSection";
 
 const AbilitiesPage = () => {
   const {

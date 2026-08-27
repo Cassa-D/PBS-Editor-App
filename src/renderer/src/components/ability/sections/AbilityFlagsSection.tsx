@@ -1,6 +1,6 @@
-import ArraySection from "@/components/layout/ArraySection";
-import InputField from "@/components/ui/InputField";
-import type { Ability } from "@/lib/models/Ability";
+import ArraySection from "@components/layout/ArraySection";
+import InputField from "@components/ui/InputField";
+import type { Ability } from "@lib/models/Ability";
 import { X } from "lucide-react";
 
 const AbilityFlagsSection = ({

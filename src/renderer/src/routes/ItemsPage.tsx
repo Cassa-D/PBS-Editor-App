@@ -1,13 +1,13 @@
 import { useState, useEffect, useMemo } from "react";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
-import FormSection from "@/components/layout/FormSection";
-import InputField from "@/components/ui/InputField";
-import type { Item } from "@/lib/models/Item";
-import ItemList from "@/components/item/ItemList";
-import ItemHeader from "@/components/item/ItemHeader";
-import Autocomplete from "@/components/ui/Autocomplete";
-import ItemFlagSection from "@/components/item/ItemFlagSection";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
+import { useAlertContext } from "@lib/providers/AlertProvider";
+import FormSection from "@components/layout/FormSection";
+import InputField from "@components/ui/InputField";
+import type { Item } from "@lib/models/Item";
+import ItemList from "@components/item/ItemList";
+import ItemHeader from "@components/item/ItemHeader";
+import Autocomplete from "@components/ui/Autocomplete";
+import ItemFlagSection from "@components/item/ItemFlagSection";
 
 const ItemsPage = () => {
   const {

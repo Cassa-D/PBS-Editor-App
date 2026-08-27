@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { type Move } from "@/lib/models/Move";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import MoveList from "@/components/move/MoveList";
-import MoveHeader from "@/components/move/sections/MoveHeader";
-import BasicMoveInfo from "@/components/move/sections/BasicMoveInfo";
-import BattleStats from "@/components/move/sections/BattleStats";
-import AdvancedProperties from "@/components/move/sections/AdvancedProperties";
-import MoveFlagsSection from "@/components/move/sections/MoveFlagsSection";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import { type Move } from "@lib/models/Move";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import MoveList from "@components/move/MoveList";
+import MoveHeader from "@components/move/sections/MoveHeader";
+import BasicMoveInfo from "@components/move/sections/BasicMoveInfo";
+import BattleStats from "@components/move/sections/BattleStats";
+import AdvancedProperties from "@components/move/sections/AdvancedProperties";
+import MoveFlagsSection from "@components/move/sections/MoveFlagsSection";
+import { useAlertContext } from "@lib/providers/AlertProvider";
 
 const MovesPage = () => {
   const {

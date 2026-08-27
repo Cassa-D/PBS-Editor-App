@@ -1,12 +1,12 @@
 import { useState } from "react";
 import Modal from "../ui/Modal.tsx";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import InputField from "../ui/InputField.tsx";
 import { Plus } from "lucide-react";
 import { Dialog } from "radix-ui";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import { useAlertContext } from "@lib/providers/AlertProvider";
 import Autocomplete from "../ui/Autocomplete.tsx";
-import type { Item } from "@/lib/models/Item";
+import type { Item } from "@lib/models/Item";
 
 const NewItemForm = () => {
   const [name, setName] = useState("");

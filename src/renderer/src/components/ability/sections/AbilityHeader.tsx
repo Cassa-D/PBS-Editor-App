@@ -1,6 +1,6 @@
-import ActionButtons from "@/components/ui/ActionButtons";
+import ActionButtons from "@components/ui/ActionButtons";
 import React from "react";
-import type { Ability } from "@/lib/models/Ability";
+import type { Ability } from "@lib/models/Ability";
 
 interface AbilityHeaderProps {
   ability: Ability;

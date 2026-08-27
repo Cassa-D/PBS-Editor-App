@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
-import MoveEntry from "@/components/pokemon/MoveEntry";
-import type { Pokemon, PokemonMove } from "@/lib/models/Pokemon";
+import MoveEntry from "@components/pokemon/MoveEntry";
+import type { Pokemon, PokemonMove } from "@lib/models/Pokemon";
 import { useMemo } from "react";
 import React from "react";
 

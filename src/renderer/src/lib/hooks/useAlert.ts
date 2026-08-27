@@ -1,4 +1,4 @@
-import type { AlertProps } from "@/components/ui/Alert";
+import type { AlertProps } from "@components/ui/Alert";
 import { useRef } from "react";
 
 export const useAlert = () => {
