@@ -1,0 +1,48 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.web.json",
+  "include": [
+    "src/renderer/src/vite-env.d.ts",
+    "src/renderer/src/**/*",
+    "src/renderer/src/**/*.tsx",
+    "src/preload/*.d.ts"
+  ],
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    "composite": true,
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/renderer/src/*"],
+      "@/components/*": ["src/renderer/src/components/*"],
+      "@/lib/*": ["src/renderer/src/lib/*"],
+      "@/assets/*": ["src/renderer/src/assets/*"],
+      "@/routes/*": ["src/renderer/src/routes/*"],
+      "@/hooks/*": ["src/renderer/src/lib/hooks/*"],
+      "@/models/*": ["src/renderer/src/lib/models/*"],
+      "@/providers/*": ["src/renderer/src/lib/providers/*"],
+      "@/services/*": ["src/renderer/src/lib/services/*"],
+      "@/theme/*": ["src/renderer/src/lib/theme/*"]
+    }
+  }
+}
