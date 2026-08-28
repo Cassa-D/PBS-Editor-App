@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { defaultAbility, type Ability } from "@lib/models/Ability";
 import { useIndexedDB } from "../useIndexedDB.ts";
 import { importAbilities } from "@lib/services/importAbilities";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
 export const useAbilityData = () => {
   const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
@@ -9,11 +10,11 @@ export const useAbilityData = () => {
   const [abilityDefaults, setAbilityDefaults] = useState<Ability[]>([]);
   const [selectedAbility, setSelectedAbility] = useState<Ability | null>(null);
 
+  const { projectPath } = useProjectContext();
   const {
     saveAbilities,
     loadAbilities,
     saveAbilityDefaults,
-    loadAbilityDefaults,
   } = useIndexedDB();
 
   // Select the first ability by default
@@ -27,9 +28,14 @@ export const useAbilityData = () => {
   const fetchAbilities = async () => {
     try {
       console.warn("Abilities not found. Fetching from PBS.");
-      const response = await fetch("./PBS/abilities.txt");
-      const data = await response.text();
-      const parsedAbilities = importAbilities(data);
+      let pbsPath = `${projectPath}/PBS/`;
+      if (navigator.platform.includes("Win")) {
+        pbsPath = pbsPath.replace("/", "\\");
+      }
+
+      const data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}abilities.txt`);
+      const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}abilities_Gen_9_Pack.txt`);
+      const parsedAbilities = importAbilities(data + "\n" + gen9Data);
       setAbilities(parsedAbilities);
       setAbilityDefaults(parsedAbilities);
 
@@ -41,39 +47,17 @@ export const useAbilityData = () => {
     }
   };
 
-  const fetchDefaults = async () => {
-    try {
-      console.warn("Ability Defaults were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/abilities.txt");
-      const data = await response.text();
-      const parsedAbilities = importAbilities(data);
-      setAbilityDefaults(parsedAbilities);
-
-      // Save to IndexDB
-      await saveAbilityDefaults(parsedAbilities);
-    } catch (error) {
-      console.error("Failed to load abilities.txt:", error);
-    }
-  };
-
   const loadAbilityData = async () => {
     try {
       // Try loading from IndexDB First
       const storedAbilities = await loadAbilities();
-      const storedDefaults = await loadAbilityDefaults();
 
       if (storedAbilities && storedAbilities.length > 0) {
         console.log("Loaded Abilities from IndexDB");
         setAbilities(storedAbilities);
+        setAbilityDefaults(storedAbilities);
       } else {
         await fetchAbilities();
-      }
-
-      if (storedDefaults && storedDefaults.length > 0) {
-        console.log("Loaded Ability defaults from IndexDB");
-        setAbilityDefaults(storedDefaults);
-      } else {
-        await fetchDefaults();
       }
     } catch (error) {
       console.log("IndexDb Error, falling back to fetch.", error);

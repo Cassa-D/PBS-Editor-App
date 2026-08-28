@@ -13,6 +13,7 @@ import HomePage from "@routes/HomePage.tsx";
 import ToastProvider from "@providers/ToastProvider.tsx";
 import { Tooltip } from "radix-ui";
 import ItemsPage from "@routes/ItemsPage.tsx";
+import { ProjectProvider } from "@providers/ProjectProvider.tsx";
 
 const router = createBrowserRouter(
   [
@@ -58,9 +59,11 @@ createRoot(document.getElementById("root")!).render(
   <ToastProvider>
     <Tooltip.Provider>
       <AlertProvider>
-        <PokedexProvider>
-          <RouterProvider router={router} />
-        </PokedexProvider>
+        <ProjectProvider>
+          <PokedexProvider>
+            <RouterProvider router={router} />
+          </PokedexProvider>
+        </ProjectProvider>
       </AlertProvider>
     </Tooltip.Provider>
   </ToastProvider>

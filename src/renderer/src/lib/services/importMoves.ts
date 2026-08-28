@@ -14,7 +14,8 @@ export const importMoves = (data: string) => {
     const move: Move = structuredClone(defaultMove);
 
     lines.forEach((line) => {
-      if (line.trim() === "" || line.startsWith("#")) {
+      // Don't know why, but my pbs has this weird character
+      if (line.trim() === "" || line.match(/^[?﻿#]/g)) {
         return; // Skip empty lines and comments
       }
       line = line.trim();

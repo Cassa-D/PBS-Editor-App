@@ -1,41 +1,46 @@
 import { useEffect, useState } from "react";
 import {
   Home,
-  // LoaderPinwheel,
-  // HandFist,
-  // Crown,
+  LoaderPinwheel,
+  HandFist,
+  Crown,
   Database,
-  // FileDown,
   Menu,
   X,
   Settings,
-  // Candy
+  Candy
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-// import ExportImportModal from "../export/ExportImportModal.tsx";
 import SettingsModal from "./SettingsModal.tsx";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
-function Sidebar() {
+interface NavItemProps {
+  item: {
+    id: string;
+    icon: React.ElementType;
+    label: string;
+  };
+  onClick: (id: string) => void;
+  isActive: boolean;
+}
+
+const navItems = [
+  { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon" },
+  { id: "moves", icon: HandFist, label: "Moves" },
+  { id: "abilities", icon: Crown, label: "Abilities" },
+  { id: "items", icon: Candy, label: "Items" },
+  { id: "constants", icon: Database, label: "Constants" }
+];
+
+const bottomItems = [{ id: "settings", icon: Settings, label: "Settings" }];
+
+const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  const navItems = [
-    { id: "home", icon: Home, label: "Home" },
-    // { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon" },
-    // { id: "moves", icon: HandFist, label: "Moves" },
-    // { id: "abilities", icon: Crown, label: "Abilities" },
-    // { id: "items", icon: Candy, label: "Items" },
-    { id: "constants", icon: Database, label: "Constants" },
-  ];
-
-  const bottomItems = [
-    // { id: 'export', icon: FileDown, label: 'Export' },
-    { id: 'settings', icon: Settings, label: 'Settings' }
-    // { id: "settings", icon: Settings, label: "Settings" },
-  ]
+  const { projectPath } = useProjectContext();
 
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
@@ -60,16 +65,6 @@ function Sidebar() {
       setActiveItem(activePage);
     }
   }, [location.pathname]);
-
-  interface NavItemProps {
-    item: {
-      id: string;
-      icon: React.ElementType;
-      label: string;
-    };
-    onClick: (id: string) => void;
-    isActive: boolean;
-  }
 
   const NavItem = ({ item, onClick, isActive }: NavItemProps) => {
     const Icon = item.icon;
@@ -118,41 +113,26 @@ function Sidebar() {
 
       {/* Main Navigation Items */}
       <nav className="flex-1 py-4">
-        {navItems.map((item) => (
-          <NavItem
-            key={item.id}
-            item={item}
-            onClick={onLinkClicked}
-            isActive={activeItem === item.id}
-          />
-        ))}
+        <NavItem
+          item={{ id: "home", icon: Home, label: "Home" }}
+          onClick={onLinkClicked}
+          isActive={activeItem === "home"}
+        />
+
+        {!!projectPath &&
+          navItems.map((item) => (
+            <NavItem key={item.id} item={item} onClick={onLinkClicked} isActive={activeItem === item.id} />
+          ))}
       </nav>
 
       {/* Bottom Buttons */}
       <div className="border-t border-slate-700 cursor-pointer">
-        {/*<ExportImportModal*/}
-        {/*  triggerElement={*/}
-        {/*    <NavItem*/}
-        {/*      key={bottomItems[0].id}*/}
-        {/*      item={bottomItems[0]}*/}
-        {/*      onClick={() => {}}*/}
-        {/*      isActive={false}*/}
-        {/*    />*/}
-        {/*  }*/}
-        {/*/>*/}
         <SettingsModal
-          triggerElement={
-            <NavItem
-              key={bottomItems[0].id}
-              item={bottomItems[0]}
-              onClick={() => {}}
-              isActive={false}
-            />
-          }
+          triggerElement={<NavItem key={bottomItems[0].id} item={bottomItems[0]} onClick={() => {}} isActive={false} />}
         />
       </div>
     </div>
   );
 }
 
-export default Sidebar;
+export default Navbar;

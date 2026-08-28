@@ -2,6 +2,7 @@ import { defaultMove, type Move } from "@lib/models/Move";
 import { useEffect, useState } from "react";
 import { importMoves } from "@lib/services/importMoves";
 import { useIndexedDB } from "../useIndexedDB.ts";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
 export const useMoveData = () => {
   const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
@@ -9,7 +10,8 @@ export const useMoveData = () => {
   const [moveDefaults, setMoveDefaults] = useState<Move[]>([]);
   const [selectedMove, setSelectedMove] = useState<Move | null>(null);
 
-  const { saveMoves, loadMoves, saveMoveDefaults, loadMoveDefaults } =
+  const { projectPath } = useProjectContext();
+  const { saveMoves, loadMoves, saveMoveDefaults } =
     useIndexedDB();
 
   // Select the first move by default
@@ -23,9 +25,14 @@ export const useMoveData = () => {
   const fetchMoves = async () => {
     try {
       console.warn("Moves were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/moves.txt");
-      const data = await response.text();
-      const parsedMoves = importMoves(data);
+      let pbsPath = `${projectPath}/PBS/`;
+      if (navigator.platform.includes("Win")) {
+        pbsPath = pbsPath.replace("/", "\\");
+      }
+
+      const data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves.txt`);
+      const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves_Gen_9_Pack.txt`);
+      const parsedMoves = importMoves(data + "\n" + gen9Data);
 
       setMoves(parsedMoves);
       setMoveDefaults(parsedMoves);
@@ -38,39 +45,17 @@ export const useMoveData = () => {
     }
   };
 
-  const fetchDefaults = async () => {
-    try {
-      console.warn("Move Defaults were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/moves.txt");
-      const data = await response.text();
-      const parsedMoves = importMoves(data);
-      setMoveDefaults(parsedMoves);
-
-      // Save to IndexDB
-      await saveMoveDefaults(parsedMoves);
-    } catch (error) {
-      console.error("Failed to load moves.txt:", error);
-    }
-  };
-
   const loadMoveData = async () => {
     try {
       // Try loading from IndexDB First
       const storedMoves = await loadMoves();
-      const storedDefaults = await loadMoveDefaults();
 
       if (storedMoves && storedMoves.length > 0) {
         console.log("Loaded Moves from IndexDB");
         setMoves(storedMoves);
+        setMoveDefaults(storedMoves);
       } else {
         await fetchMoves();
-      }
-
-      if (storedDefaults && storedDefaults.length > 0) {
-        console.log("Loaded Move defaults from IndexDB");
-        setMoveDefaults(storedDefaults);
-      } else {
-        await fetchDefaults();
       }
     } catch (error) {
       console.log("IndexDb Error, falling back to fetch.", error);

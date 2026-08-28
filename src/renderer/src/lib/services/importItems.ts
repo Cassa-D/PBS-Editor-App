@@ -16,7 +16,8 @@ export const importItems = (data: string): Item[] => {
     const item: Item = structuredClone(defaultItem);
 
     lines.forEach((line) => {
-      if (line.trim() === "" || line.startsWith("#")) return; // Skip empty lines and comments
+      // Don't know why, but my pbs has this weird character
+      if (line.trim() === "" || line.match(/^[?﻿#]/g)) return; // Skip empty lines and comments
 
       line = line.trim();
       // Get id line []
@@ -80,7 +81,7 @@ export const importItems = (data: string): Item[] => {
             } else if (flag.startsWith("NaturalGift")) {
               const [, type, power] = flag.split("_");
               item.naturalGift = {
-                type: type as PokemonType || "NORMAL",
+                type: (type as PokemonType) || "NORMAL",
                 power: parseInt(power)
               };
             } else {
@@ -94,7 +95,7 @@ export const importItems = (data: string): Item[] => {
       }
 
       lineNum++;
-    })
+    });
 
     if (itemsList.some((i) => i.id === item.id)) {
       console.warn(`Duplicate item found: ${item.name}`);

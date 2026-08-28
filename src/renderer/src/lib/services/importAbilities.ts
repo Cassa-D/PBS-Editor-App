@@ -15,7 +15,8 @@ export const importAbilities = (data: string) => {
     const ability: Ability = structuredClone(defaultAbility);
 
     lines.forEach((line) => {
-      if (line.trim() === "" || line.startsWith("#")) return; // Skip empty lines and comments
+      // Don't know why, but my pbs has this weird character
+      if (line.trim() === "" || line.match(/^[?﻿#]/g)) return; // Skip empty lines and comments
 
       line = line.trim();
       // Get id line []

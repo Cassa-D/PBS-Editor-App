@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { useAbilityData } from "./pokedex/useAbilityData.ts";
 import { useMoveData } from "./pokedex/useMoveData.ts";
 import { usePBSConstants } from "./pokedex/usePBSConstants.ts";
 import { usePokemonData } from "./pokedex/usePokemonData.ts";
 import { useItemData } from "./pokedex/useItemData.ts";
+import { useEffect } from "react";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
 export const usePokedex = () => {
   const pokemonData = usePokemonData();
@@ -12,18 +13,30 @@ export const usePokedex = () => {
   const itemData = useItemData();
   const constantsData = usePBSConstants();
 
-  useEffect(() => {
-    // Load Initial Data
-    const loadData = async () => {
-      await constantsData.loadPBSConstants();
-      await pokemonData.loadPokemonData();
-      await moveData.loadMoveData();
-      await abilityData.loadAbilityData();
-      await itemData.loadItemData();
-    };
+  const { projectPath } = useProjectContext();
 
-    loadData();
-  }, []);
+  const loadData = async () => {
+    await constantsData.loadPBSConstants();
+    await pokemonData.loadPokemonData();
+    await moveData.loadMoveData();
+    await abilityData.loadAbilityData();
+    await itemData.loadItemData();
+  };
+
+  const resetAllData = () => {
+    constantsData.resetAllConstants();
+    pokemonData.resetPokemonData();
+    moveData.resetMoveData();
+    abilityData.resetAbilityData();
+    itemData.resetItemData();
+  };
+
+  useEffect(() => {
+    if (projectPath !== undefined) {
+      resetAllData();
+      loadData();
+    }
+  }, [projectPath]);
 
   return {
     // Pokemon data

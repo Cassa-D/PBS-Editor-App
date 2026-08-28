@@ -93,7 +93,7 @@ export const exportItemsToPBS = (items: Item[]) => {
 // Pokemon Formatting
 
 const formatPokemonforExport = (pokemon: Pokemon): string => {
-  const lines = [];
+  const lines: string[] = [];
   lines.push(`[${pokemon.id}]`);
   lines.push(`Name = ${pokemon.name}`);
   if (pokemon.formName) lines.push(`FormName = ${pokemon.formName}`);
@@ -180,7 +180,7 @@ const formatEvolutions = (evolutions: PokemonEvolution[]): string => {
 
 // Move Formatting
 const formatMoveForExport = (move: Move): string => {
-  const lines = [];
+  const lines: string[] = [];
   lines.push(`[${move.id}]`);
   lines.push(`Name = ${move.name}`);
   lines.push(`Type = ${move.type}`);
@@ -200,7 +200,7 @@ const formatMoveForExport = (move: Move): string => {
 
 // Ability Formatting
 const formatAbilityForExport = (ability: Ability): string => {
-  const lines = [];
+  const lines: string[] = [];
   lines.push(`[${ability.id}]`);
   lines.push(`Name = ${ability.name}`);
   lines.push(`Description = ${ability.description}`);
@@ -211,7 +211,7 @@ const formatAbilityForExport = (ability: Ability): string => {
 
 // Item Formatting
 const formatItemForExport = (item: Item): string => {
-  const lines = [];
+  const lines: string[] = [];
   lines.push(`[${item.id}]`);
   lines.push(`Name = ${item.name}`);
   lines.push(`NamePlural = ${item.namePlural}`);
@@ -224,8 +224,8 @@ const formatItemForExport = (item: Item): string => {
   item.fieldUse && lines.push(`FieldUse = ${item.fieldUse}`);
   item.battleUse && lines.push(`BattleUse = ${item.battleUse}`);
   item.flags.length > 0 && lines.push(`Flags = ${formatItemFlags(item)}`);
-  item.consumable === false && lines.push(`Consumable = false`);
-  item.showQuantity === false && lines.push(`ShowQuantity = false`);
+  !item.consumable && lines.push(`Consumable = false`);
+  !item.showQuantity && lines.push(`ShowQuantity = false`);
   item.move && lines.push(`Move = ${item.move}`);
   lines.push(`Description = ${item.description}`);
 

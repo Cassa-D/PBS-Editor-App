@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { type Pokemon, defaultPokemon } from "@lib/models/Pokemon";
 import { importPokemon } from "@lib/services/importPokemon";
 import { useIndexedDB } from "../useIndexedDB.ts";
+import { useProjectContext } from '@providers/ProjectProvider.tsx'
 
 export const usePokemonData = () => {
   const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
@@ -10,7 +11,8 @@ export const usePokemonData = () => {
   const [pokemonDefaults, setPokemonDefaults] = useState<Pokemon[]>([]); // Shouldn't be exported.
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
 
-  const { savePokemon, loadPokemon, savePokemonDefaults, loadPokemonDefaults } =
+  const { projectPath } = useProjectContext();
+  const { savePokemon, loadPokemon, savePokemonDefaults } =
     useIndexedDB();
 
   // If no Pokemon is selected, select the first one
@@ -26,11 +28,15 @@ export const usePokemonData = () => {
   const fetchPokemon = async () => {
     try {
       console.warn("Pokemon not found. Fetching from PBS.");
-      const response = await fetch("./PBS/pokemon.txt");
-      const data = await response.text();
-      const parsedPokemon = importPokemon(data).sort(
-        (a, b) => a.dexNumber - b.dexNumber
-      );
+
+      let pbsPath = `${projectPath}/PBS/`;
+      if (navigator.platform.includes("Win")) {
+        pbsPath = pbsPath.replace("/", "\\");
+      }
+
+      const data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}pokemon.txt`);
+      const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}pokemon_base_Gen_9_Pack.txt`);
+      const parsedPokemon = importPokemon(data + "\n" + gen9Data).sort((a, b) => a.dexNumber - b.dexNumber);
       setPokemon(parsedPokemon);
       setPokemonDefaults(parsedPokemon);
 
@@ -42,42 +48,19 @@ export const usePokemonData = () => {
     }
   };
 
-  const fetchPokemonDefaults = async () => {
-    try {
-      console.warn("Pokemon Defaults were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/pokemon.txt");
-      const data = await response.text();
-      const parsedPokemon = importPokemon(data).sort(
-        (a, b) => a.dexNumber - b.dexNumber
-      );
-      setPokemonDefaults(parsedPokemon);
-
-      // Save to IndexDB
-      await savePokemonDefaults(parsedPokemon);
-    } catch (error) {
-      console.error("Failed to load pokemon.txt:", error);
-    }
-  };
-
   const loadPokemonData = async () => {
     setIsLoading(true);
     try {
       // Try loading from IndexDB First
       const storedPokemon = await loadPokemon();
-      const storedDefaults = await loadPokemonDefaults();
 
       if (storedPokemon && storedPokemon.length > 0) {
         console.log("Loaded Pokémon from IndexDB");
-        setPokemon(storedPokemon.sort((a, b) => a.dexNumber - b.dexNumber));
+        const sortedPokemon = storedPokemon.sort((a, b) => a.dexNumber - b.dexNumber);
+        setPokemon(sortedPokemon);
+        setPokemonDefaults(sortedPokemon);
       } else {
         await fetchPokemon();
-      }
-
-      if (storedDefaults && storedDefaults.length > 0) {
-        console.log("Loaded Pokémon defaults from IndexDB");
-        setPokemonDefaults(storedDefaults);
-      } else {
-        fetchPokemonDefaults();
       }
     } catch (error) {
       console.log("IndexDb Error, falling back to fetch.", error);

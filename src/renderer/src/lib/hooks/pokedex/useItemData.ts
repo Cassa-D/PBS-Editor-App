@@ -2,6 +2,7 @@ import { defaultItem, type Item } from "@lib/models/Item";
 import { useEffect, useState } from "react";
 import { useIndexedDB } from "../useIndexedDB.ts";
 import { importItems } from "@lib/services/importItems";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
 
 export const useItemData = () => {
@@ -10,11 +11,11 @@ export const useItemData = () => {
   const [itemDefaults, setItemDefaults] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
+  const { projectPath } = useProjectContext();
   const {
     saveItems,
     loadItems,
     saveItemDefaults,
-    loadItemDefaults,
   } = useIndexedDB();
 
   // Select the first item by default
@@ -28,10 +29,15 @@ export const useItemData = () => {
   const fetchItems = async () => {
     try {
       console.warn("Items not found. Fetching from PBS.");
-      const response = await fetch("./PBS/items.txt");
-      const data = await response.text();
+      let pbsPath = `${projectPath}/PBS/`;
+      if (navigator.platform.includes("Win")) {
+        pbsPath = pbsPath.replace("/", "\\");
+      }
+
+      const data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}items.txt`);
+      const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}items_Gen_9_Pack.txt`);
       // You would need to implement importItems similar to importAbilities
-      const parsedItems = importItems(data);
+      const parsedItems = importItems(data + "\n" + gen9Data);
       setItems(parsedItems);
       setItemDefaults(parsedItems);
 
@@ -43,39 +49,17 @@ export const useItemData = () => {
     }
   };
 
-  const fetchDefaults = async () => {
-    try {
-      console.warn("Item Defaults were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/items.txt");
-      const data = await response.text();
-      const parsedItems = importItems(data);
-      setItemDefaults(parsedItems);
-
-      // Save to IndexedDB
-      await saveItemDefaults(parsedItems);
-    } catch (error) {
-      console.error("Failed to load items.txt:", error);
-    }
-  }
-
   const loadItemData = async () => {
     try {
       // Try loading from IndexedDB First
       const storedItems = await loadItems();
-      const storedItemDefaults = await loadItemDefaults();
 
       if (storedItems && storedItems.length > 0) {
         console.log("Loaded Items from IndexedDB");
         setItems(storedItems);
+        setItemDefaults(storedItems);
       } else {
         await fetchItems();
-      }
-
-      if (storedItemDefaults && storedItemDefaults.length > 0) {
-        console.log("Loaded Item Defaults from IndexedDB");
-        setItemDefaults(storedItemDefaults);
-      } else {
-        await fetchDefaults();
       }
     } catch (error) {
       console.error("IndexDB Error, falling back to fetch.", error);

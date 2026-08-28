@@ -1,22 +1,21 @@
 import {
+  BattleUses,
   EggGroups,
   EvolutionMethods,
+  FieldUses,
   GenderRatios,
   GrowthRates,
+  ItemFlags,
+  PocketTypes,
   PokemonColors,
   PokemonHabitats,
   PokemonShapes,
-  PokemonTypes,
-  PocketTypes,
-  FieldUses,
-  BattleUses,
-  ItemFlags,
   type PokemonType,
+  PokemonTypes
 } from "@lib/models/constants";
 import { moveFlags } from "@lib/models/Move";
 import { useEffect, useState } from "react";
 import { useIndexedDB } from "../useIndexedDB.ts";
-import _ from "lodash";
 
 export const usePBSConstants = () => {
   const [isInitialLoad, setIsInitialLoad] = useState(true);
@@ -244,9 +243,7 @@ export const usePBSConstants = () => {
 
   const getTypeColor = (type: string) => {
     const normalizedType = type.toUpperCase();
-    const color =
-      PBSData.types[normalizedType as PokemonType]?.color || "#6B7280";
-    return color;
+    return PBSData.types[normalizedType as PokemonType]?.color || "#6B7280";
   };
 
   const updateTypeColor = (type: string, color: string) => {
