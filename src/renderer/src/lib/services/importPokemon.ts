@@ -32,8 +32,7 @@ export const importPokemon = (data: string) => {
     pokemon.dexNumber = index;
 
     lines.forEach((line) => {
-      // Don't know why, but my pbs has this weird character
-      if (line.trim() === "" || line.match(/^[?﻿#]/g)) return;
+      if (line.trim() === "" || line.startsWith("#")) return;
 
       line = line.trim();
       if (line.includes("[") && line.includes("]")) {

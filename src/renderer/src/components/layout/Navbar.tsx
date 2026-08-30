@@ -32,8 +32,6 @@ const navItems = [
   { id: "constants", icon: Database, label: "Constants" }
 ];
 
-const bottomItems = [{ id: "settings", icon: Settings, label: "Settings" }];
-
 const Navbar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
@@ -128,7 +126,13 @@ const Navbar = () => {
       {/* Bottom Buttons */}
       <div className="border-t border-slate-700 cursor-pointer">
         <SettingsModal
-          triggerElement={<NavItem key={bottomItems[0].id} item={bottomItems[0]} onClick={() => {}} isActive={false} />}
+          triggerElement={
+            <NavItem
+              item={{ id: "settings", icon: Settings, label: "Settings" }}
+              onClick={() => {}}
+              isActive={false}
+            />
+          }
         />
       </div>
     </div>
