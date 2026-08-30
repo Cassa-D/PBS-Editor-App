@@ -1,6 +1,6 @@
 import { Trash } from "lucide-react";
 import { useState } from "react";
-import { theme } from "@/theme/colors.ts";
+import { theme } from "@theme/colors.ts";
 
 interface DeleteButtonProps {
   onConfirm: () => void;

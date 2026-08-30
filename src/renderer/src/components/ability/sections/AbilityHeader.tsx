@@ -1,13 +1,13 @@
-import ActionButtons from "@/components/ui/ActionButtons";
+import ActionButtons from "@components/ui/ActionButtons";
 import React from "react";
-import type { Ability } from "@/lib/models/Ability";
+import type { Ability } from "@lib/models/Ability";
 
 interface AbilityHeaderProps {
   ability: Ability;
   onSave: () => void;
   onReset: () => void;
   onDelete: () => void;
-  onSetDefault: () => void;
+  dirty: boolean;
 }
 
 const AbilityHeader: React.FC<AbilityHeaderProps> = ({
@@ -15,7 +15,7 @@ const AbilityHeader: React.FC<AbilityHeaderProps> = ({
   onSave,
   onReset,
   onDelete,
-  onSetDefault,
+  dirty,
 }) => {
   return (
     <div className="p-6 h-25 bg-slate-800 border-b-3 border-slate-700 shadow-sm">
@@ -26,12 +26,7 @@ const AbilityHeader: React.FC<AbilityHeaderProps> = ({
             <p className="text-slate-300">[ {ability.id} ]</p>
           </div>
         </div>
-        <ActionButtons
-          onSetDefault={onSetDefault}
-          onSave={onSave}
-          onReset={onReset}
-          onDelete={onDelete}
-        />
+        <ActionButtons onSave={onSave} onReset={onReset} onDelete={onDelete} dirty={dirty} />
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import type { AlertProps } from "@/components/ui/Alert";
+import type { AlertProps } from "@components/ui/Alert";
 import { useRef } from "react";
 
 export const useAlert = () => {
@@ -17,11 +17,7 @@ export const useAlert = () => {
       confirmText: "Proceed",
       cancelText: "Go Back",
     });
-    if (confirmed) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!confirmed;
   };
 
   const showError = async (
@@ -35,11 +31,7 @@ export const useAlert = () => {
       confirmText: "Proceed",
       cancelText: "Go Back",
     });
-    if (confirmed) {
-      return true;
-    } else {
-      return false;
-    }
+    return !!confirmed;
   };
 
   return { alertRef, showWarning, showError };

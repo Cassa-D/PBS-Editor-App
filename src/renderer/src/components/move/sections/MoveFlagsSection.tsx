@@ -1,6 +1,6 @@
-import ArraySection from "@/components/layout/ArraySection";
-import CustomSelect from "@/components/ui/CustomSelect";
-import { moveFlags, type Move } from "@/lib/models/Move";
+import ArraySection from "@components/layout/ArraySection";
+import CustomSelect from "@components/ui/CustomSelect";
+import { moveFlags, type Move } from "@lib/models/Move";
 import { X } from "lucide-react";
 import React from "react";
 

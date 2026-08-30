@@ -1,7 +1,7 @@
 import { type ReactNode } from "react";
 import { Dialog } from "radix-ui";
 import { X } from "lucide-react";
-import "@/theme/Dialog.css";
+import "@theme/Dialog.css";
 
 interface ModalProps {
   triggerElement: ReactNode;

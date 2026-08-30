@@ -1,6 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import * as Select from "@radix-ui/react-select";
-import { theme } from "@/theme/colors.ts";
+import { theme } from "@theme/colors.ts";
 import InfoTooltip from "./InfoTooltip.tsx";
 
 interface CustomSelectProps {

@@ -1,26 +1,22 @@
-import { defaultItem, type Item } from "@/lib/models/Item";
+import { defaultItem, type Item } from "@lib/models/Item";
 import { useEffect, useState } from "react";
-import { useIndexedDB } from "../useIndexedDB.ts";
-import { importItems } from "@/lib/services/importItems";
+import { importItems } from "@lib/services/importItems";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
+import { exportItemsToPBS } from "@services/exportFormatter.ts";
 
 
 export const useItemData = () => {
-  const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
   const [items, setItems] = useState<Item[]>([]);
-  const [itemDefaults, setItemDefaults] = useState<Item[]>([]);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
-  const {
-    saveItems,
-    loadItems,
-    saveItemDefaults,
-    loadItemDefaults,
-  } = useIndexedDB();
+  const { projectPath } = useProjectContext();
 
   // Select the first item by default
   useEffect(() => {
     if (items.length > 0 && !selectedItem) {
       setSelectedItem(items[0]);
+    } else {
+      setSelectedItem((prev) => items.find((i) => i.id === prev?.id) || items[0]);
     }
   }, [items, selectedItem]);
 
@@ -28,74 +24,33 @@ export const useItemData = () => {
   const fetchItems = async () => {
     try {
       console.warn("Items not found. Fetching from PBS.");
-      const response = await fetch("./PBS/items.txt");
-      const data = await response.text();
-      // You would need to implement importItems similar to importAbilities
+      let pbsPath = `${projectPath}/PBS/items.txt`;
+      if (navigator.platform.includes("Win")) {
+        pbsPath = pbsPath.replace("/", "\\");
+      }
+
+      const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
+      // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}items_Gen_9_Pack.txt`);
       const parsedItems = importItems(data);
       setItems(parsedItems);
-      setItemDefaults(parsedItems);
-
-      // Save to IndexedDB
-      await saveItems(parsedItems);
-      await saveItemDefaults(parsedItems);
+      setSelectedItem(parsedItems[0]);
     } catch (error) {
       console.error("Failed to load items.txt:", error);
     }
   };
 
-  const fetchDefaults = async () => {
-    try {
-      console.warn("Item Defaults were not found. Fetching from PBS.");
-      const response = await fetch("./PBS/items.txt");
-      const data = await response.text();
-      const parsedItems = importItems(data);
-      setItemDefaults(parsedItems);
-
-      // Save to IndexedDB
-      await saveItemDefaults(parsedItems);
-    } catch (error) {
-      console.error("Failed to load items.txt:", error);
-    }
-  }
-
   const loadItemData = async () => {
-    try {
-      // Try loading from IndexedDB First
-      const storedItems = await loadItems();
-      const storedItemDefaults = await loadItemDefaults();
-
-      if (storedItems && storedItems.length > 0) {
-        console.log("Loaded Items from IndexedDB");
-        setItems(storedItems);
-      } else {
-        await fetchItems();
-      }
-
-      if (storedItemDefaults && storedItemDefaults.length > 0) {
-        console.log("Loaded Item Defaults from IndexedDB");
-        setItemDefaults(storedItemDefaults);
-      } else {
-        await fetchDefaults();
-      }
-    } catch (error) {
-      console.error("IndexDB Error, falling back to fetch.", error);
-      await fetchItems();
-    }
-
-    setIsInitialLoadComplete(true);
+    await fetchItems();
     console.log("Finished loading Item data.");
   };
 
-  // Save to indexDB whenever items change (after initial load).
-  useEffect(() => {
-    if (isInitialLoadComplete) {
-      console.log("Saving Items to IndexedDB");
-      saveItems(items);
-    }
-  }, [items]);
+  const savePBS = (newData: Item[]) => {
+    exportItemsToPBS(newData, projectPath!);
+    return newData;
+  };
 
   const setItemData = (data: Item) => {
-    setItems((prev) => prev.map((a) => (a.id === data.id ? data : a)));
+    setItems((prev) => savePBS(prev.map((a) => (a.id === data.id ? data : a))));
   };
 
   const importMerge = (importedItems: Item[]) => {
@@ -109,12 +64,12 @@ export const useItemData = () => {
           merged.push(imported);
         }
       });
-      return merged;
+      return savePBS(merged);
     });
   }
 
   const importOverride = (importedItems: Item[]) => {
-    setItems(importedItems);
+    setItems(savePBS(importedItems));
   };
 
   const isItemInPokedex = (itemId: string): boolean => {
@@ -126,27 +81,14 @@ export const useItemData = () => {
 
     data.id = id.trim().toUpperCase();
     // data.name = baseItem ? baseItem.name : id.trim();
-    setItems((prev) => [...prev, data]);
+    setItems((prev) => savePBS([...prev, data]));
     setSelectedItem(data);
     return data;
   }
 
   const removeItem = (id: string) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
+    setItems((prev) => savePBS(prev.filter((item) => item.id !== id)));
   };
-
-  const resetItemData = () => {
-    setItems(itemDefaults);
-  }
-
-  const setItemToDefault = (id: string) => {
-    const defaultData = itemDefaults.find((item) => item.id === id);
-    if (defaultData) {
-      setItems((prev) =>
-        prev.map((item) => (item.id === id ? { ...defaultData } : item))
-      );
-    }
-  }
 
   return {
     loadItemData,
@@ -157,8 +99,6 @@ export const useItemData = () => {
     isItemInPokedex,
     addItem,
     removeItem,
-    resetItemData,
-    setItemToDefault,
     importMerge,
     importOverride,
   };

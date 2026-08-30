@@ -1,9 +1,10 @@
-import { useEffect } from "react";
 import { useAbilityData } from "./pokedex/useAbilityData.ts";
 import { useMoveData } from "./pokedex/useMoveData.ts";
 import { usePBSConstants } from "./pokedex/usePBSConstants.ts";
 import { usePokemonData } from "./pokedex/usePokemonData.ts";
 import { useItemData } from "./pokedex/useItemData.ts";
+import { useEffect } from "react";
+import { useProjectContext } from "@providers/ProjectProvider.tsx";
 
 export const usePokedex = () => {
   const pokemonData = usePokemonData();
@@ -12,18 +13,25 @@ export const usePokedex = () => {
   const itemData = useItemData();
   const constantsData = usePBSConstants();
 
-  useEffect(() => {
-    // Load Initial Data
-    const loadData = async () => {
-      await constantsData.loadPBSConstants();
-      await pokemonData.loadPokemonData();
-      await moveData.loadMoveData();
-      await abilityData.loadAbilityData();
-      await itemData.loadItemData();
-    };
+  const { projectPath } = useProjectContext();
 
-    loadData();
-  }, []);
+  const loadData = () => {
+    constantsData.loadPBSConstants();
+    pokemonData.loadPokemonData();
+    moveData.loadMoveData();
+    abilityData.loadAbilityData();
+    itemData.loadItemData();
+  };
+
+  const resetAllData = async () => {
+    constantsData.resetAllConstants();
+  };
+
+  useEffect(() => {
+    if (projectPath !== undefined) {
+      resetAllData().then(loadData);
+    }
+  }, [projectPath]);
 
   return {
     // Pokemon data
@@ -34,8 +42,6 @@ export const usePokedex = () => {
     isPokemonInPokedex: pokemonData.isPokemonInPokedex,
     addPokemon: pokemonData.addPokemon,
     removePokemon: pokemonData.removePokemon,
-    resetPokemonData: pokemonData.resetPokemonData,
-    setPokemonToDefault: pokemonData.setPokemonToDefault,
     overridePokemonData: pokemonData.overridePokemonData,
     importPokemonMerge: pokemonData.importMerge,
     importPokemonOverride: pokemonData.importOverride,
@@ -48,8 +54,6 @@ export const usePokedex = () => {
     isMoveInPokedex: moveData.isMoveInPokedex,
     addMove: moveData.addMove,
     removeMove: moveData.removeMove,
-    resetMoveData: moveData.resetMoveData,
-    setMoveToDefault: moveData.setMoveToDefault,
     overrideMoveData: moveData.overrideMoveData,
     importMovesMerge: moveData.importMerge,
     importMovesOverride: moveData.importOverride,
@@ -64,8 +68,6 @@ export const usePokedex = () => {
     isAbilityInPokedex: abilityData.isAbilityInPokedex,
     addAbility: abilityData.addAbility,
     removeAbility: abilityData.removeAbility,
-    resetAbilityData: abilityData.resetAbilityData,
-    setAbilityToDefault: abilityData.setAbilityToDefault,
     importAbilitiesMerge: abilityData.importMerge,
     importAbilitiesOverride: abilityData.importOverride,
 
@@ -77,8 +79,6 @@ export const usePokedex = () => {
     isItemInPokedex: itemData.isItemInPokedex,
     addItem: itemData.addItem,
     removeItem: itemData.removeItem,
-    resetItemData: itemData.resetItemData,
-    setItemToDefault: itemData.setItemToDefault,
     importItemsMerge: itemData.importMerge,
     importItemsOverride: itemData.importOverride,
 

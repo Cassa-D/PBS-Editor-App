@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import { type Move } from "@/models/Move.ts";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import NewMoveForm from "@/components/Forms/NewMoveForm";
-import MoveListItem from "@/components/move/MoveListItem";
+import { type Move } from "@models/Move.ts";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import NewMoveForm from "@components/Forms/NewMoveForm";
+import MoveListItem from "@components/move/MoveListItem";
 
 interface MoveListProps {
   selectedMove: Move | null;

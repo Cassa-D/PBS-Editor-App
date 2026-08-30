@@ -1,5 +1,5 @@
-import type { PokemonType } from "@/models/constants.ts";
-import { defaultMove, type Move } from "@/models/Move.ts";
+import type { PokemonType } from "@models/constants.ts";
+import { defaultMove, type Move } from "@models/Move.ts";
 
 export const importMoves = (data: string) => {
   const sections: string[] = data.split("#-------------------------------");

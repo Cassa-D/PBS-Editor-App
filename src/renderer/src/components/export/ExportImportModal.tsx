@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 import Modal from "../ui/Modal.tsx";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import {
   exportAbilitiesToPBS,
   exportMovesToPBS,
   exportPokemonToPBS,
   exportItemsToPBS,
-} from "@/lib/services/exportFormatter";
+} from "@lib/services/exportFormatter";
 import { FolderUp, FileDown } from "lucide-react";
-import { useToastNotifications } from "@/lib/hooks/useToast";
-import { importPokemon } from "@/lib/services/importPokemon";
+import { useToastNotifications } from "@lib/hooks/useToast";
+import { importPokemon } from "@lib/services/importPokemon";
 import { Switch } from "radix-ui";
-import { importMoves } from "@/lib/services/importMoves";
-import { importAbilities } from "@/lib/services/importAbilities";
-import { importItems } from "@/lib/services/importItems";
+import { importMoves } from "@lib/services/importMoves";
+import { importAbilities } from "@lib/services/importAbilities";
+import { importItems } from "@lib/services/importItems";
 
 interface ExportModalProps {
   triggerElement: React.ReactNode;

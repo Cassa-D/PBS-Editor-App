@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import type { Ability } from "@/lib/models/Ability";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import type { Ability } from "@lib/models/Ability";
 import AbilityListItem from "./AbilityListItem.tsx";
-import NewAbilityForm from "@/components/Forms/NewAbilityForm";
+import NewAbilityForm from "@components/Forms/NewAbilityForm";
 
 interface AbilityListProps {
   selectedAbility: Ability | null;

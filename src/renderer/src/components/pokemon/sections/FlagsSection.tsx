@@ -1,6 +1,6 @@
-import ArraySection from "@/components/layout/ArraySection";
-import InputField from "@/components/ui/InputField";
-import type { Pokemon } from "@/lib/models/Pokemon";
+import ArraySection from "@components/layout/ArraySection";
+import InputField from "@components/ui/InputField";
+import type { Pokemon } from "@lib/models/Pokemon";
 import { X } from "lucide-react";
 
 const FlagsSection = ({

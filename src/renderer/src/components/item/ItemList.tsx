@@ -1,5 +1,5 @@
-import type { Item } from "@/lib/models/Item";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import type { Item } from "@lib/models/Item";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import { Search } from "lucide-react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import NewItemForm from "../Forms/NewItemForm.tsx";

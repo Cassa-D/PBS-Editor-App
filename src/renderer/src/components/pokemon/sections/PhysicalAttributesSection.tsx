@@ -1,8 +1,8 @@
-import CustomSelect from "@/components/ui/CustomSelect";
+import CustomSelect from "@components/ui/CustomSelect";
 import FormSection from "../../layout/FormSection.tsx";
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import InputField from "@/components/ui/InputField";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import InputField from "@components/ui/InputField";
 
 const PhysicalAttributesSection = ({
   currentPokemon,

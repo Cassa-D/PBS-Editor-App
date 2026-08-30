@@ -1,6 +1,6 @@
 import { Plus } from "lucide-react";
-import MoveEntry from "@/components/pokemon/MoveEntry";
-import type { Pokemon, PokemonMove } from "@/lib/models/Pokemon";
+import MoveEntry from "@components/pokemon/MoveEntry";
+import type { Pokemon, PokemonMove } from "@lib/models/Pokemon";
 import { useMemo } from "react";
 import React from "react";
 
@@ -99,7 +99,7 @@ const MoveSection = ({
             move={move}
             onMoveChange={(move) => handleChangeMove(index, move)}
             onRemove={() => handleRemoveMove(index)}
-            useLevel={type == "level" ? true : false}
+            useLevel={type === "level"}
           />
         </div>
       ))

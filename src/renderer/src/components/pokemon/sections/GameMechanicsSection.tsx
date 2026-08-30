@@ -1,10 +1,10 @@
 import React from "react";
 import FormSection from "../../layout/FormSection.tsx";
-import InfoTooltip from "@/components/ui/InfoTooltip";
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { GenderRatios, GrowthRates } from "@/lib/models/constants";
-import CustomSelect from "@/components/ui/CustomSelect";
-import InputField from "@/components/ui/InputField";
+import InfoTooltip from "@components/ui/InfoTooltip";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { GenderRatios, GrowthRates } from "@lib/models/constants";
+import CustomSelect from "@components/ui/CustomSelect";
+import InputField from "@components/ui/InputField";
 
 const GameMechanicsSection = ({
   pokemon,

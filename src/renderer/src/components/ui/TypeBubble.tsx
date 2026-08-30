@@ -1,4 +1,4 @@
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import InfoTooltip from "./InfoTooltip.tsx";
 
 interface TypeBubbleProps {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Trash2, Plus, Save, X, Palette, ArrowDownToLine } from "lucide-react";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
+import { useAlertContext } from "@lib/providers/AlertProvider";
 const ConstantsScreen = () => {
   const {
     types,

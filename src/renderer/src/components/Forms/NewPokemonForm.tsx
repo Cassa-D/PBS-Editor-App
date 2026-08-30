@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Modal from "../ui/Modal.tsx";
-import type { Pokemon } from "@/models/Pokemon.ts";
-import { usePokedexContext } from "@/providers/PokedexProvider.tsx";
+import type { Pokemon } from "@models/Pokemon.ts";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import InputField from "../ui/InputField.tsx";
 import { Plus } from "lucide-react";
 import { Dialog } from "radix-ui";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import { useAlertContext } from "@lib/providers/AlertProvider";
 import Autocomplete from "../ui/Autocomplete.tsx";
 
 const NewPokemonForm = () => {

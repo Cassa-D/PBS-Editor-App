@@ -1,20 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
-import { type Move } from "@/lib/models/Move";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
-import MoveList from "@/components/move/MoveList";
-import MoveHeader from "@/components/move/sections/MoveHeader";
-import BasicMoveInfo from "@/components/move/sections/BasicMoveInfo";
-import BattleStats from "@/components/move/sections/BattleStats";
-import AdvancedProperties from "@/components/move/sections/AdvancedProperties";
-import MoveFlagsSection from "@/components/move/sections/MoveFlagsSection";
-import { useAlertContext } from "@/lib/providers/AlertProvider";
+import { type Move } from "@lib/models/Move";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
+import MoveList from "@components/move/MoveList";
+import MoveHeader from "@components/move/sections/MoveHeader";
+import BasicMoveInfo from "@components/move/sections/BasicMoveInfo";
+import BattleStats from "@components/move/sections/BattleStats";
+import AdvancedProperties from "@components/move/sections/AdvancedProperties";
+import MoveFlagsSection from "@components/move/sections/MoveFlagsSection";
+import { useAlertContext } from "@lib/providers/AlertProvider";
+import _ from "lodash";
+import { useToastNotifications } from "@hooks/useToast.ts";
 
 const MovesPage = () => {
   const {
     moves,
     selectedMove,
     setSelectedMove,
-    setMoveToDefault,
     removeMove,
     setMoveData,
     overrideMoveData,
@@ -23,6 +24,7 @@ const MovesPage = () => {
   const [editData, setEditData] = useState<Move | null>(moves[0] || null);
 
   const { showWarning, showError } = useAlertContext();
+  const { showSuccess } = useToastNotifications();
 
   useEffect(() => {
     if (selectedMove) {
@@ -61,15 +63,17 @@ const MovesPage = () => {
       // On Confirm - proceed with save
       console.log("Overriding Move ID", selectedMove.id, editData.id);
       overrideMoveData(selectedMove.id, editData);
+      showSuccess(`Move ${selectedMove.name} was overwritten.`)
       return;
     }
 
     console.log("Saving Move Data", editData);
     setMoveData(editData);
+    showSuccess(`Move ${editData.name} was updated.`);
   };
 
   // Return to default values
-  const handleDefault = async () => {
+  const handleReset = async () => {
     if (!selectedMove || !editData) return;
 
     if (
@@ -78,21 +82,24 @@ const MovesPage = () => {
         `Are you sure you want to reset ${selectedMove.id} to its default values? This action cannot be undone.`
       )
     ) {
-      setMoveToDefault(selectedMove.id);
       setEditData((prev) => (prev ? { ...prev, ...selectedMove } : null));
+      showSuccess(`Reseted ${selectedMove.name} values.`);
     }
   };
 
-  // Returns values to start of edit
-  const handleReset = () => {
-    if (!selectedMove || !editData) return;
-    setEditData(selectedMove);
-  };
-
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!selectedMove) return;
-    removeMove(selectedMove.id);
-    setEditData(null);
+
+    if (
+      await showWarning(
+        "Delete Move?",
+        `ATTENTION: Deleting ${selectedMove.name} will not remove it's ID from the Pokemon that had this move. Are you sure you want to do this?`
+      )
+    ) {
+      removeMove(selectedMove.id);
+      setSelectedMove(null);
+      showSuccess(`Move ${selectedMove.name} was deleted.`);
+    }
   };
 
   const memoMovesList = useMemo(() => {
@@ -106,6 +113,8 @@ const MovesPage = () => {
       />
     );
   }, [moves, selectedMove]);
+
+  const dirty = useMemo(() => !_.isEqual(editData, selectedMove), [editData, selectedMove]);
 
   // Early return if no data is available
   if (!editData || !selectedMove) {
@@ -127,13 +136,7 @@ const MovesPage = () => {
       {/* Main Content - Move Editor */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
-        <MoveHeader
-          move={editData}
-          onSave={handleSave}
-          onReset={handleReset}
-          onDelete={handleDelete}
-          onSetDefault={handleDefault}
-        />
+        <MoveHeader move={editData} onSave={handleSave} onReset={handleReset} onDelete={handleDelete} dirty={dirty} />
 
         {/* Editor Content */}
         <div className="flex-1 overflow-y-auto p-6 bg-slate-800">

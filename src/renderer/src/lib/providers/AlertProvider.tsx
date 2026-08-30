@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { useAlert } from "@/hooks/useAlert.ts";
+import { useAlert } from "@hooks/useAlert.ts";
 
 const AlertContext = createContext<ReturnType<typeof useAlert> | null>(null);
 

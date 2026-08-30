@@ -8,12 +8,12 @@ import type {
   PokemonHabitat,
   PokemonShape,
   PokemonType,
-} from "@/models/constants.ts";
+} from "@models/constants.ts";
 import {
   type Pokemon,
   type PokemonMove,
   defaultPokemon,
-} from "@/models/Pokemon.ts";
+} from "@models/Pokemon.ts";
 
 export const importPokemon = (data: string) => {
   // Check for a required pokemon field to make
@@ -58,15 +58,16 @@ export const importPokemon = (data: string) => {
             .map((type) => type.trim() as PokemonType);
           break;
         case "BaseStats":
-          const [hp, attack, defense, speed, specialAttack, specialDefense] =
-            pokemonValue.split(",").map((stat) => parseInt(stat.trim(), 10));
+          const [hp, attack, defense, speed, specialAttack, specialDefense] = pokemonValue
+            .split(",")
+            .map((stat) => parseInt(stat.trim(), 10));
           pokemon.baseStats = {
             hp,
             attack,
             defense,
             speed,
             specialAttack,
-            specialDefense,
+            specialDefense
           };
           break;
         case "GenderRatio":
@@ -88,19 +89,13 @@ export const importPokemon = (data: string) => {
           pokemon.happiness = parseInt(pokemonValue, 10);
           break;
         case "Abilities":
-          pokemon.abilities = pokemonValue
-            .split(",")
-            .map((ability) => ability.trim());
+          pokemon.abilities = pokemonValue.split(",").map((ability) => ability.trim());
           break;
         case "HiddenAbilities":
-          pokemon.hiddenAbilities = pokemonValue
-            .split(",")
-            .map((ability) => ability.trim());
+          pokemon.hiddenAbilities = pokemonValue.split(",").map((ability) => ability.trim());
           break;
         case "Moves":
-          pokemon.moves = parseMoves(
-            pokemonValue.split(",").map((move) => move.trim())
-          );
+          pokemon.moves = parseMoves(pokemonValue.split(",").map((move) => move.trim()));
           break;
         case "TutorMoves":
           const array = pokemonValue.split(",").map((move) => move.trim());
@@ -115,9 +110,7 @@ export const importPokemon = (data: string) => {
           });
           break;
         case "EggGroups":
-          pokemon.eggGroups = pokemonValue
-            .split(",")
-            .map((group) => group.trim() as EggGroup);
+          pokemon.eggGroups = pokemonValue.split(",").map((group) => group.trim() as EggGroup);
           break;
         case "HatchSteps":
           pokemon.hatchSteps = parseInt(pokemonValue, 10);
@@ -126,9 +119,7 @@ export const importPokemon = (data: string) => {
           pokemon.incense = pokemonValue.trim();
           break;
         case "Offspring":
-          pokemon.offspring = pokemonValue
-            .split(",")
-            .map((child) => child.trim());
+          pokemon.offspring = pokemonValue.split(",").map((child) => child.trim());
           break;
         case "Height":
           pokemon.height = parseFloat(pokemonValue);
@@ -242,7 +233,7 @@ const parseMoves = (value: string[]) => {
 const parseEvolutions = (value: string) => {
   const array = value.split(",").map((evolution) => evolution.trim());
 
-  const evolutions = [];
+  const evolutions: PokemonEvolution[] = [];
   for (let i = 0; i < array.length; i += 3) {
     const id = array[i];
     const method = array[i + 1];

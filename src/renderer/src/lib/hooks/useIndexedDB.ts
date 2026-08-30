@@ -1,7 +1,7 @@
-import type { Ability } from "@/models/Ability.ts";
-import type { Item } from "@/models/Item.ts";
-import type { Move } from "@/models/Move.ts";
-import type { Pokemon } from "@/models/Pokemon.ts";
+import type { Ability } from "@models/Ability.ts";
+import type { Item } from "@models/Item.ts";
+import type { Move } from "@models/Move.ts";
+import type { Pokemon } from "@models/Pokemon.ts";
 
 export const useIndexedDB = () => {
   const dbName = "PBS-Editor";

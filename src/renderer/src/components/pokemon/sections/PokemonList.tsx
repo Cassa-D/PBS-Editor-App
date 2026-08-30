@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Search } from "lucide-react";
-import { type Pokemon } from "@/lib/models/Pokemon";
-import NewPokemonForm from "@/components/Forms/NewPokemonForm";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import { type Pokemon } from "@lib/models/Pokemon";
+import NewPokemonForm from "@components/Forms/NewPokemonForm";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import PokemonListItem from "../PokemonListItem.tsx";
 
 interface PokemonListProps {
@@ -41,6 +41,7 @@ const PokemonList = ({
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [selectedPokemon, hasScrolledToSelected]);
 
   // Smooth scroll when user selects a different pokemon
@@ -84,6 +85,11 @@ const PokemonList = ({
     // Don't manually scroll here - let the useEffect handle it
   };
 
+  const memoFilteredPokemon = useMemo(
+    () => filteredPokemon.sort((a, b) => a.dexNumber - b.dexNumber),
+    [filteredPokemon]
+  );
+
   return (
     <div className="w-80 bg-gradient-to-r from-slate-800/40 to-slate-800 flex flex-col">
       {/* Search Header */}
@@ -104,21 +110,16 @@ const PokemonList = ({
       </div>
 
       {/* Pokemon List */}
-      <div
-        ref={listContainerRef}
-        className="flex-1 overflow-y-auto border-r-3 border-slate-700"
-      >
-        {filteredPokemon
-          .sort((a, b) => a.dexNumber - b.dexNumber)
-          .map((pokemon) => (
-            <PokemonListItem
-              key={pokemon.id}
-              pokemon={pokemon}
-              selectedPokemon={selectedPokemon}
-              pokemonRefs={pokemonRefs}
-              selectAndScrollToPokemon={selectAndScrollToPokemon}
-            />
-          ))}
+      <div ref={listContainerRef} className="flex-1 overflow-y-auto border-r-3 border-slate-700">
+        {memoFilteredPokemon.map((pokemon) => (
+          <PokemonListItem
+            key={pokemon.id}
+            pokemon={pokemon}
+            selectedPokemon={selectedPokemon}
+            pokemonRefs={pokemonRefs}
+            selectAndScrollToPokemon={selectAndScrollToPokemon}
+          />
+        ))}
       </div>
     </div>
   );

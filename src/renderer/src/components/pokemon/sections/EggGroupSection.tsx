@@ -1,7 +1,7 @@
-import ArraySection from "@/components/layout/ArraySection";
-import CustomSelect from "@/components/ui/CustomSelect";
-import type { Pokemon } from "@/lib/models/Pokemon";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import ArraySection from "@components/layout/ArraySection";
+import CustomSelect from "@components/ui/CustomSelect";
+import type { Pokemon } from "@lib/models/Pokemon";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import { X } from "lucide-react";
 
 interface EggGroupSectionProps {

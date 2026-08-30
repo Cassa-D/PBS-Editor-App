@@ -1,8 +1,8 @@
-import type { Item } from "@/lib/models/Item";
+import type { Item } from "@lib/models/Item";
 import ArraySection from "../layout/ArraySection.tsx";
 import InputField from "../ui/InputField.tsx";
 import CustomSelect from "../ui/CustomSelect.tsx";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import { X } from "lucide-react";
 import FormSection from "../layout/FormSection.tsx";
 

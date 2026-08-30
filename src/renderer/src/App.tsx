@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
-import Navbar from "@/components/layout/Navbar.tsx";
-import Alert from "@/components/ui/Alert.tsx";
-import { useAlertContext } from "@/providers/AlertProvider.tsx";
+import Navbar from "@components/layout/Navbar.tsx";
+import Alert from "@components/ui/Alert.tsx";
+import { useAlertContext } from "@providers/AlertProvider.tsx";
 
 function App() {
   const { alertRef } = useAlertContext();

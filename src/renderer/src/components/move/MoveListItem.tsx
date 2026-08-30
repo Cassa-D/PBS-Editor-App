@@ -1,4 +1,4 @@
-import type { Move } from "@/lib/models/Move";
+import type { Move } from "@lib/models/Move";
 import React from "react";
 import TypeBubble from "../ui/TypeBubble.tsx";
 

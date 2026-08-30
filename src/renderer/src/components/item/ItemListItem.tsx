@@ -1,8 +1,8 @@
 import React from "react";
-import type { Item } from "@/lib/models/Item";
+import type { Item } from "@lib/models/Item";
 import MegaBubble from "../ui/MegaBubble.tsx";
 import StyleBubble from "../ui/StyleBubble.tsx";
-import { usePokedexContext } from "@/lib/providers/PokedexProvider";
+import { usePokedexContext } from "@lib/providers/PokedexProvider";
 import TypeBubble from "../ui/TypeBubble.tsx";
 
 interface ItemListItemProps {

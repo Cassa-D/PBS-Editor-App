@@ -34,15 +34,15 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/renderer/src/*"],
-      "@/components/*": ["src/renderer/src/components/*"],
-      "@/lib/*": ["src/renderer/src/lib/*"],
-      "@/assets/*": ["src/renderer/src/assets/*"],
-      "@/routes/*": ["src/renderer/src/routes/*"],
-      "@/hooks/*": ["src/renderer/src/lib/hooks/*"],
-      "@/models/*": ["src/renderer/src/lib/models/*"],
-      "@/providers/*": ["src/renderer/src/lib/providers/*"],
-      "@/services/*": ["src/renderer/src/lib/services/*"],
-      "@/theme/*": ["src/renderer/src/lib/theme/*"]
+      "@components/*": ["src/renderer/src/components/*"],
+      "@lib/*": ["src/renderer/src/lib/*"],
+      "@assets/*": ["src/renderer/src/assets/*"],
+      "@routes/*": ["src/renderer/src/routes/*"],
+      "@hooks/*": ["src/renderer/src/lib/hooks/*"],
+      "@models/*": ["src/renderer/src/lib/models/*"],
+      "@providers/*": ["src/renderer/src/lib/providers/*"],
+      "@services/*": ["src/renderer/src/lib/services/*"],
+      "@theme/*": ["src/renderer/src/lib/theme/*"]
     }
   }
 }

@@ -1,7 +1,7 @@
 import React from "react";
 import { Accordion } from "radix-ui";
 import { ChevronDownIcon } from "lucide-react";
-import { versionHistory } from "@/lib/data/versionHistory";
+import { versionHistory } from "@lib/data/versionHistory";
 
 const AccordionTrigger = React.forwardRef<
   HTMLButtonElement,
