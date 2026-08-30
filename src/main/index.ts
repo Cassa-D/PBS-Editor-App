@@ -102,3 +102,13 @@ ipcMain.handle("read-file", async (_, filePath) => {
     return null;
   }
 });
+
+ipcMain.handle("save-file", async (_, filePath, data) => {
+  try {
+    fs.writeFileSync(filePath, data, { encoding: "utf8" });
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+});

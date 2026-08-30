@@ -15,26 +15,21 @@ export const usePokedex = () => {
 
   const { projectPath } = useProjectContext();
 
-  const loadData = async () => {
-    await constantsData.loadPBSConstants();
-    await pokemonData.loadPokemonData();
-    await moveData.loadMoveData();
-    await abilityData.loadAbilityData();
-    await itemData.loadItemData();
+  const loadData = () => {
+    constantsData.loadPBSConstants();
+    pokemonData.loadPokemonData();
+    moveData.loadMoveData();
+    abilityData.loadAbilityData();
+    itemData.loadItemData();
   };
 
-  const resetAllData = () => {
+  const resetAllData = async () => {
     constantsData.resetAllConstants();
-    pokemonData.resetPokemonData();
-    moveData.resetMoveData();
-    abilityData.resetAbilityData();
-    itemData.resetItemData();
   };
 
   useEffect(() => {
     if (projectPath !== undefined) {
-      resetAllData();
-      loadData();
+      resetAllData().then(loadData);
     }
   }, [projectPath]);
 
@@ -47,8 +42,6 @@ export const usePokedex = () => {
     isPokemonInPokedex: pokemonData.isPokemonInPokedex,
     addPokemon: pokemonData.addPokemon,
     removePokemon: pokemonData.removePokemon,
-    resetPokemonData: pokemonData.resetPokemonData,
-    setPokemonToDefault: pokemonData.setPokemonToDefault,
     overridePokemonData: pokemonData.overridePokemonData,
     importPokemonMerge: pokemonData.importMerge,
     importPokemonOverride: pokemonData.importOverride,
@@ -61,8 +54,6 @@ export const usePokedex = () => {
     isMoveInPokedex: moveData.isMoveInPokedex,
     addMove: moveData.addMove,
     removeMove: moveData.removeMove,
-    resetMoveData: moveData.resetMoveData,
-    setMoveToDefault: moveData.setMoveToDefault,
     overrideMoveData: moveData.overrideMoveData,
     importMovesMerge: moveData.importMerge,
     importMovesOverride: moveData.importOverride,
@@ -77,8 +68,6 @@ export const usePokedex = () => {
     isAbilityInPokedex: abilityData.isAbilityInPokedex,
     addAbility: abilityData.addAbility,
     removeAbility: abilityData.removeAbility,
-    resetAbilityData: abilityData.resetAbilityData,
-    setAbilityToDefault: abilityData.setAbilityToDefault,
     importAbilitiesMerge: abilityData.importMerge,
     importAbilitiesOverride: abilityData.importOverride,
 
@@ -90,8 +79,6 @@ export const usePokedex = () => {
     isItemInPokedex: itemData.isItemInPokedex,
     addItem: itemData.addItem,
     removeItem: itemData.removeItem,
-    resetItemData: itemData.resetItemData,
-    setItemToDefault: itemData.setItemToDefault,
     importItemsMerge: itemData.importMerge,
     importItemsOverride: itemData.importOverride,
 

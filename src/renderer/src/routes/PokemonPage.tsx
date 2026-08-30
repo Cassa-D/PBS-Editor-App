@@ -15,19 +15,21 @@ import GameMechanicsSection from "@components/pokemon/sections/GameMechanicsSect
 import WildItemsSection from "@components/pokemon/sections/WildItemsSection";
 import FlagsSection from "@components/pokemon/sections/FlagsSection";
 import { validatePokemon } from "@lib/services/pokemonValidator";
+import _ from "lodash";
+import { useToastNotifications } from "@hooks/useToast.ts";
 
 const PokemonPage = () => {
   const {
     pokemon,
     selectedPokemon,
     setSelectedPokemon,
-    setPokemonToDefault,
     removePokemon,
     setPokemonData,
     overridePokemonData,
   } = usePokedexContext();
 
   const { showWarning, showError } = useAlertContext();
+  const { showSuccess } = useToastNotifications();
 
   const [editData, setEditData] = useState<Pokemon | null>(pokemon[0] || null);
 
@@ -68,15 +70,17 @@ const PokemonPage = () => {
       // ON Confirm, override.
       console.log("Overriding Pokemon ID", selectedPokemon.id, editData.id);
       overridePokemonData(selectedPokemon.id, editData);
+      showSuccess(`Pokémon ${selectedPokemon.name} was overwritten.`);
       return;
     }
 
     console.log("Saving Pokemon Data", editData);
     setPokemonData(editData);
+    showSuccess(`Pokémon ${editData.name} was updated.`);
   };
 
   // Returns to full default values of the imported PBS File.
-  const handleDefault = async () => {
+  const handleReset = async () => {
     if (!selectedPokemon || !editData) return;
 
     if (
@@ -85,28 +89,26 @@ const PokemonPage = () => {
         `This will reset all details for ${selectedPokemon.name} to their default values. Are you sure you want to do this?`
       )
     ) {
-      // On Confirm, reset selected pokemon to its default values.
-      setPokemonToDefault(selectedPokemon.id);
       setEditData((prev) => (prev ? { ...prev, ...selectedPokemon } : null));
+      showSuccess(`Reseted ${selectedPokemon.name} values.`);
     }
-
-    // On Cancel do nothing.
-  };
-
-  // Returns values to their start when selected.
-  const handleReset = () => {
-    if (!selectedPokemon || !editData) return;
-
-    setEditData(selectedPokemon);
   };
 
   // Don't need to wait since delete button
   // already requires confirmation.
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (!selectedPokemon || !editData) return;
 
-    removePokemon(selectedPokemon.id);
-    setSelectedPokemon(null);
+    if (
+      await showWarning(
+        "Delete Pokémon?",
+        `ATTENTION: Deleting ${selectedPokemon.name} will not remove it's ID from any other Pokemon, evolutions, offspring, etc. Are you sure you want to do this?`
+      )
+    ) {
+      removePokemon(selectedPokemon.id);
+      setSelectedPokemon(null);
+      showSuccess(`Pokémon ${selectedPokemon.name} was deleted.`);
+    }
   };
 
   const handleSelectPokemon = async (pokemon: Pokemon) => {
@@ -124,6 +126,8 @@ const PokemonPage = () => {
       />
     );
   }, [pokemon, selectedPokemon]);
+
+  const dirty = useMemo(() => !_.isEqual(editData, selectedPokemon), [editData, selectedPokemon]);
 
   // Early return if no data is available
   if (!editData || !selectedPokemon) {
@@ -147,10 +151,10 @@ const PokemonPage = () => {
         {/* Header */}
         <PokemonHeader
           pokemon={editData}
+          dirty={dirty}
           onSave={handleSave}
           onReset={handleReset}
           onDelete={handleDelete}
-          onSetDefault={handleDefault}
         />
 
         {/* Editor Content */}
@@ -178,49 +182,25 @@ const PokemonPage = () => {
             />
 
             {/* Types and Abilities */}
-            <TypesAbilitiesSection
-              pokemon={editData}
-              setPokemon={setEditData}
-            />
+            <TypesAbilitiesSection pokemon={editData} setPokemon={setEditData} />
 
             {/* Level-Up Moves */}
-            <MoveSection
-              title="Level-up Moves"
-              pokemon={editData}
-              setPokemon={setEditData}
-              type="level"
-            />
+            <MoveSection title="Level-up Moves" pokemon={editData} setPokemon={setEditData} type="level" />
 
             {/* Tutor Moves */}
-            <MoveSection
-              title="Tutor Moves"
-              pokemon={editData}
-              setPokemon={setEditData}
-              type="tutor"
-            />
+            <MoveSection title="Tutor Moves" pokemon={editData} setPokemon={setEditData} type="tutor" />
 
             {/* Egg Moves */}
-            <MoveSection
-              title="Egg Moves"
-              pokemon={editData}
-              setPokemon={setEditData}
-              type="egg"
-            />
+            <MoveSection title="Egg Moves" pokemon={editData} setPokemon={setEditData} type="egg" />
 
             {/* Egg Groups */}
             <EggGroupSection pokemon={editData} setPokemon={setEditData} />
 
             {/* Offspring */}
-            <OffspringSection
-              currentPokemon={editData}
-              setPokemon={setEditData}
-            />
+            <OffspringSection currentPokemon={editData} setPokemon={setEditData} />
 
             {/* Physical Attributes */}
-            <PhysicalAttributesSection
-              currentPokemon={editData}
-              setPokemon={setEditData}
-            />
+            <PhysicalAttributesSection currentPokemon={editData} setPokemon={setEditData} />
 
             {/* Game Mechanics */}
             <GameMechanicsSection pokemon={editData} setPokemon={setEditData} />

@@ -7,18 +7,20 @@ import AbilityHeader from "@components/ability/sections/AbilityHeader";
 import FormSection from "@components/layout/FormSection";
 import InputField from "@components/ui/InputField";
 import AbilityFlagsSection from "@components/ability/sections/AbilityFlagsSection";
+import _ from "lodash";
+import { useToastNotifications } from '@hooks/useToast.ts'
 
 const AbilitiesPage = () => {
   const {
     abilities,
     selectedAbility,
     setSelectedAbility,
-    setAbilityToDefault,
     removeAbility,
     setAbilityData,
   } = usePokedexContext();
 
   const { showWarning, showError } = useAlertContext();
+  const { showSuccess } = useToastNotifications();
 
   const [editData, setEditData] = useState<Ability | null>(
     abilities[0] || null
@@ -76,9 +78,10 @@ const AbilitiesPage = () => {
 
     console.log("Saving Ability Data", editData);
     setAbilityData(editData);
+    showSuccess(`Ability ${editData.name} was updated.`);
   };
 
-  const handleDefault = async () => {
+  const handleReset = async () => {
     if (!selectedAbility || !editData) return;
 
     if (
@@ -87,20 +90,24 @@ const AbilitiesPage = () => {
         `This will reset all details for ${selectedAbility.name} to their default values. Are you sure you want to do this?`
       )
     ) {
-      setAbilityToDefault(selectedAbility.id);
       setEditData((prev) => (prev ? { ...prev, ...selectedAbility } : null));
+      showSuccess(`Reseted ${selectedAbility.name} values.`);
     }
   };
 
-  const handleReset = () => {
+  const handleDelete = async () => {
     if (!selectedAbility || !editData) return;
-    setEditData(selectedAbility);
-  };
 
-  const handleDelete = () => {
-    if (!selectedAbility || !editData) return;
-    removeAbility(selectedAbility.id);
-    setSelectedAbility(null);
+    if (
+      await showWarning(
+        "Delete Ability?",
+        `ATTENTION: Deleting ${selectedAbility.name} will not remove it's ID from the Pokemon that had this ability. Are you sure you want to do this?`
+      )
+    ) {
+      removeAbility(selectedAbility.id);
+      setSelectedAbility(null);
+      showSuccess(`Ability ${selectedAbility.name} was deleted.`);
+    }
   };
 
   const handleSelectAbility = async (ability: Ability) => {
@@ -109,13 +116,10 @@ const AbilitiesPage = () => {
   };
 
   const memoAbilityList = useMemo(() => {
-    return (
-      <AbilityList
-        selectedAbility={selectedAbility}
-        onAbilitySelect={handleSelectAbility}
-      />
-    );
+    return <AbilityList selectedAbility={selectedAbility} onAbilitySelect={handleSelectAbility} />;
   }, [abilities, selectedAbility]);
+
+  const dirty = useMemo(() => !_.isEqual(editData, selectedAbility), [editData, selectedAbility]);
 
   if (!editData || !selectedAbility) {
     return (
@@ -137,11 +141,11 @@ const AbilitiesPage = () => {
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Header */}
         <AbilityHeader
-          ability={selectedAbility}
+          ability={editData}
           onSave={handleSave}
           onReset={handleReset}
           onDelete={handleDelete}
-          onSetDefault={handleDefault}
+          dirty={dirty}
         />
 
         {/* Editor Content */}
@@ -152,31 +156,19 @@ const AbilitiesPage = () => {
                 <InputField
                   label="ID"
                   value={editData.id}
-                  onChange={(value) =>
-                    setEditData((prev) =>
-                      prev ? { ...prev, id: value as string } : null
-                    )
-                  }
+                  onChange={(value) => setEditData((prev) => (prev ? { ...prev, id: value as string } : null))}
                 />
                 <InputField
                   label="Name"
                   value={editData.name}
-                  onChange={(value) =>
-                    setEditData((prev) =>
-                      prev ? { ...prev, name: value as string } : null
-                    )
-                  }
+                  onChange={(value) => setEditData((prev) => (prev ? { ...prev, name: value as string } : null))}
                 />
                 <InputField
                   label="Description"
                   type="textarea"
                   rows={5}
                   value={editData.description}
-                  onChange={(value) =>
-                    setEditData((prev) =>
-                      prev ? { ...prev, description: value as string } : null
-                    )
-                  }
+                  onChange={(value) => setEditData((prev) => (prev ? { ...prev, description: value as string } : null))}
                 />
               </div>
             </FormSection>

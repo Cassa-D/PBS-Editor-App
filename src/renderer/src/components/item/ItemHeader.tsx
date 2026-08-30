@@ -10,7 +10,7 @@ interface ItemHeaderProps {
   onSave: () => void;
   onReset: () => void;
   onDelete: () => void;
-  onSetDefault: () => void;
+  dirty: boolean;
 }
 
 const ItemHeader = ({
@@ -18,7 +18,7 @@ const ItemHeader = ({
   onSave,
   onReset,
   onDelete,
-  onSetDefault,
+  dirty,
 }: ItemHeaderProps) => {
   const { getMoveDataById } = usePokedexContext();
 
@@ -36,7 +36,6 @@ const ItemHeader = ({
         <div>
           <h1 className="text-2xl font-bold">{item.name}</h1>
           <div className="flex items-center gap-4 mt-1">
-            {/* Handle bubbles */}
               {(item.flags && (item.flags.includes("MegaRing")) && <MegaBubble text="MEGA RING"/>)}
               {(item.flags && (item.flags.includes("MegaStone")) && <MegaBubble text="MEGA STONE"/>)}
               {((item.fieldUse == "TM" || item.fieldUse == "TR" || item.fieldUse == "HM") && MoveBubble)}
@@ -44,10 +43,10 @@ const ItemHeader = ({
           </div>
         </div>
         <ActionButtons
-          onSetDefault={onSetDefault}
           onSave={onSave}
           onReset={onReset}
           onDelete={onDelete}
+          dirty={dirty}
         />
       </div>
     </div>

@@ -4,95 +4,65 @@ import type { Item } from "@models/Item.ts";
 import type { Move } from "@models/Move.ts";
 import type { Pokemon } from "@models/Pokemon.ts";
 
-const downloadAsTxt = (filename: string = "pokemon.txt", content: string) => {
-  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-  const link = document.createElement("a");
-  link.href = URL.createObjectURL(blob);
-  link.download = filename;
-  link.click();
+const HEADER = "# See the documentation on the wiki to learn how to edit this file.";
+const SEPARATOR = "#-------------------------------";
+
+const saveFile = async (filePath: string, content: string): Promise<boolean> => {
+  let pbsPath = filePath;
+  if (navigator.platform.includes("Win")) {
+    pbsPath = pbsPath.replace("/", "\\");
+  }
+  return await window.electron.ipcRenderer.invoke("save-file", pbsPath, content);
 };
 
-export const exportPokemonToPBS = (pokemonList: Pokemon[]) => {
+export const exportPokemonToPBS = (pokemonList: Pokemon[], projectPath: string) => {
   const lines: string[] = [];
-  const header =
-    "# See the documentation on the wiki to learn how to edit this file.";
-  const separator = "#-------------------------------";
 
-  lines.push(header);
-  lines.push(separator);
+  lines.push(HEADER);
   pokemonList.forEach((pokemon) => {
-    lines.push(formatPokemonforExport(pokemon));
-    lines.push(separator);
+    lines.push(SEPARATOR);
+    lines.push(formatPokemonForExport(pokemon));
   });
-  // Remove the last separator for cleaner formatting
-  if (lines[lines.length - 1] === separator) {
-    lines.pop();
-  }
-
   const content = lines.join("\n");
-  downloadAsTxt("pokemon.txt", content);
+  saveFile(`${projectPath}/PBS/pokemon.txt`, content);
 };
 
-export const exportMovesToPBS = (moveList: Move[]) => {
+export const exportMovesToPBS = (moveList: Move[], projectPath: string) => {
   const lines: string[] = [];
-  const header =
-    "# See the documentation on the wiki to learn how to edit this file.";
-  const separator = "#-------------------------------";
-  lines.push(header);
-  lines.push(separator);
+  lines.push(HEADER);
   moveList.forEach((move) => {
+    lines.push(SEPARATOR);
     lines.push(formatMoveForExport(move));
-    lines.push(separator);
   });
-  // Remove the last separator for cleaner formatting
-  if (lines[lines.length - 1] === separator) {
-    lines.pop();
-  }
   const content = lines.join("\n");
-  downloadAsTxt("moves.txt", content);
+  saveFile(`${projectPath}/PBS/moves.txt`, content);
 };
 
-export const exportAbilitiesToPBS = (abilities: Ability[]) => {
+export const exportAbilitiesToPBS = (abilities: Ability[], projectPath: string) => {
   const lines: string[] = [];
-  const header =
-    "# See the documentation on the wiki to learn how to edit this file.";
-  const separator = "#-------------------------------";
-  lines.push(header);
-  lines.push(separator);
+  lines.push(HEADER);
   abilities.forEach((ability) => {
+    lines.push(SEPARATOR);
     lines.push(formatAbilityForExport(ability));
-    lines.push(separator);
   });
-  // Remove the last separator for cleaner formatting
-  if (lines[lines.length - 1] === separator) {
-    lines.pop();
-  }
   const content = lines.join("\n");
-  downloadAsTxt("abilities.txt", content);
+  saveFile(`${projectPath}/PBS/abilities.txt`, content);
 };
 
-export const exportItemsToPBS = (items: Item[]) => {
+export const exportItemsToPBS = (items: Item[], projectPath: string) => {
   const lines: string[] = [];
-  const header =
-    "# See the documentation on the wiki to learn how to edit this file.";
-  const separator = "#-------------------------------";
-  lines.push(header);
-  lines.push(separator);
+  lines.push(HEADER);
   items.forEach((item) => {
+    lines.push(SEPARATOR);
     lines.push(formatItemForExport(item));
-    lines.push(separator);
   });
-  // Remove the last separator for cleaner formatting
-  if (lines[lines.length - 1] === separator) {
-    lines.pop();
-  }
   const content = lines.join("\n");
-  downloadAsTxt("items.txt", content);
-}
+  saveFile(`${projectPath}/PBS/items.txt`, content);
+};
 
 // Pokemon Formatting
 
-const formatPokemonforExport = (pokemon: Pokemon): string => {
+const formatPokemonForExport = (pokemon: Pokemon): string => {
   const lines: string[] = [];
   lines.push(`[${pokemon.id}]`);
   lines.push(`Name = ${pokemon.name}`);

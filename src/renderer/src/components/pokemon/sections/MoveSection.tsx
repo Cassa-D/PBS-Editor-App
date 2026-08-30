@@ -99,7 +99,7 @@ const MoveSection = ({
             move={move}
             onMoveChange={(move) => handleChangeMove(index, move)}
             onRemove={() => handleRemoveMove(index)}
-            useLevel={type == "level" ? true : false}
+            useLevel={type === "level"}
           />
         </div>
       ))

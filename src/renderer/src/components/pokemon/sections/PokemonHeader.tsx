@@ -8,7 +8,7 @@ interface PokemonHeaderProps {
   onSave: () => void;
   onReset: () => void;
   onDelete: () => void;
-  onSetDefault: () => void;
+  dirty: boolean;
 }
 
 const PokemonHeader = ({
@@ -16,7 +16,7 @@ const PokemonHeader = ({
   onSave,
   onReset,
   onDelete,
-  onSetDefault,
+  dirty,
 }: PokemonHeaderProps) => {
   return (
     <div
@@ -28,11 +28,7 @@ const PokemonHeader = ({
           {/* Name and Form Info */}
           <h1 className="text-2xl font-bold">
             {pokemon.name}
-            {pokemon.formName && (
-              <span className={`ml-2 ${theme.colors.primary.textMuted}`}>
-                ({pokemon.formName})
-              </span>
-            )}
+            {pokemon.formName && <span className={`ml-2 ${theme.colors.primary.textMuted}`}>({pokemon.formName})</span>}
           </h1>
           {/* Pokemon Description */}
           <div className="flex w-full mt-1">
@@ -48,7 +44,7 @@ const PokemonHeader = ({
           </div>
         </div>
         <ActionButtons
-          onSetDefault={onSetDefault}
+          dirty={dirty}
           onReset={onReset}
           onDelete={onDelete}
           onSave={onSave}

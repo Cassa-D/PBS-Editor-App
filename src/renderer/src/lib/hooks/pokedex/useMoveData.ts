@@ -1,23 +1,21 @@
 import { defaultMove, type Move } from "@lib/models/Move";
 import { useEffect, useState } from "react";
 import { importMoves } from "@lib/services/importMoves";
-import { useIndexedDB } from "../useIndexedDB.ts";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
+import { exportMovesToPBS } from "@services/exportFormatter.ts";
 
 export const useMoveData = () => {
-  const [isInitialLoadComplete, setIsInitialLoadComplete] = useState(false);
   const [moves, setMoves] = useState<Move[]>([]);
-  const [moveDefaults, setMoveDefaults] = useState<Move[]>([]);
   const [selectedMove, setSelectedMove] = useState<Move | null>(null);
 
   const { projectPath } = useProjectContext();
-  const { saveMoves, loadMoves, saveMoveDefaults } =
-    useIndexedDB();
 
   // Select the first move by default
   useEffect(() => {
     if (moves.length > 0 && !selectedMove) {
       setSelectedMove(moves[0]);
+    } else {
+      setSelectedMove((prev) => moves.find((m) => m.id === prev?.id) || moves[0]);
     }
   }, [moves, selectedMove]);
 
@@ -25,56 +23,33 @@ export const useMoveData = () => {
   const fetchMoves = async () => {
     try {
       console.warn("Moves were not found. Fetching from PBS.");
-      let pbsPath = `${projectPath}/PBS/`;
+      let pbsPath = `${projectPath}/PBS/moves.txt`;
       if (navigator.platform.includes("Win")) {
         pbsPath = pbsPath.replace("/", "\\");
       }
 
-      const data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves.txt`);
-      const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves_Gen_9_Pack.txt`);
-      const parsedMoves = importMoves(data + "\n" + gen9Data);
+      const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
+      // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves_Gen_9_Pack.txt`);
+      const parsedMoves = importMoves(data);
 
       setMoves(parsedMoves);
-      setMoveDefaults(parsedMoves);
-
-      // Save to IndexDB
-      await saveMoves(parsedMoves);
-      await saveMoveDefaults(parsedMoves);
+      setSelectedMove(parsedMoves[0]);
     } catch (error) {
       console.error("Failed to load moves.txt:", error);
     }
   };
 
   const loadMoveData = async () => {
-    try {
-      // Try loading from IndexDB First
-      const storedMoves = await loadMoves();
-
-      if (storedMoves && storedMoves.length > 0) {
-        console.log("Loaded Moves from IndexDB");
-        setMoves(storedMoves);
-        setMoveDefaults(storedMoves);
-      } else {
-        await fetchMoves();
-      }
-    } catch (error) {
-      console.log("IndexDb Error, falling back to fetch.", error);
-      await fetchMoves();
-    }
-
-    setIsInitialLoadComplete(true);
+    await fetchMoves();
   };
 
-  // Save to indexedDB whenever Moves change (after initial load).
-  useEffect(() => {
-    if (isInitialLoadComplete) {
-      console.log("Saving Moves to IndexDB");
-      saveMoves(moves);
-    }
-  }, [moves]);
+  const savePBS = (newData: Move[]) => {
+    exportMovesToPBS(newData, projectPath!);
+    return newData;
+  };
 
   const setMoveData = (data: Move) => {
-    setMoves((prev) => prev.map((m) => (m.id === data.id ? data : m)));
+    setMoves((prev) => savePBS(prev.map((m) => (m.id === data.id ? data : m))));
   };
 
   const importMerge = (importedMoves: Move[]) => {
@@ -88,16 +63,16 @@ export const useMoveData = () => {
           merged.push(imported);
         }
       });
-      return merged;
+      return savePBS(merged);
     });
   };
 
   const importOverride = (importedMoves: Move[]) => {
-    setMoves(importedMoves);
+    setMoves(savePBS(importedMoves));
   };
 
   const overrideMoveData = (id: string, data: Move) => {
-    setMoves((prev) => prev.map((m) => (m.id === id ? data : m)));
+    setMoves((prev) => savePBS(prev.map((m) => (m.id === id ? data : m))));
   };
 
   const isMoveInPokedex = (id: string) => {
@@ -109,27 +84,15 @@ export const useMoveData = () => {
 
     data.id = id.trim().toUpperCase();
     data.name = id.trim();
-    setMoves((prev) => [...prev, data]);
+    setMoves((prev) => savePBS([...prev, data]));
     setSelectedMove(data);
     return data;
   };
 
   const removeMove = (id: string) => {
-    setMoves((prev) => prev.filter((m) => m.id !== id));
+    setMoves((prev) => savePBS(prev.filter((m) => m.id !== id)));
     if (selectedMove?.id === id) {
       setSelectedMove(moves[0]);
-    }
-  };
-
-  const resetMoveData = () => {
-    setMoves(moveDefaults);
-  };
-
-  const setMoveToDefault = (id: string) => {
-    const defaultData = moveDefaults.find((m) => m.id === id);
-    if (defaultData) {
-      setMoves((prev) => prev.map((m) => (m.id === id ? defaultData : m)));
-      setSelectedMove(defaultData || null);
     }
   };
 
@@ -150,8 +113,6 @@ export const useMoveData = () => {
     isMoveInPokedex,
     addMove,
     removeMove,
-    resetMoveData,
-    setMoveToDefault,
     overrideMoveData,
     importMerge,
     importOverride,
