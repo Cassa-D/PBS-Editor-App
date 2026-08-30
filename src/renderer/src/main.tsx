@@ -1,7 +1,7 @@
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.tsx";
-import { createBrowserRouter } from "react-router-dom";
+import { createHashRouter } from "react-router-dom";
 import { RouterProvider } from "react-router-dom";
 import PokemonPage from "@routes/PokemonPage.tsx";
 import { PokedexProvider } from "@providers/PokedexProvider.tsx";
@@ -15,7 +15,7 @@ import { Tooltip } from "radix-ui";
 import ItemsPage from "@routes/ItemsPage.tsx";
 import { ProjectProvider } from "@providers/ProjectProvider.tsx";
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   [
     {
       path: "/",

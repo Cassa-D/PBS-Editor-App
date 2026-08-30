@@ -201,19 +201,19 @@ const ExportImportModal = ({ triggerElement }: ExportModalProps) => {
   };
 
   const handleExportPokemon = () => {
-    exportPokemonToPBS(pokemon);
+    exportPokemonToPBS(pokemon, "");
   };
 
   const handleExportMoves = () => {
-    exportMovesToPBS(moves);
+    exportMovesToPBS(moves, "");
   };
 
   const handleExportAbilities = () => {
-    exportAbilitiesToPBS(abilities);
+    exportAbilitiesToPBS(abilities, "");
   };
 
   const handleExportItems = () => {
-    exportItemsToPBS(items);
+    exportItemsToPBS(items, "");
   };
 
   return (

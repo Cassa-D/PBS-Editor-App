@@ -44,6 +44,7 @@ const ItemList = ({
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [selectedItem, hasScrolledToSelected]);
 
   // Smooth scroll when user selects a different item

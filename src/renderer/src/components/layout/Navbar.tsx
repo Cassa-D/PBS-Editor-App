@@ -51,7 +51,7 @@ const Navbar = () => {
 
   const getActivePage = () => {
     // Get the current active page based on the URL
-    const path = window.location.pathname;
+    const path = window.location.hash;
     const page = path.split("/").pop();
     if (!page) return "home";
     return page;

@@ -47,6 +47,7 @@ const AbilityList = ({
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [selectedAbility, hasScrolledToSelected]);
 
   // Smooth scroll when user selects a different ability

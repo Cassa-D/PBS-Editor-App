@@ -44,6 +44,7 @@ const MoveList = ({ selectedMove, onMoveSelect }: MoveListProps) => {
 
       return () => clearTimeout(timer);
     }
+    return;
   }, [selectedMove, hasScrolledToSelected]);
 
   // Smooth scroll when user selects a different move
