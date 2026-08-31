@@ -80,9 +80,22 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
 ipcMain.handle("select-directory", async (_) => {
-  const properties = ["openDirectory", "showHiddenFiles"];
+  const properties = ["openDirectory"];
   const result = await dialog.showOpenDialog({
     properties: properties
+  } as OpenDialogOptions);
+  if (result.canceled) {
+    return null;
+  } else {
+    return result.filePaths[0];
+  }
+});
+
+ipcMain.handle("select-file", async (_) => {
+  const properties = ["openFile"];
+  const result = await dialog.showOpenDialog({
+    properties: properties,
+    filters: [{ extensions: ["txt"] }]
   } as OpenDialogOptions);
   if (result.canceled) {
     return null;

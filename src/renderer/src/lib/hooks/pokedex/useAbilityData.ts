@@ -22,7 +22,6 @@ export const useAbilityData = () => {
   // Fetch and set initial Ability data
   const fetchAbilities = async () => {
     try {
-      console.warn("Abilities not found. Fetching from PBS.");
       let pbsPath = `${projectPath}/PBS/abilities.txt`;
       if (navigator.platform.includes("Win")) {
         pbsPath = pbsPath.replace("/", "\\");

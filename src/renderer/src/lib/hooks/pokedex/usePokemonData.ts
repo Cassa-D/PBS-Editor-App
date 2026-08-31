@@ -22,8 +22,6 @@ export const usePokemonData = () => {
   // Fetch and set initial Pokémon data
   const fetchPokemon = async () => {
     try {
-      console.warn("Pokemon not found. Fetching from PBS.");
-
       let pbsPath = `${projectPath}/PBS/pokemon.txt`;
       if (navigator.platform.includes("Win")) {
         pbsPath = pbsPath.replace("/", "\\");
@@ -57,7 +55,8 @@ export const usePokemonData = () => {
   };
 
   // Import and merge entire Pokémon data.
-  const importMerge = (imported: Pokemon[]) => {
+  const importMerge = (content: string) => {
+    const imported = importPokemon(content, pokemon);
     setPokemon((prev) => {
       const merged = [...prev];
       imported.forEach((newPokemon) => {
@@ -67,16 +66,19 @@ export const usePokemonData = () => {
           merged[index] = { ...merged[index], ...newPokemon };
         } else {
           // If it doesn't exist, add it
-          merged.push(newPokemon);
+          merged.push({ ...newPokemon });
         }
       });
       return savePBS(merged);
     });
+    return imported;
   };
 
   // Import and override entire Pokémon data.
-  const importOverride = (imported: Pokemon[]) => {
+  const importOverride = (content: string) => {
+    const imported = importPokemon(content);
     setPokemon(savePBS(imported));
+    return imported;
   };
 
   const overridePokemonData = (id: string, data: Partial<Pokemon>) => {

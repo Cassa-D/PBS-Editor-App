@@ -15,7 +15,7 @@ import {
   defaultPokemon,
 } from "@models/Pokemon.ts";
 
-export const importPokemon = (data: string) => {
+export const importPokemon = (data: string, pokemonOld: Pokemon[] = []) => {
   // Check for a required pokemon field to make
   // sure it's a pokemon PBS and not another type
   if (!data.includes("GenderRatio")) {
@@ -24,15 +24,14 @@ export const importPokemon = (data: string) => {
 
   const sections: string[] = data.split("#-------------------------------");
   const pokemonList: Pokemon[] = [];
+  let newCount = 1;
 
-  sections.forEach((section, index) => {
+  sections.forEach((section) => {
     const lines = section.split("\n");
     const pokemon: Pokemon = structuredClone(defaultPokemon);
 
-    pokemon.dexNumber = index;
-
     lines.forEach((line) => {
-      if (line.trim() === "" || line.startsWith("#")) return;
+      if (!line || line.trim() === "" || line.startsWith("#")) return;
 
       line = line.trim();
       if (line.includes("[") && line.includes("]")) {
@@ -166,6 +165,9 @@ export const importPokemon = (data: string) => {
     });
 
     if (pokemon.id) {
+      const pokemonFound = pokemonOld.find((p) => p.id === pokemon.id);
+      pokemon.dexNumber = pokemonFound?.dexNumber ?? newCount++ + pokemonOld.length;
+
       pokemonList.push(pokemon);
     }
   });

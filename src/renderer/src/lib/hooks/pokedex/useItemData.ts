@@ -23,7 +23,6 @@ export const useItemData = () => {
   // Fetch and set initial Item data
   const fetchItems = async () => {
     try {
-      console.warn("Items not found. Fetching from PBS.");
       let pbsPath = `${projectPath}/PBS/items.txt`;
       if (navigator.platform.includes("Win")) {
         pbsPath = pbsPath.replace("/", "\\");

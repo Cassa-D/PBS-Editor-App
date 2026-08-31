@@ -22,7 +22,6 @@ export const useMoveData = () => {
   // Fetch and set initial Move data
   const fetchMoves = async () => {
     try {
-      console.warn("Moves were not found. Fetching from PBS.");
       let pbsPath = `${projectPath}/PBS/moves.txt`;
       if (navigator.platform.includes("Win")) {
         pbsPath = pbsPath.replace("/", "\\");
