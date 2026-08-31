@@ -1,6 +1,5 @@
 import { Info } from "lucide-react";
-import { useState } from "react";
-import * as Tooltip from "@radix-ui/react-tooltip";
+import Tooltip from "./Tooltip.tsx";
 
 interface TooltipData {
   title?: string;
@@ -8,41 +7,20 @@ interface TooltipData {
   link?: string;
 }
 
-const InfoTooltip = ({ title, description, link }: TooltipData) => {
-  const [open, setOpen] = useState(false);
-
+const InfoTooltip = (data: TooltipData) => {
   return (
-    <Tooltip.Root open={open} onOpenChange={setOpen} delayDuration={100}>
-      <Tooltip.Trigger asChild>
-        <Info
-          onClick={() => {
-            if (link) {
-              window.open(link, "_blank");
-            }
-          }}
-          className={`${link ? "cursor-pointer" : ""}`}
-          width={16}
-          height={16}
-        />
-      </Tooltip.Trigger>
-      <Tooltip.Portal>
-        <Tooltip.Content
-          className="z-[9999] TooltipContent"
-          align="start"
-          sideOffset={5}
-          alignOffset={10}
-        >
-          {title && (
-            <div className="mb-1 border-b border-slate-700 pb-1 text-sm font-semibold text-slate-200">
-              {title}
-            </div>
-          )}
-          <div className="max-w-xs rounded-md border border-slate-700 bg-slate-800 p-3 text-sm text-slate-300 shadow-lg">
-            {description}
-          </div>
-        </Tooltip.Content>
-      </Tooltip.Portal>
-    </Tooltip.Root>
+    <Tooltip {...data} position="top">
+      <Info
+        onClick={() => {
+          if (data.link) {
+            window.open(data.link, "_blank");
+          }
+        }}
+        className={`${data.link ? "cursor-pointer" : ""}`}
+        width={16}
+        height={16}
+      />
+    </Tooltip>
   );
 };
 
