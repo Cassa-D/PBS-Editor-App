@@ -131,3 +131,12 @@ ipcMain.handle("save-file", async (_, filePath, data) => {
     return false;
   }
 });
+
+ipcMain.handle("read-image", async (_, imagePath) => {
+  try {
+    return fs.readFileSync(imagePath, { encoding: "base64" });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+});

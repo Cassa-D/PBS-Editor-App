@@ -23,7 +23,8 @@ const PokemonList = ({
     return pokemon.filter(
       (pokemon) =>
         pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pokemon.id.includes(searchTerm)
+        pokemon.id.includes(searchTerm) ||
+        !!pokemon.types.find((t) => t.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }, [pokemon, searchTerm]);
 

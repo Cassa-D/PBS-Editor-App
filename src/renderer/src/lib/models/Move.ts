@@ -1,9 +1,7 @@
-import type { PokemonType } from "./constants.ts";
-
 export interface Move {
   id: string;
   name: string;
-  type: PokemonType;
+  type: string;
   category: "Physical" | "Special" | "Status";
   power: number;
   accuracy: number;
@@ -19,7 +17,7 @@ export interface Move {
 export const defaultMove = {
   id: "[]",
   name: "Unnamed",
-  type: "NORMAL" as PokemonType,
+  type: "NORMAL",
   category: "Status" as "Physical" | "Special" | "Status",
   power: 0,
   accuracy: 100,
@@ -29,7 +27,7 @@ export const defaultMove = {
   functionCode: "None",
   flags: ["CanProtect", "CanMirrorMove"] as MoveFlag[],
   effectChance: 0,
-  description: "???",
+  description: "???"
 };
 
 export const moveTargets: string[] = [
@@ -50,7 +48,7 @@ export const moveTargets: string[] = [
   "AllBattlers",
   "UserSide",
   "FoeSide",
-  "BothSides",
+  "BothSides"
 ];
 
 type MoveTarget = string;
@@ -69,7 +67,7 @@ export const moveFlags: string[] = [
   "Bomb", // The move is a bomb-based move (resisted by the ability Bulletproof).
   "Dance", // The move is a dance move (repeated by the ability Dancer).
   "CannotMetronome", // This move cannot be used by the move Metronome.
-  "TramplesMinimize", // This move deals double damage to Pokémon that used Minimize.
+  "TramplesMinimize" // This move deals double damage to Pokémon that used Minimize.
 ];
 
 export type MoveFlag = string;

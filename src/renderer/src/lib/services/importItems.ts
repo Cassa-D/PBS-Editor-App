@@ -1,5 +1,5 @@
 import {defaultItem, type Item} from "@models/Item.ts";
-import { getPocketFromNumber, type PokemonType } from "@models/constants.ts";
+import { getPocketFromNumber } from "@models/constants.ts";
 
 export const importItems = (data: string): Item[] => {
   const sections: string[] = data.split("#-------------------------------");
@@ -80,7 +80,7 @@ export const importItems = (data: string): Item[] => {
             } else if (flag.startsWith("NaturalGift")) {
               const [, type, power] = flag.split("_");
               item.naturalGift = {
-                type: (type as PokemonType) || "NORMAL",
+                type: type || "QMARKS",
                 power: parseInt(power)
               };
             } else {

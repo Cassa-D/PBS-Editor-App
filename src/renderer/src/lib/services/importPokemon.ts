@@ -6,14 +6,9 @@ import type {
   PokemonColor,
   PokemonEvolution,
   PokemonHabitat,
-  PokemonShape,
-  PokemonType,
+  PokemonShape
 } from "@models/constants.ts";
-import {
-  type Pokemon,
-  type PokemonMove,
-  defaultPokemon,
-} from "@models/Pokemon.ts";
+import { defaultPokemon, type Pokemon, type PokemonMove } from "@models/Pokemon.ts";
 
 export const importPokemon = (data: string, pokemonOld: Pokemon[] = []) => {
   // Check for a required pokemon field to make
@@ -54,7 +49,7 @@ export const importPokemon = (data: string, pokemonOld: Pokemon[] = []) => {
           pokemon.types = pokemonValue
             .split(",")
             .filter((type) => type !== "")
-            .map((type) => type.trim() as PokemonType);
+            .map((type) => type.trim() || "QMARKS");
           break;
         case "BaseStats":
           const [hp, attack, defense, speed, specialAttack, specialDefense] = pokemonValue
@@ -183,7 +178,7 @@ const parseEffortValues = (value: string) => {
     defense: 0,
     specialAttack: 0,
     specialDefense: 0,
-    speed: 0,
+    speed: 0
   };
   const evArray = value.split(",").map((ev) => ev.trim());
 
@@ -244,7 +239,7 @@ const parseEvolutions = (value: string) => {
       evolutions.push({
         id,
         method: method as EvolutionMethod,
-        parameter,
+        parameter
       } as PokemonEvolution);
     }
   }

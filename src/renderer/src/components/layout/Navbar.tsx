@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Home, LoaderPinwheel, HandFist, Crown, Database, Menu, X, Candy, Settings } from "lucide-react";
+import { Home, LoaderPinwheel, HandFist, Crown, Database, Menu, X, Candy, Settings, Zap } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import Tooltip from "@components/ui/Tooltip.tsx";
-import ImportModal from "@components/export/ImportModal.tsx";
+import ImportModal from "@components/import/ImportModal.tsx";
 
 interface Item {
   id: string;
@@ -23,6 +23,7 @@ const navItems: Item[] = [
   { id: "moves", icon: HandFist, label: "Moves", tooltip: "Moves" },
   { id: "abilities", icon: Crown, label: "Abilities", tooltip: "Abilities" },
   { id: "items", icon: Candy, label: "Items", tooltip: "Items" },
+  { id: "types", icon: Zap, label: "Types", tooltip: "Types"},
   { id: "constants", icon: Database, label: "Constants", tooltip: "Constants" }
 ];
 

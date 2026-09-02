@@ -4,36 +4,6 @@ export interface PokemonEvolution {
   parameter: string;
 }
 
-export const isValidType = (
-  value: string,
-  constantArray: string[]
-): boolean => {
-  return constantArray.includes(value);
-};
-
-export const PokemonTypes = {
-  NORMAL: { name: "NORMAL", color: "#A8A77A" },
-  FIRE: { name: "FIRE", color: "#EE8130" },
-  WATER: { name: "WATER", color: "#6390F0" },
-  ELECTRIC: { name: "ELECTRIC", color: "#F7D02C" },
-  GRASS: { name: "GRASS", color: "#7AC74C" },
-  ICE: { name: "ICE", color: "#96D9D6" },
-  FIGHTING: { name: "FIGHTING", color: "#C22E28" },
-  POISON: { name: "POISON", color: "#A33EA1" },
-  GROUND: { name: "GROUND", color: "#E2BF65" },
-  FLYING: { name: "FLYING", color: "#A98FF3" },
-  PSYCHIC: { name: "PSYCHIC", color: "#F95587" },
-  BUG: { name: "BUG", color: "#A6B91A" },
-  ROCK: { name: "ROCK", color: "#B6A136" },
-  GHOST: { name: "GHOST", color: "#735797" },
-  DARK: { name: "DARK", color: "#705746" },
-  DRAGON: { name: "DRAGON", color: "#6F35FC" },
-  STEEL: { name: "STEEL", color: "#B7B7CE" },
-  FAIRY: { name: "FAIRY", color: "#D685AD" },
-} as const;
-
-export type PokemonType = keyof typeof PokemonTypes;
-
 export let GenderRatios: string[] = [
   "AlwaysMale",
   "FemaleOneEighth",

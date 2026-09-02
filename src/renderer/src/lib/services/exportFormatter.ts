@@ -3,15 +3,14 @@ import { getPocketNumber, type PokemonEvolution } from "@models/constants.ts";
 import type { Item } from "@models/Item.ts";
 import type { Move } from "@models/Move.ts";
 import type { Pokemon } from "@models/Pokemon.ts";
+import { formatPath } from "@utils/fileUtils";
+import type { Type } from "@models/Type.ts";
 
 const HEADER = "# See the documentation on the wiki to learn how to edit this file.";
 const SEPARATOR = "#-------------------------------";
 
 const saveFile = async (filePath: string, content: string): Promise<boolean> => {
-  let pbsPath = filePath;
-  if (navigator.platform.includes("Win")) {
-    pbsPath = pbsPath.replace("/", "\\");
-  }
+  let pbsPath = formatPath(filePath);
   return await window.electron.ipcRenderer.invoke("save-file", pbsPath, content);
 };
 
@@ -60,6 +59,17 @@ export const exportItemsToPBS = (items: Item[], projectPath: string) => {
   saveFile(`${projectPath}/PBS/items.txt`, content);
 };
 
+export const exportTypesToPBS = (types: Type[], projectPath: string) => {
+  const lines: string[] = [];
+  lines.push(HEADER);
+  types.forEach((type) => {
+    lines.push(SEPARATOR);
+    lines.push(formatTypeForExport(type));
+  });
+  const content = lines.join("\n");
+  saveFile(`${projectPath}/PBS/types.txt`, content);
+};
+
 // Pokemon Formatting
 
 const formatPokemonForExport = (pokemon: Pokemon): string => {
@@ -74,9 +84,9 @@ const formatPokemonForExport = (pokemon: Pokemon): string => {
         pokemon.baseStats.hp,
         pokemon.baseStats.attack,
         pokemon.baseStats.defense,
-        pokemon.baseStats.specialAttack,
-        pokemon.baseStats.specialDefense,
         pokemon.baseStats.speed,
+        pokemon.baseStats.specialAttack,
+        pokemon.baseStats.specialDefense
       ].join(",")
   );
   lines.push(`GenderRatio = ${pokemon.genderRatio}`);
@@ -217,3 +227,18 @@ const formatItemFlags = (item: Item): string | null => {
   }
   return lines.sort().join(",");
 }
+
+// Type Formatting
+const formatTypeForExport = (type: Type) => {
+  const lines: string[] = [];
+  lines.push(`[${type.id}]`);
+  lines.push(`Name = ${type.name}`);
+  lines.push(`IconPosition = ${type.iconPosition}`);
+  type.isSpecialType && lines.push(`IsSpecialType = true`);
+  type.isPseudoType && lines.push(`IsPseudoType = true`);
+  type.weaknesses.length > 0 && lines.push(`Weaknesses = ${type.weaknesses.join(",")}`);
+  type.resistances.length > 0 && lines.push(`Resistances = ${type.resistances.join(",")}`);
+  type.immunities.length > 0 && lines.push(`Immunities = ${type.immunities.join(",")}`);
+
+  return lines.join("\n");
+};

@@ -5,6 +5,7 @@ import { usePokemonData } from "./pokedex/usePokemonData.ts";
 import { useItemData } from "./pokedex/useItemData.ts";
 import { useEffect } from "react";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
+import { useTypeData } from "@hooks/pokedex/useTypeData.ts";
 
 export const usePokedex = () => {
   const pokemonData = usePokemonData();
@@ -12,15 +13,17 @@ export const usePokedex = () => {
   const abilityData = useAbilityData();
   const itemData = useItemData();
   const constantsData = usePBSConstants();
+  const typesData = useTypeData();
 
   const { projectPath } = useProjectContext();
 
   const loadData = () => {
-    constantsData.loadPBSConstants();
     pokemonData.loadPokemonData();
     moveData.loadMoveData();
     abilityData.loadAbilityData();
     itemData.loadItemData();
+    typesData.loadTypeData();
+    constantsData.loadPBSConstants();
   };
 
   const resetAllData = async () => {
@@ -82,8 +85,19 @@ export const usePokedex = () => {
     importItemsMerge: itemData.importMerge,
     importItemsOverride: itemData.importOverride,
 
+    // Type data
+    types: typesData.types,
+    typeImg: typesData.typeImg,
+    setTypeData: typesData.setTypeData,
+    selectedType: typesData.selectedType,
+    setSelectedType: typesData.setSelectedType,
+    isTypeInPokedex: typesData.isTypeInPokedex,
+    addType: typesData.addType,
+    removeType: typesData.removeType,
+    importTypesMerge: typesData.importMerge,
+    importTypesOverride: typesData.importOverride,
+
     // Constants data
-    types: constantsData.types,
     genderRatios: constantsData.genderRatios,
     growthRates: constantsData.growthRates,
     eggGroups: constantsData.eggGroups,
@@ -100,7 +114,5 @@ export const usePokedex = () => {
     resetAllConstants: constantsData.resetAllConstants,
     addConstant: constantsData.addConstant,
     removeConstant: constantsData.removeConstant,
-    getTypeColor: constantsData.getTypeColor,
-    updateTypeColor: constantsData.updateTypeColor,
   };
 };

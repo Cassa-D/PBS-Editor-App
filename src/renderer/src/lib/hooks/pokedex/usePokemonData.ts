@@ -3,6 +3,7 @@ import { defaultPokemon, type Pokemon } from "@lib/models/Pokemon";
 import { importPokemon } from "@lib/services/importPokemon";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { exportPokemonToPBS } from "@services/exportFormatter.ts";
+import { formatPath } from "@utils/fileUtils";
 
 export const usePokemonData = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]); // Set shouldn't be exported
@@ -22,10 +23,7 @@ export const usePokemonData = () => {
   // Fetch and set initial Pokémon data
   const fetchPokemon = async () => {
     try {
-      let pbsPath = `${projectPath}/PBS/pokemon.txt`;
-      if (navigator.platform.includes("Win")) {
-        pbsPath = pbsPath.replace("/", "\\");
-      }
+      const pbsPath = formatPath(`${projectPath}/PBS/pokemon.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
       // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}pokemon_base_Gen_9_Pack.txt`);

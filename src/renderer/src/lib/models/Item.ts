@@ -1,4 +1,4 @@
-import type { BattleUse, FieldUse, ItemFlags, PocketType, PokemonType } from "./constants.ts";
+import type { BattleUse, FieldUse, ItemFlags, PocketType } from "./constants.ts";
 
 export interface Item {
   // Base Information
@@ -28,7 +28,7 @@ export interface Item {
   flags: ItemFlags[];
   flingValue: number;
   naturalGift?: {
-    type: PokemonType;
+    type: string;
     power: number;
   }
 }

@@ -23,7 +23,7 @@ const PokemonHeader = ({
       className={`p-6 h-25 border-b-3 shadow-sm
         ${theme.colors.primary.borderDark} ${theme.colors.primary.bg}`}
     >
-      <div className="flex items-center justify-between">
+      <div className="flex h-full items-center justify-between">
         <div className="flex-1">
           {/* Name and Form Info */}
           <h1 className="text-2xl font-bold">
@@ -43,12 +43,7 @@ const PokemonHeader = ({
             </div>
           </div>
         </div>
-        <ActionButtons
-          dirty={dirty}
-          onReset={onReset}
-          onDelete={onDelete}
-          onSave={onSave}
-        />
+        <ActionButtons dirty={dirty} onReset={onReset} onDelete={onDelete} onSave={onSave} />
       </div>
     </div>
   );

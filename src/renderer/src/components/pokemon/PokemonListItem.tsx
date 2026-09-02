@@ -45,7 +45,7 @@ const PokemonListItem = ({
           </div>
           <div className="flex gap-1 mt-1">
             {pokemon.types.map((type) => (
-              <TypeBubble key={type} type={type} />
+              <TypeBubble key={type} type={type} size="small" />
             ))}
           </div>
         </div>

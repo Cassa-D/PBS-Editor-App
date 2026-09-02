@@ -7,24 +7,30 @@
 // # - Deprecated (gray)
 
 export const versionHistory: Record<string, string[]> = {
-  "v.0.0.1": [
+  "App - v.0.0.2": [
+    "*Added Type Editor with import/save functionality.",
+    "-Added type searching on Pokémon page.",
+    "-Fixed base stats reordering last three stats.",
+    "-Fixed some UI inconsistency between pages."
+  ],
+  "App - v.0.0.1": [
     "*Refactored project to work as a standalone app with Electron.",
     "*Added project selection and last projects history.",
     "*Automatically reads and saves PBS information.",
     "?You will have to select a project with a .rxproj or a PBS folder.",
-    "-Changed/Removed several UI components to best match app functionality.",
+    "-Changed/Removed several UI components to best match app functionality."
   ],
-  "Old - v.1.0.3": [
+  "Web - v.1.0.3": [
     "*Added Item Editor with import/export functionality.",
     "?You will have to clear your database and reimport your data to see the changes.",
     "-Improved form controls for better usability.",
     "-Fixed several bugs related to data importing and UI components."
   ],
-  "Old - v.1.0.2": [
+  "Web - v.1.0.2": [
     "-Fixed Move PP not being imported correctly.",
     "?You may need to clear the database or reimport your data to see the changes."
   ],
-  "Old - v.1.0.1": [
+  "Web - v.1.0.1": [
     "*Added database clearing to settings.",
     "-Fixed abilities not properly updating.",
     "-Fixed base stats being flipped around.",

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { defaultAbility, type Ability } from "@lib/models/Ability";
+import { type Ability, defaultAbility } from "@lib/models/Ability";
 import { importAbilities } from "@lib/services/importAbilities";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { exportAbilitiesToPBS } from "@services/exportFormatter.ts";
+import { formatPath } from "@utils/fileUtils";
 
 export const useAbilityData = () => {
   const [abilities, setAbilities] = useState<Ability[]>([]);
@@ -22,10 +23,7 @@ export const useAbilityData = () => {
   // Fetch and set initial Ability data
   const fetchAbilities = async () => {
     try {
-      let pbsPath = `${projectPath}/PBS/abilities.txt`;
-      if (navigator.platform.includes("Win")) {
-        pbsPath = pbsPath.replace("/", "\\");
-      }
+      let pbsPath = formatPath(`${projectPath}/PBS/abilities.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
       // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}abilities_Gen_9_Pack.txt`);
@@ -98,6 +96,6 @@ export const useAbilityData = () => {
     addAbility,
     removeAbility,
     importMerge,
-    importOverride,
+    importOverride
   };
 };

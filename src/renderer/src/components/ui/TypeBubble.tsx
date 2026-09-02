@@ -1,34 +1,32 @@
 import { usePokedexContext } from "@providers/PokedexProvider.tsx";
-import InfoTooltip from "./InfoTooltip.tsx";
+import { useMemo } from "react";
 
 interface TypeBubbleProps {
   type: string;
   overrideText?: string;
+  size?: "small" | "medium" | "large";
 }
 
-const TypeBubble = ({ type, overrideText }: TypeBubbleProps) => {
-  const { getTypeColor, types } = usePokedexContext();
+const typeSize = {
+  medium: { style: "w-[64px] h-[28px]", multiplicator: 28 },
+  small: { style: "w-[50.28px] h-[22px]", multiplicator: 22 }
+};
 
-  const isValidType = Object.keys(types).includes(type);
+const TypeBubble = ({ type, size = "medium" }: TypeBubbleProps) => {
+  const { types, typeImg } = usePokedexContext();
+
+  const iconPosition = useMemo(() => {
+    const currType = types.find((t) => t.id === type);
+    if (!currType) return types.find((t) => t.id === "QMARKS");
+    return currType.iconPosition;
+  }, [type]);
 
   return (
-    <span
-      key={type}
-      style={{
-        backgroundColor: getTypeColor(type),
-      }}
-      className={`px-2 py-0.5 rounded text-xs font-medium flex items-center justify-center text-center
-        ${!isValidType ? "opacity-80 italic bg-red-400! gap-2" : "text-white"}`}
-    >
-      {overrideText || type}
-      {!isValidType && (
-        <InfoTooltip
-          description={
-            "This type has not been implemented. Please add it to the constants for it to appear valid."
-          }
-        />
-      )}
-    </span>
+    typeImg && (
+      <div className={`${typeSize[size].style} overflow-hidden relative`}>
+        <img src={typeImg} alt="Types image" className="absolute" style={{ top: -(iconPosition || 0) * typeSize[size].multiplicator }} />
+      </div>
+    )
   );
 };
 

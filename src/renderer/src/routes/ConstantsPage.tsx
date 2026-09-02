@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Trash2, Plus, Save, X, Palette, ArrowDownToLine } from "lucide-react";
+import { ArrowDownToLine, Plus, Trash2 } from "lucide-react";
 import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import { useAlertContext } from "@lib/providers/AlertProvider";
+
 const ConstantsScreen = () => {
   const {
-    types,
     genderRatios,
     growthRates,
     eggGroups,
@@ -19,20 +19,10 @@ const ConstantsScreen = () => {
     moveFlags,
     addConstant,
     removeConstant,
-    resetConstants,
-    getTypeColor,
-    updateTypeColor,
+    resetConstants
   } = usePokedexContext();
 
-  const [activeSection, setActiveSection] = useState("types");
-  const [newItemName, setNewItemName] = useState("");
-  const [editingType, setEditingType] = useState<string | null>(null);
-  const [editingColor, setEditingColor] = useState<string>("");
-
-  const { showWarning } = useAlertContext();
-
   const sections = [
-    { key: "types", label: "Types", data: types },
     { key: "genderRatio", label: "Gender Ratios", data: genderRatios },
     { key: "growthRate", label: "Growth Rates", data: growthRates },
     { key: "eggGroup", label: "Egg Groups", data: eggGroups },
@@ -42,14 +32,19 @@ const ConstantsScreen = () => {
     {
       key: "evolutionMethod",
       label: "Evolution Methods",
-      data: evolutionMethods,
+      data: evolutionMethods
     },
     { key: "pocket", label: "Pockets", data: pockets },
     { key: "fieldUse", label: "Field Uses", data: fieldUses },
     { key: "battleUse", label: "Battle Uses", data: battleUses },
     { key: "itemFlag", label: "Item Flags", data: itemFlags },
-    { key: "moveFlag", label: "Move Flags", data: moveFlags },
+    { key: "moveFlag", label: "Move Flags", data: moveFlags }
   ];
+
+  const [activeSection, setActiveSection] = useState(sections[0].key);
+  const [newItemName, setNewItemName] = useState("");
+
+  const { showWarning } = useAlertContext();
 
   const handleAddItem = () => {
     if (newItemName.trim()) {
@@ -69,24 +64,6 @@ const ConstantsScreen = () => {
     }
   };
 
-  const handleEditTypeColor = (typeName: string) => {
-    setEditingType(typeName);
-    setEditingColor(getTypeColor(typeName));
-  };
-
-  const handleSaveTypeColor = () => {
-    if (editingType && editingColor) {
-      updateTypeColor(editingType, editingColor);
-      setEditingType(null);
-      setEditingColor("");
-    }
-  };
-
-  const handleCancelEdit = () => {
-    setEditingType(null);
-    setEditingColor("");
-  };
-
   const resetToDefault = async () => {
     if (
       await showWarning(
@@ -97,84 +74,6 @@ const ConstantsScreen = () => {
       resetConstants(activeSection);
     }
   };
-
-  const renderTypeItem = (typeName: string) => (
-    <div
-      key={typeName}
-      className="bg-slate-600 rounded-lg border border-slate-500 p-3 min-w-0"
-    >
-      {editingType === typeName ? (
-        <div className="space-y-2">
-          <div className="flex items-center gap-2 justify-between">
-            <div className="flex items-center gap-2 min-w-0">
-              <div
-                className="w-5 h-5 rounded border-1 border-slate-500 flex-shrink-0"
-                style={{ backgroundColor: editingColor }}
-              />
-              <span className="font-medium text-sm truncate">{typeName}</span>
-            </div>
-            <div className="flex gap-1 flex-shrink-0">
-              <button
-                onClick={handleSaveTypeColor}
-                className="p-1 text-green-600 hover:bg-green-100 rounded"
-                title="Save"
-              >
-                <Save className="w-3 h-3" />
-              </button>
-              <button
-                onClick={handleCancelEdit}
-                className="p-1 text-white hover:bg-slate-400 rounded cursor-pointer transition-all"
-                title="Cancel"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </div>
-          </div>
-          <div className="flex gap-2">
-            <input
-              type="color"
-              value={editingColor}
-              onChange={(e) => setEditingColor(e.target.value)}
-              className="w-6 h-6 rounded border border-slate-400 cursor-pointer"
-            />
-            <input
-              type="text"
-              value={editingColor}
-              onChange={(e) => setEditingColor(e.target.value)}
-              className="flex-1 px-2 py-1 text-xs border border-slate-500 rounded"
-              placeholder="#FFFFFF"
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="flex items-center gap-2 justify-between">
-          <div className="flex items-center gap-2 min-w-0">
-            <div
-              className="w-5 h-5 rounded border-1 border-slate-500 flex-shrink-0"
-              style={{ backgroundColor: getTypeColor(typeName) }}
-            />
-            <span className="font-medium text-sm truncate">{typeName}</span>
-          </div>
-          <div className="flex gap-1 flex-shrink-0">
-            <button
-              onClick={() => handleEditTypeColor(typeName)}
-              className="p-1 text-blue-400 hover:bg-blue-200 rounded transition-colors cursor-pointer"
-              title="Edit Color"
-            >
-              <Palette className="w-3 h-3" />
-            </button>
-            <button
-              onClick={() => handleRemoveItem(typeName)}
-              className="p-1 text-rose-400 hover:bg-rose-200 rounded transition-colors cursor-pointer"
-              title="Remove"
-            >
-              <Trash2 className="w-3 h-3" />
-            </button>
-          </div>
-        </div>
-      )}
-    </div>
-  );
 
   const renderArrayItem = (item: string) => (
     <div
@@ -198,12 +97,9 @@ const ConstantsScreen = () => {
     <div className="w-full h-full rounded-xl shadow-xl mx-auto my-auto p-8 bg-slate-800">
       <div className="mb-5">
         <h1 className="text-3xl font-bold mb-2">PBS Constants Editor</h1>
-        <p className="text-gray-300">
-          Manage Pokemon Essentials constants and their properties
-        </p>
+        <p className="text-gray-300">Manage Pokemon Essentials constants and their properties</p>
         <p className="text-amber-200">
-          NOTE: Constants should have no spaces and be CamelCase. Any spaces
-          will be trimmed. Types should be full caps.
+          NOTE: Constants should have no spaces and be CamelCase. Any spaces will be trimmed. Types should be full caps.
         </p>
       </div>
 
@@ -218,9 +114,7 @@ const ConstantsScreen = () => {
                   key={section.key}
                   onClick={() => setActiveSection(section.key)}
                   className={`w-full text-left px-3 py-2 rounded-md transition-colors ${
-                    activeSection === section.key
-                      ? "bg-blue-500"
-                      : "hover:bg-slate-600"
+                    activeSection === section.key ? "bg-blue-500" : "hover:bg-slate-600"
                   }`}
                 >
                   {section.label}
@@ -235,15 +129,11 @@ const ConstantsScreen = () => {
           <div className="bg-slate-700 shadow-lg rounded-lg border border-slate-500">
             {/* Header */}
             <div className="border-b p-6 border-slate-500 relative">
-              <h2 className="text-2xl font-semibold">
-                {sections.find((s) => s.key === activeSection)?.label}
-              </h2>
+              <h2 className="text-2xl font-semibold">{sections.find((s) => s.key === activeSection)?.label}</h2>
               <p className="text-gray-300 mt-1">
                 {activeSection === "types"
                   ? "Manage Pokemon types and their colors"
-                  : `Manage ${sections
-                      .find((s) => s.key === activeSection)
-                      ?.label.toLowerCase()}`}
+                  : `Manage ${sections.find((s) => s.key === activeSection)?.label.toLowerCase()}`}
               </p>
               <button
                 onClick={resetToDefault}
@@ -261,7 +151,7 @@ const ConstantsScreen = () => {
                   type="text"
                   value={newItemName}
                   onChange={(e) => setNewItemName(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleAddItem()}
+                  onSubmit={handleAddItem}
                   placeholder={`Enter new ${sections
                     .find((s) => s.key === activeSection)
                     ?.label.toLowerCase()
@@ -282,24 +172,16 @@ const ConstantsScreen = () => {
             {/* Items List */}
             <div className="p-6 overflow-y-auto max-h-125">
               <div className="flex flex-wrap gap-3">
-                {activeSection === "types" ? (
-                  Object.keys(activeData || {}).map(renderTypeItem)
-                ) : Array.isArray(activeData) ? (
+                {Array.isArray(activeData) ? (
                   activeData.length > 0 ? (
                     activeData.map(renderArrayItem)
                   ) : (
                     <div className="w-full text-center py-8 text-gray-500">
-                      No{" "}
-                      {sections
-                        .find((s) => s.key === activeSection)
-                        ?.label.toLowerCase()}{" "}
-                      found
+                      No {sections.find((s) => s.key === activeSection)?.label.toLowerCase()} found
                     </div>
                   )
                 ) : (
-                  <div className="w-full text-center py-8 text-gray-500">
-                    Loading...
-                  </div>
+                  <div className="w-full text-center py-8 text-gray-500">Loading...</div>
                 )}
               </div>
             </div>

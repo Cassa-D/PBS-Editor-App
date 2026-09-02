@@ -10,8 +10,6 @@ import {
   PokemonColors,
   PokemonHabitats,
   PokemonShapes,
-  type PokemonType,
-  PokemonTypes
 } from "@lib/models/constants";
 import { moveFlags } from "@lib/models/Move";
 import { useEffect, useState } from "react";
@@ -22,7 +20,6 @@ export const usePBSConstants = () => {
 
   // PBSData state dictionary
   const [PBSData, setPBSData] = useState({
-    types: { ...PokemonTypes },
     genderRatios: [...GenderRatios],
     growthRates: [...GrowthRates],
     eggGroups: [...EggGroups],
@@ -62,7 +59,6 @@ export const usePBSConstants = () => {
   const resetAllConstants = () => {
     console.log("Resetting all constants");
     setPBSData({
-      types: { ...PokemonTypes },
       genderRatios: [...GenderRatios],
       growthRates: [...GrowthRates],
       eggGroups: [...EggGroups],
@@ -83,9 +79,6 @@ export const usePBSConstants = () => {
     setPBSData((prev) => {
       const updated = { ...prev };
       switch (type) {
-        case "types":
-          updated.types = { ...PokemonTypes };
-          break;
         case "genderRatio":
           updated.genderRatios = [...GenderRatios];
           break;
@@ -134,17 +127,6 @@ export const usePBSConstants = () => {
     setPBSData((prev) => {
       const updated = { ...prev };
       switch (type) {
-        case "types":
-          value = value.trim().toUpperCase();
-          const typeData = PokemonTypes[value as PokemonType] || {
-            name: value,
-            color: "#6B7280",
-          };
-          updated.types = {
-            ...prev.types,
-            [value]: typeData,
-          };
-          break;
         case "genderRatio":
           updated.genderRatios = [...prev.genderRatios, value];
           break;
@@ -193,9 +175,6 @@ export const usePBSConstants = () => {
     setPBSData((prev) => {
       const updated = { ...prev };
       switch (type) {
-        case "types":
-          delete updated.types[value as PokemonType];
-          break;
         case "genderRatio":
           updated.genderRatios = prev.genderRatios.filter((r) => r !== value);
           break;
@@ -241,33 +220,8 @@ export const usePBSConstants = () => {
     });
   };
 
-  const getTypeColor = (type: string) => {
-    const normalizedType = type.toUpperCase();
-    return PBSData.types[normalizedType as PokemonType]?.color || "#6B7280";
-  };
-
-  const updateTypeColor = (type: string, color: string) => {
-    console.log(`Updating color for type: ${type} - ${color}`);
-    setPBSData((prev) => {
-      const updated = { ...prev };
-      const normalizedType = type.toUpperCase() as PokemonType;
-
-      if (updated.types[normalizedType]) {
-        updated.types = {
-          ...updated.types,
-          [normalizedType]: {
-            ...updated.types[normalizedType],
-            color: color,
-          },
-        };
-      }
-      return updated;
-    });
-  };
-
   return {
     loadPBSConstants,
-    types: PBSData.types,
     genderRatios: PBSData.genderRatios,
     growthRates: PBSData.growthRates,
     eggGroups: PBSData.eggGroups,
@@ -284,7 +238,5 @@ export const usePBSConstants = () => {
     resetConstant,
     addConstant,
     removeConstant,
-    getTypeColor,
-    updateTypeColor,
   };
 };

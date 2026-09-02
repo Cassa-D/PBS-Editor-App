@@ -34,7 +34,7 @@ const MoveListItem = ({
         <div className="flex-1 min-w-0">
           <div className="font-medium truncate text-sm">{move.name}</div>
           <div className="flex items-center gap-2 mt-1">
-            <TypeBubble type={move.type} />
+            <TypeBubble type={move.type} size="small" />
             <span className="text-xs text-slate-400">{move.category}</span>
           </div>
           <div className="flex items-center gap-4 mt-1 text-xs text-slate-500">

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { importItems } from "@lib/services/importItems";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { exportItemsToPBS } from "@services/exportFormatter.ts";
+import { formatPath } from "@utils/fileUtils";
 
 
 export const useItemData = () => {
@@ -23,10 +24,7 @@ export const useItemData = () => {
   // Fetch and set initial Item data
   const fetchItems = async () => {
     try {
-      let pbsPath = `${projectPath}/PBS/items.txt`;
-      if (navigator.platform.includes("Win")) {
-        pbsPath = pbsPath.replace("/", "\\");
-      }
+      const pbsPath = formatPath(`${projectPath}/PBS/items.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
       // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}items_Gen_9_Pack.txt`);

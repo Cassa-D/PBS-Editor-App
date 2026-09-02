@@ -16,14 +16,13 @@ const TypeSelector = ({ pokemon, setPokemon }: TypeSelectorProps) => {
     setPokemon((prev) => {
       if (!prev) return prev;
       const newTypes = [...prev.types];
-      newTypes[index] = value as (typeof prev.types)[number];
+      newTypes[index] = value;
       return { ...prev, types: newTypes };
     });
   };
 
   const handleAddType = () => {
-    const defaultType =
-      (Object.keys(types)[0] as (typeof pokemon.types)[number]) || "NORMAL";
+    const defaultType = types[0]?.id || "QMARKS";
     setPokemon((prev) => {
       if (!prev) return prev;
       return { ...prev, types: [...prev.types, defaultType] };
@@ -53,7 +52,7 @@ const TypeSelector = ({ pokemon, setPokemon }: TypeSelectorProps) => {
             <div key={index} className="flex items-center gap-2 flex-1">
               <CustomSelect
                 value={type}
-                options={Object.keys(types)}
+                options={types.map(t => t.id)}
                 onChange={(value) => handleTypeChange(index, value)}
                 placeholder="Select type"
                 className="flex-1"
