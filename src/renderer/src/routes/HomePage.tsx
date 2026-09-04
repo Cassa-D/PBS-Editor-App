@@ -47,8 +47,8 @@ const HomePage = () => {
     window.localStorage.setItem(LAST_PROJECTS_KEY, JSON.stringify(newProjList));
     setLastProjects(newProjList);
 
-    navigate("/pokemon");
     setProject(projName, projPath);
+    navigate("/dashboard");
   };
 
   const openProject = async () => {

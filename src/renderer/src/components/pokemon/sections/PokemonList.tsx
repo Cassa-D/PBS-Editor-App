@@ -20,12 +20,14 @@ const PokemonList = ({
   const { pokemon } = usePokedexContext();
 
   const filteredPokemon = useMemo(() => {
-    return pokemon.filter(
-      (pokemon) =>
-        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        pokemon.id.includes(searchTerm) ||
-        !!pokemon.types.find((t) => t.toLowerCase().includes(searchTerm.toLowerCase()))
-    );
+    return pokemon
+      .filter(
+        (pokemon) =>
+          pokemon.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          pokemon.id.includes(searchTerm) ||
+          !!pokemon.types.find((t) => t.toLowerCase().includes(searchTerm.toLowerCase()))
+      )
+      .sort((a, b) => a.dexNumber - b.dexNumber);
   }, [pokemon, searchTerm]);
 
   const pokemonRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -38,7 +40,7 @@ const PokemonList = ({
       const timer = setTimeout(() => {
         scrollToPokemon(selectedPokemon.id, false); // false = instant scroll for initial positioning
         setHasScrolledToSelected(true);
-      }, 100);
+      }, 75);
 
       return () => clearTimeout(timer);
     }
@@ -86,11 +88,6 @@ const PokemonList = ({
     // Don't manually scroll here - let the useEffect handle it
   };
 
-  const memoFilteredPokemon = useMemo(
-    () => filteredPokemon.sort((a, b) => a.dexNumber - b.dexNumber),
-    [filteredPokemon]
-  );
-
   return (
     <div className="w-80 bg-gradient-to-r from-slate-800/40 to-slate-800 flex flex-col">
       {/* Search Header */}
@@ -112,7 +109,7 @@ const PokemonList = ({
 
       {/* Pokemon List */}
       <div ref={listContainerRef} className="flex-1 overflow-y-auto border-r-3 border-slate-700">
-        {memoFilteredPokemon.map((pokemon) => (
+        {filteredPokemon.map((pokemon) => (
           <PokemonListItem
             key={pokemon.id}
             pokemon={pokemon}
