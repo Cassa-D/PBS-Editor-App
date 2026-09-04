@@ -7,6 +7,9 @@
 // # - Deprecated (gray)
 
 export const versionHistory: Record<string, string[]> = {
+  "App - v.0.0.3": [
+    "*Added Dashboard page."
+  ],
   "App - v.0.0.2": [
     "*Added Type Editor with import/save functionality.",
     "-Added type searching on Pokémon page.",

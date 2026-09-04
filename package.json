@@ -1,6 +1,6 @@
 {
   "name": "pbs-editor-app",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "Cassa-D",
