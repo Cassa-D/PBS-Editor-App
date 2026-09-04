@@ -1,16 +1,15 @@
 ﻿import { memo, useEffect, useState } from "react";
-import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import Autocomplete from "@components/ui/Autocomplete.tsx";
 import { X } from "lucide-react";
 
 interface TypeEntryProps {
   type: string;
+  options?: string[];
   onTypeChange: (type: string) => void;
   onRemove: () => void;
 }
 
-const TypeEntry = ({ type, onTypeChange, onRemove }: TypeEntryProps) => {
-  const { types } = usePokedexContext();
+const TypeEntry = ({ type, onTypeChange, onRemove, options = [] }: TypeEntryProps) => {
   const [typeName, setTypeName] = useState<string>(type);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const TypeEntry = ({ type, onTypeChange, onRemove }: TypeEntryProps) => {
         <Autocomplete
           value={typeName}
           onValueChange={setTypeName}
-          options={types.map((m) => m.id)}
+          options={type ? [...options, type] : options}
           placeholder="Enter move..."
           inputClass="rounded-none border-b border-t-0 border-l-0 border-r-0 focus:ring-transparent focus:border-blue-300"
           onBlur={() => onTypeChange(typeName)}

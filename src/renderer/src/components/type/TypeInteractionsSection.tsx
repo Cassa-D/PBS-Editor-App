@@ -2,6 +2,7 @@
 import type { Type } from "@models/Type.ts";
 import FormSection from "@components/layout/FormSection.tsx";
 import TypeEntry from "@components/type/TypeEntry.tsx";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 
 interface TypeInteractionsSectionProps {
   type: Type;
@@ -11,8 +12,18 @@ interface TypeInteractionsSectionProps {
 }
 
 const TypeInteractionsSection = ({ type, title, setType, interaction }: TypeInteractionsSectionProps) => {
-  const types = useMemo(() => {
+  const { types } = usePokedexContext();
+
+  const interactionTypes = useMemo(() => {
     return type[interaction].sort((a, b) => a.localeCompare(b));
+  }, [type.weaknesses, type.resistances, type.immunities, interaction]);
+
+  const typeOptions = useMemo(() => {
+    return types
+      .filter(
+        (t) => !(type.weaknesses.includes(t.id) || type.resistances.includes(t.id) || type.immunities.includes(t.id))
+      )
+      .map((t) => t.id);
   }, [type.weaknesses, type.resistances, type.immunities, interaction]);
 
   const handleAddType = () => {
@@ -39,21 +50,22 @@ const TypeInteractionsSection = ({ type, title, setType, interaction }: TypeInte
   };
 
   const handleRemoveType = (index: number) => {
-    setType(prev => {
+    setType((prev) => {
       if (!prev) return prev;
       return {
         ...prev,
         [interaction]: prev[interaction].filter((_, i) => i !== index)
-      }
-    })
-  }
+      };
+    });
+  };
 
   const typesExport =
-    types.length > 0 ? (
-      types.map((type, idx) => (
+    interactionTypes.length > 0 ? (
+      interactionTypes.map((type, idx) => (
         <div key={`${interaction}-type-${type}-${idx}`} className="w-full">
           <TypeEntry
             type={type}
+            options={typeOptions}
             onTypeChange={(value) => handleChangeType(idx, value)}
             onRemove={() => handleRemoveType(idx)}
           />

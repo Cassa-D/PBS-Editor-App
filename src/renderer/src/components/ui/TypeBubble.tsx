@@ -8,8 +8,8 @@ interface TypeBubbleProps {
 }
 
 const typeSize = {
-  medium: { style: "w-[64px] h-[28px]", multiplicator: 28 },
-  small: { style: "w-[50.28px] h-[22px]", multiplicator: 22 }
+  medium: { style: "min-w-[64px] h-[28px]", multiplicator: 28 },
+  small: { style: "min-w-[50.28px] h-[22px]", multiplicator: 22 }
 };
 
 const TypeBubble = ({ type, size = "medium" }: TypeBubbleProps) => {
@@ -17,7 +17,7 @@ const TypeBubble = ({ type, size = "medium" }: TypeBubbleProps) => {
 
   const iconPosition = useMemo(() => {
     const currType = types.find((t) => t.id === type);
-    if (!currType) return types.find((t) => t.id === "QMARKS");
+    if (!currType) return types.find((t) => t.id === "QMARKS")?.iconPosition || 9;
     return currType.iconPosition;
   }, [type]);
 
