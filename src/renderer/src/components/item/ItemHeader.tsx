@@ -26,7 +26,7 @@ const ItemHeader = ({
 
   const MoveBubble = (
     moveData && (
-      <TypeBubble type={moveData.type || "Normal"} overrideText={moveData.name} />
+      <TypeBubble type={moveData.type || "QMARKS"} overrideText={moveData.name} />
     )
   )
 

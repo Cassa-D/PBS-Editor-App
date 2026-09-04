@@ -20,7 +20,7 @@ const MoveHeader: React.FC<MoveHeaderProps> = ({
 }) => {
   return (
     <div className="p-6 h-25 bg-slate-800 border-b-3 border-slate-700 shadow-sm">
-      <div className="flex items-center justify-between">
+      <div className="flex h-full items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">{move.name}</h1>
           <div className="flex items-center gap-4 mt-1">
@@ -32,12 +32,7 @@ const MoveHeader: React.FC<MoveHeaderProps> = ({
             <p className="text-slate-300">Accuracy: {move.accuracy}%</p>
           </div>
         </div>
-        <ActionButtons
-          onSave={onSave}
-          onReset={onReset}
-          onDelete={onDelete}
-          dirty={dirty}
-        />
+        <ActionButtons onSave={onSave} onReset={onReset} onDelete={onDelete} dirty={dirty} />
       </div>
     </div>
   );

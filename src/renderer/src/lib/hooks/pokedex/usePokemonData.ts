@@ -3,6 +3,7 @@ import { defaultPokemon, type Pokemon } from "@lib/models/Pokemon";
 import { importPokemon } from "@lib/services/importPokemon";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { exportPokemonToPBS } from "@services/exportFormatter.ts";
+import { formatPath } from "@utils/fileUtils";
 
 export const usePokemonData = () => {
   const [pokemon, setPokemon] = useState<Pokemon[]>([]); // Set shouldn't be exported
@@ -22,12 +23,7 @@ export const usePokemonData = () => {
   // Fetch and set initial Pokémon data
   const fetchPokemon = async () => {
     try {
-      console.warn("Pokemon not found. Fetching from PBS.");
-
-      let pbsPath = `${projectPath}/PBS/pokemon.txt`;
-      if (navigator.platform.includes("Win")) {
-        pbsPath = pbsPath.replace("/", "\\");
-      }
+      const pbsPath = formatPath(`${projectPath}/PBS/pokemon.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
       // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}pokemon_base_Gen_9_Pack.txt`);
@@ -57,7 +53,8 @@ export const usePokemonData = () => {
   };
 
   // Import and merge entire Pokémon data.
-  const importMerge = (imported: Pokemon[]) => {
+  const importMerge = (content: string) => {
+    const imported = importPokemon(content, pokemon);
     setPokemon((prev) => {
       const merged = [...prev];
       imported.forEach((newPokemon) => {
@@ -67,16 +64,19 @@ export const usePokemonData = () => {
           merged[index] = { ...merged[index], ...newPokemon };
         } else {
           // If it doesn't exist, add it
-          merged.push(newPokemon);
+          merged.push({ ...newPokemon });
         }
       });
       return savePBS(merged);
     });
+    return imported;
   };
 
   // Import and override entire Pokémon data.
-  const importOverride = (imported: Pokemon[]) => {
+  const importOverride = (content: string) => {
+    const imported = importPokemon(content);
     setPokemon(savePBS(imported));
+    return imported;
   };
 
   const overridePokemonData = (id: string, data: Partial<Pokemon>) => {

@@ -27,13 +27,7 @@ const ItemsPage = () => {
   const { showWarning, showError } = useAlertContext();
   const { showSuccess } = useToastNotifications();
 
-  const [editData, setEditData] = useState<Item | null>(null);
-
-  useEffect(() => {
-    if (!selectedItem && items.length > 0) {
-      setSelectedItem(items[0]);
-    }
-  }, [items, selectedItem, setSelectedItem]);
+  const [editData, setEditData] = useState<Item | null>(items[0] || null);
 
   useEffect(() => {
     if (selectedItem) {

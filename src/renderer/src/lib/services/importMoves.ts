@@ -1,4 +1,3 @@
-import type { PokemonType } from "@models/constants.ts";
 import { defaultMove, type Move } from "@models/Move.ts";
 
 export const importMoves = (data: string) => {
@@ -32,7 +31,7 @@ export const importMoves = (data: string) => {
           move.name = value;
           break;
         case "Type":
-          move.type = value as PokemonType;
+          move.type = value || "QMARKS";
           break;
         case "Category":
           move.category = value as "Physical" | "Special" | "Status";

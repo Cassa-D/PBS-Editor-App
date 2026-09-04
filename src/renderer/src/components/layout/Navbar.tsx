@@ -1,35 +1,30 @@
 import { useEffect, useState } from "react";
-import {
-  Home,
-  LoaderPinwheel,
-  HandFist,
-  Crown,
-  Database,
-  Menu,
-  X,
-  Settings,
-  Candy
-} from "lucide-react";
+import { Home, LoaderPinwheel, HandFist, Crown, Database, Menu, X, Candy, Settings, Zap } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
-import SettingsModal from "./SettingsModal.tsx";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
+import Tooltip from "@components/ui/Tooltip.tsx";
+import ImportModal from "@components/import/ImportModal.tsx";
+
+interface Item {
+  id: string;
+  icon: React.ElementType;
+  label: string;
+  tooltip: string;
+}
 
 interface NavItemProps {
-  item: {
-    id: string;
-    icon: React.ElementType;
-    label: string;
-  };
+  item: Item;
   onClick: (id: string) => void;
   isActive: boolean;
 }
 
-const navItems = [
-  { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon" },
-  { id: "moves", icon: HandFist, label: "Moves" },
-  { id: "abilities", icon: Crown, label: "Abilities" },
-  { id: "items", icon: Candy, label: "Items" },
-  { id: "constants", icon: Database, label: "Constants" }
+const navItems: Item[] = [
+  { id: "pokemon", icon: LoaderPinwheel, label: "Pokemon", tooltip: "Pokemon" },
+  { id: "moves", icon: HandFist, label: "Moves", tooltip: "Moves" },
+  { id: "abilities", icon: Crown, label: "Abilities", tooltip: "Abilities" },
+  { id: "items", icon: Candy, label: "Items", tooltip: "Items" },
+  { id: "types", icon: Zap, label: "Types", tooltip: "Types"},
+  { id: "constants", icon: Database, label: "Constants", tooltip: "Constants" }
 ];
 
 const Navbar = () => {
@@ -68,26 +63,20 @@ const Navbar = () => {
     const Icon = item.icon;
 
     return (
-      <button
-        onClick={() => onClick(item.id)}
-        className={`
+      <Tooltip description={item.tooltip} position="right" show={!isExpanded}>
+        <button
+          onClick={() => onClick(item.id)}
+          className={`
           w-full flex items-center h-12 text-left transition-colors duration-200 relative cursor-pointer
-          ${
-            isActive
-              ? "bg-blue-600 text-white"
-              : "text-slate-400 hover:text-slate-200 hover:bg-slate-700"
-          }
+          ${isActive ? "bg-blue-600 text-white" : "text-slate-400 hover:text-slate-200 hover:bg-slate-700"}
         `}
-      >
-        <div className="w-16 flex justify-center flex-shrink-0">
-          <Icon size={20} />
-        </div>
-        {isExpanded && (
-          <span className="font-medium text-sm transition-opacity duration-300">
-            {item.label}
-          </span>
-        )}
-      </button>
+        >
+          <div className="w-16 flex justify-center flex-shrink-0">
+            <Icon size={20} />
+          </div>
+          {isExpanded && <span className="font-medium text-sm transition-opacity duration-300">{item.label}</span>}
+        </button>
+      </Tooltip>
     );
   };
 
@@ -108,15 +97,16 @@ const Navbar = () => {
           {isExpanded ? <X size={20} /> : <Menu size={20} />}
         </button>
       </div>
-
-      {/* Main Navigation Items */}
-      <nav className="flex-1 py-4">
+      <nav className="border-b border-slate-700">
         <NavItem
-          item={{ id: "home", icon: Home, label: "Home" }}
+          item={{ id: "home", icon: Home, label: "Home", tooltip: "Home" }}
           onClick={onLinkClicked}
           isActive={activeItem === "home"}
         />
+      </nav>
 
+      {/* Main Navigation Items */}
+      <nav className="flex-1 py-4">
         {!!projectPath &&
           navItems.map((item) => (
             <NavItem key={item.id} item={item} onClick={onLinkClicked} isActive={activeItem === item.id} />
@@ -124,17 +114,19 @@ const Navbar = () => {
       </nav>
 
       {/* Bottom Buttons */}
-      <div className="border-t border-slate-700 cursor-pointer">
-        <SettingsModal
-          triggerElement={
-            <NavItem
-              item={{ id: "settings", icon: Settings, label: "Settings" }}
-              onClick={() => {}}
-              isActive={false}
-            />
-          }
-        />
-      </div>
+      {!!projectPath && (
+        <div className="border-t border-slate-700 cursor-pointer">
+          <ImportModal
+            triggerElement={
+              <NavItem
+                item={{ id: "settings", icon: Settings, label: "Settings", tooltip: "Settings" }}
+                onClick={() => {}}
+                isActive={false}
+              />
+            }
+          />
+        </div>
+      )}
     </div>
   );
 }

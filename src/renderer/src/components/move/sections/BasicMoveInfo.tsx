@@ -35,8 +35,8 @@ const BasicMoveInfo = ({ move, setMove }: BasicMoveInfoProps) => {
           </label>
           <CustomSelect
             value={move.type}
-            onChange={(value) => setMove({ ...move, type: value as any })}
-            options={Object.keys(types)}
+            onChange={(value) => setMove({ ...move, type: value })}
+            options={types.map(t => t.id)}
             placeholder="Select type..."
           />
         </div>

@@ -5,7 +5,6 @@ import type {
   PokemonEvolution,
   PokemonHabitat,
   PokemonShape,
-  PokemonType,
   EggGroup,
 } from "./constants.ts";
 
@@ -14,7 +13,7 @@ export interface Pokemon {
   dexNumber: number;
   name: string;
   formName: string;
-  types: PokemonType[];
+  types: string[];
   baseStats: {
     hp: number;
     attack: number;
@@ -70,7 +69,7 @@ export const defaultPokemon: Pokemon = {
   dexNumber: 0,
   name: "Unnamed",
   formName: "",
-  types: ["NORMAL"] as PokemonType[],
+  types: ["QMARKS"],
   baseStats: {
     hp: 1,
     attack: 1,

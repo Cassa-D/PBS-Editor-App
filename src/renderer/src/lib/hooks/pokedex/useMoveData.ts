@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { importMoves } from "@lib/services/importMoves";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { exportMovesToPBS } from "@services/exportFormatter.ts";
+import { formatPath } from "@utils/fileUtils";
 
 export const useMoveData = () => {
   const [moves, setMoves] = useState<Move[]>([]);
@@ -22,11 +23,7 @@ export const useMoveData = () => {
   // Fetch and set initial Move data
   const fetchMoves = async () => {
     try {
-      console.warn("Moves were not found. Fetching from PBS.");
-      let pbsPath = `${projectPath}/PBS/moves.txt`;
-      if (navigator.platform.includes("Win")) {
-        pbsPath = pbsPath.replace("/", "\\");
-      }
+      let pbsPath = formatPath(`${projectPath}/PBS/moves.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
       // const gen9Data = await window.electron.ipcRenderer.invoke("read-file", `${pbsPath}moves_Gen_9_Pack.txt`);

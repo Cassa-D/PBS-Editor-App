@@ -14,6 +14,7 @@ import ToastProvider from "@providers/ToastProvider.tsx";
 import { Tooltip } from "radix-ui";
 import ItemsPage from "@routes/ItemsPage.tsx";
 import { ProjectProvider } from "@providers/ProjectProvider.tsx";
+import TypesPage from '@routes/TypesPage.tsx'
 
 const router = createHashRouter(
   [
@@ -46,6 +47,10 @@ const router = createHashRouter(
         {
           path: "/items",
           element: <ItemsPage />,
+        },
+        {
+          path: "/types",
+          element: <TypesPage />
         }
       ],
     },

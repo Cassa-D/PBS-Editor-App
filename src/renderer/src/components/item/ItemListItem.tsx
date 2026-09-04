@@ -23,11 +23,7 @@ const ItemListItem = ({
 
   const moveData = item.move && getMoveDataById(item.move);
 
-  const MoveBubble = (
-    moveData && (
-      <TypeBubble type={moveData.type || "Normal"} overrideText={moveData.name} />
-    )
-  )
+  const MoveBubble = moveData && <TypeBubble type={moveData.type || "QMARKS"} overrideText={moveData.name} />;
 
   return (
     <div

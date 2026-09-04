@@ -42,6 +42,7 @@
       "@models/*": ["src/renderer/src/lib/models/*"],
       "@providers/*": ["src/renderer/src/lib/providers/*"],
       "@services/*": ["src/renderer/src/lib/services/*"],
+      "@utils/*": ["src/renderer/src/lib/utils/*"],
       "@theme/*": ["src/renderer/src/lib/theme/*"]
     }
   }
