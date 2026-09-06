@@ -14,7 +14,8 @@ import ToastProvider from "@providers/ToastProvider.tsx";
 import { Tooltip } from "radix-ui";
 import ItemsPage from "@routes/ItemsPage.tsx";
 import { ProjectProvider } from "@providers/ProjectProvider.tsx";
-import TypesPage from '@routes/TypesPage.tsx'
+import TypesPage from "@routes/TypesPage.tsx";
+import DashboardPage from "@routes/DashboardPage.tsx";
 
 const router = createHashRouter(
   [
@@ -26,37 +27,41 @@ const router = createHashRouter(
         {
           path: "/",
           index: true,
-          element: <HomePage />,
+          element: <HomePage />
+        },
+        {
+          path: "/dashboard",
+          element: <DashboardPage />
         },
         {
           path: "/pokemon",
-          element: <PokemonPage />,
+          element: <PokemonPage />
         },
         {
           path: "/constants",
-          element: <ConstantsPage />,
+          element: <ConstantsPage />
         },
         {
           path: "/moves",
-          element: <MovesPage />,
+          element: <MovesPage />
         },
         {
           path: "/abilities",
-          element: <AbilitiesPage />,
+          element: <AbilitiesPage />
         },
         {
           path: "/items",
-          element: <ItemsPage />,
+          element: <ItemsPage />
         },
         {
           path: "/types",
           element: <TypesPage />
         }
-      ],
-    },
+      ]
+    }
   ],
   {
-    basename: "/pbs-editor-app/",
+    basename: "/pbs-editor-app/"
   }
 );
 

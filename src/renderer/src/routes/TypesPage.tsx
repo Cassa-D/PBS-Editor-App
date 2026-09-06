@@ -6,9 +6,9 @@ import TypeList from "@components/type/TypeList.tsx";
 import _ from "lodash";
 import InputField from "@components/ui/InputField.tsx";
 import TypeHeader from "@components/type/TypeHeader.tsx";
-import { useToastNotifications } from '@hooks/useToast.ts'
-import { useAlertContext } from '@providers/AlertProvider.tsx'
-import TypeInteractionsSection from '@components/type/TypeInteractionsSection.tsx'
+import { useToastNotifications } from "@hooks/useToast.ts";
+import { useAlertContext } from "@providers/AlertProvider.tsx";
+import TypeInteractionsSection from "@components/type/TypeInteractionsSection.tsx";
 
 const TypesPage = () => {
   const { types, selectedType, setSelectedType, removeType, setTypeData } = usePokedexContext();
@@ -159,9 +159,24 @@ const TypesPage = () => {
                 />
               </div>
             </FormSection>
-            <TypeInteractionsSection title="Weaknesses" type={editData} setType={setEditData} interaction="weaknesses" />
-            <TypeInteractionsSection title="Resistances" type={editData} setType={setEditData} interaction="resistances" />
-            <TypeInteractionsSection title="Immunities" type={editData} setType={setEditData} interaction="immunities" />
+            <TypeInteractionsSection
+              title="Weaknesses"
+              type={editData}
+              setType={setEditData}
+              interaction="weaknesses"
+            />
+            <TypeInteractionsSection
+              title="Resistances"
+              type={editData}
+              setType={setEditData}
+              interaction="resistances"
+            />
+            <TypeInteractionsSection
+              title="Immunities"
+              type={editData}
+              setType={setEditData}
+              interaction="immunities"
+            />
             <FormSection title="Advanced Properties">
               <div className="flex flex-wrap gap-4">
                 <InputField
