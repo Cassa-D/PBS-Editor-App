@@ -3,7 +3,7 @@ import { Check, X} from "lucide-react";
 
 interface InputFieldProps {
   label?: string;
-  type?: "text" | "number" | "textarea" | "checkbox";
+  type?: "text" | "number" | "textarea" | "checkbox" | "color";
   value: string | number | boolean;
   onChange?: (value: string | number | boolean) => void;
   onFinished?: (value: string | number | boolean) => void;
@@ -23,6 +23,7 @@ interface InputFieldProps {
     description: string;
     link?: string;
   };
+  errorMessage?: string;
 }
 
 const InputField = ({
@@ -39,7 +40,8 @@ const InputField = ({
   rows = 3,
   className = "",
   tooltip,
-  defaultValue
+  defaultValue,
+  errorMessage,
 }: InputFieldProps) => {
   const handleChange = (e: string | number | boolean) => {
     onChange && onChange(e);
@@ -111,13 +113,11 @@ const InputField = ({
   }
 
   return (
-    <div className="relative">
+    <div>
       {label && (
         <label className="flex gap-2 items-center text-sm font-medium text-slate-300 mb-2">
           {label}
-          {tooltip && (
-            <InfoTooltip {...tooltip} />
-          )}
+          {tooltip && <InfoTooltip {...tooltip} />}
         </label>
       )}
       {type === "textarea" && (
@@ -154,6 +154,42 @@ const InputField = ({
           className={inputClassName}
           onKeyDown={handleKeyDown}
         />
+      )}
+
+      {type === "color" && (
+        <div className="flex items-center gap-3">
+          <input
+            onFocus={onFocus}
+            onBlur={handleOnFinish}
+            type={type}
+            value={value as string}
+            onChange={(e) => {
+              handleChange(e.target.value);
+            }}
+            className={`cursor-pointer w-8 h-8 rounded-2xl ${className}`}
+            onKeyDown={handleKeyDown}
+          />
+
+          <div className="relative">
+            <input
+              onFocus={onFocus}
+              onBlur={handleOnFinish}
+              type="text"
+              value={value as string}
+              onChange={(e) => {
+                if (/^#[0-9A-Fa-f]+/.test(e.target.value)) {
+                  handleChange(e.target.value);
+                }
+              }}
+              placeholder={placeholder}
+              maxLength={7}
+              className={`${inputClassName} ${errorMessage ? "focus:ring-red-500/70" : ""}`}
+              onKeyDown={handleKeyDown}
+            />
+
+            {errorMessage && <div className="text-red-500 text-xs absolute mt-1">{errorMessage}</div>}
+          </div>
+        </div>
       )}
     </div>
   );

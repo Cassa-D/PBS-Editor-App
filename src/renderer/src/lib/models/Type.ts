@@ -7,6 +7,7 @@
   resistances: string[];
   isSpecialType: boolean;
   isPseudoType: boolean;
+  color: string;
 }
 
 export const defaultType: Type = {
@@ -18,4 +19,5 @@ export const defaultType: Type = {
   resistances: [],
   isPseudoType: false,
   isSpecialType: false,
+  color: "",
 }

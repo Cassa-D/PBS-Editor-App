@@ -116,17 +116,6 @@ const PokemonPage = () => {
     setEditData(pokemon);
   };
 
-  // Only want to change the list when
-  // pokemon list itself changes.
-  const memoPokemonList = useMemo(() => {
-    return (
-      <PokemonList
-        selectedPokemon={selectedPokemon}
-        onPokemonSelect={handleSelectPokemon}
-      />
-    );
-  }, [pokemon, selectedPokemon]);
-
   const dirty = useMemo(() => !_.isEqual(editData, selectedPokemon), [editData, selectedPokemon]);
 
   // Early return if no data is available
@@ -144,7 +133,7 @@ const PokemonPage = () => {
   return (
     <div className="flex h-screen min-w-[70vw] w-full text-slate-200 shadow-xl">
       {/* Left Sidebar - Pokemon List */}
-      {memoPokemonList}
+      <PokemonList selectedPokemon={selectedPokemon} onPokemonSelect={handleSelectPokemon} />
 
       {/* Main Content - Pokemon Editor */}
       <div className="flex-1 flex flex-col overflow-hidden">
