@@ -3,7 +3,7 @@ import { Home, LoaderPinwheel, HandFist, Crown, Database, Menu, X, Candy, Settin
 import { useLocation, useNavigate } from "react-router-dom";
 import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import Tooltip from "@components/ui/Tooltip.tsx";
-import ImportModal from "@components/import/ImportModal.tsx";
+import SettingsModal from "@components/ui/SettingsModal.tsx";
 
 interface Item {
   id: string;
@@ -116,7 +116,7 @@ const Navbar = () => {
       {/* Bottom Buttons */}
       {!!projectPath && (
         <div className="border-t border-slate-700 cursor-pointer">
-          <ImportModal
+          <SettingsModal
             triggerElement={
               <NavItem
                 item={{ id: "settings", icon: Settings, label: "Settings", tooltip: "Settings" }}

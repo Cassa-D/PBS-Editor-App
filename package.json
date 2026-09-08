@@ -1,6 +1,6 @@
 {
   "name": "pbs-editor-app",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "Cassa-D",
@@ -26,6 +26,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-toast": "^1.2.15",
     "@tailwindcss/vite": "^4.1.12",
+    "colorthief": "^3.5.0",
     "date-fns": "^4.4.0",
     "electron-updater": "^6.3.9",
     "lodash": "^4.17.21",

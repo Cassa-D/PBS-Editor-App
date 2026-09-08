@@ -18,11 +18,12 @@ export const usePokedex = () => {
   const { projectPath } = useProjectContext();
 
   const loadData = () => {
-    typesData.loadTypeData();
-    pokemonData.loadPokemonData();
-    moveData.loadMoveData();
+    typesData.loadTypeData().then(() => {
+      pokemonData.loadPokemonData();
+      moveData.loadMoveData();
+      itemData.loadItemData();
+    });
     abilityData.loadAbilityData();
-    itemData.loadItemData();
     constantsData.loadPBSConstants();
   };
 

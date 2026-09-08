@@ -4,6 +4,9 @@ import { useProjectContext } from "@providers/ProjectProvider.tsx";
 import { importTypes } from "@services/importTypes.ts";
 import { formatPath } from "@utils/fileUtils";
 import { exportTypesToPBS } from "@services/exportFormatter.ts";
+import { getPaletteSync } from "colorthief";
+
+const TYPES_COLOR_KEY = "TYPES_COLOR";
 
 export const useTypeData = () => {
   const [types, setTypes] = useState<Type[]>([]);
@@ -25,15 +28,44 @@ export const useTypeData = () => {
       let pbsPath = formatPath(`${projectPath}/PBS/types.txt`);
 
       const data = await window.electron.ipcRenderer.invoke("read-file", pbsPath);
-      const parsedTypes = importTypes(data);
       const imgData: string = await window.electron.ipcRenderer.invoke(
         "read-image",
         formatPath(`${projectPath}/Graphics/UI/types.png`)
       );
       setTypeImg(`data:image/png;base64,${imgData}`);
+      const parsedTypes = importTypes(data);
 
-      setTypes(parsedTypes);
-      setSelectedType(parsedTypes[0]);
+      const typesColor: Pick<Type, "id" | "color">[] = JSON.parse(localStorage.getItem(TYPES_COLOR_KEY) || "[]");
+
+      const imgHeight = parsedTypes.length * 28;
+      const img = new Image();
+      img.src = `data:image/png;base64,${imgData}`;
+      img.onload = () => {
+        for (let i = 0; i < parsedTypes.length; i++) {
+          const type = parsedTypes[i];
+
+          const typeColor = typesColor.find((t) => t.id === type.id);
+          if (typeColor) {
+            parsedTypes[i] = {
+              ...type,
+              color: typeColor.color
+            };
+          } else {
+            const palette = getPaletteSync(img, {
+              region: { height: 28 / imgHeight, width: 1, x: 0, y: (type.iconPosition * 28) / imgHeight },
+              whiteThreshold: 240,
+              quality: 1
+            });
+
+            parsedTypes[i] = {
+              ...type,
+              color: palette?.sort((a, b) => b.population - a.population)[0]?.hex() || "#ff6467"
+            };
+          }
+        }
+        setTypes(parsedTypes);
+        setSelectedType(parsedTypes[0]);
+      };
     } catch (error) {
       console.error("Failed to load types.tsx", error);
     }
@@ -50,7 +82,11 @@ export const useTypeData = () => {
   };
 
   const setTypeData = (data: Type) => {
-    setTypes(prev => savePBS(prev.map((t) => (t.id === data.id ? data : t))));
+    setTypes((prev) => {
+      const newTypes = prev.map((t) => (t.id === data.id ? data : t));
+      localStorage.setItem(TYPES_COLOR_KEY, JSON.stringify(newTypes.map((t) => ({ id: t.id, color: t.color }))));
+      return savePBS(newTypes);
+    });
   };
 
   const importMerge = (importedTypes: Type[]) => {
@@ -74,21 +110,21 @@ export const useTypeData = () => {
 
   const isTypeInPokedex = (id: string) => {
     return !!types.find((t) => t.id === id);
-  }
+  };
 
   const addType = async (id: string, baseType?: Type) => {
-    const  data = { ...(baseType || defaultType) };
+    const data = { ...(baseType || defaultType) };
 
     data.id = id.trim().toUpperCase();
     data.name = id.trim();
-    setTypes(prev => savePBS([...prev, data]));
+    setTypes((prev) => savePBS([...prev, data]));
     setSelectedType(data);
     return data;
-  }
+  };
 
   const removeType = (id: string) => {
-    setTypes(prev => savePBS(prev.filter(t => t.id === id)));
-  }
+    setTypes((prev) => savePBS(prev.filter((t) => t.id === id)));
+  };
 
   return {
     types,
@@ -101,6 +137,6 @@ export const useTypeData = () => {
     addType,
     removeType,
     importMerge,
-    importOverride,
+    importOverride
   };
 };

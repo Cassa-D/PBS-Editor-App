@@ -1,21 +1,16 @@
-import React, { useState } from "react";
-import Modal from "../ui/Modal.tsx";
-import { usePokedexContext } from "@lib/providers/PokedexProvider";
+﻿import { Switch } from "radix-ui";
 import { FolderUp } from "lucide-react";
-import { useToastNotifications } from "@lib/hooks/useToast";
-import { Switch } from "radix-ui";
-import { importMoves } from "@lib/services/importMoves";
-import { importAbilities } from "@lib/services/importAbilities";
-import { importItems } from "@lib/services/importItems";
+import { useState } from "react";
+import { usePokedexContext } from "@providers/PokedexProvider.tsx";
 import { useAlertContext } from "@providers/AlertProvider.tsx";
+import { useToastNotifications } from "@hooks/useToast.ts";
 import type { Pokemon } from "@models/Pokemon.ts";
+import { importMoves } from "@services/importMoves.ts";
+import { importAbilities } from "@services/importAbilities.ts";
+import { importItems } from "@services/importItems.ts";
 import { importTypes } from "@services/importTypes.ts";
 
-interface ExportModalProps {
-  triggerElement: React.ReactNode;
-}
-
-const ImportModal = ({ triggerElement }: ExportModalProps) => {
+const ImportComponent = () => {
   const {
     setSelectedPokemon,
     setSelectedMove,
@@ -197,84 +192,73 @@ const ImportModal = ({ triggerElement }: ExportModalProps) => {
       toast.showError(error.message, "Import Failed");
     }
   };
-
   return (
-    <Modal
-      triggerElement={triggerElement}
-      title="Manage Data"
-      maxWidth="max-w-4xl"
-      contentClass="max-h-[80vh] overflow-y-auto"
-      showCloseButton={true}
-      onClose={() => {}}
-    >
-      {/* Import */}
-      <div>
-        <div className="mb-6 flex justify-between items-center">
-          <div>
-            <h2 className="text-lg font-semibold mb-1">Import</h2>
-            <p className="text-slate-400 text-sm">Import your data from an existing PBS file.</p>
-          </div>
-
-          {/* Import Mode Switch */}
-          <div className="flex flex-col items-end">
-            <p className="text-slate-300">Import Mode</p>
-            <div className="flex items-center space-x-3">
-              {importMode === "Override" && <p className="text-sm text-rose-400 mt-1">Override</p>}
-              {importMode === "Merge" && <p className="text-sm text-emerald-400 mt-1">Merge</p>}
-              <Switch.Root
-                className="w-12 h-6 bg-slate-700 rounded-full relative shadow-inner mt-2 focus:outline-none"
-                checked={importChecked}
-                onCheckedChange={(checked) => {
-                  setImportChecked(checked);
-                  setImportMode(checked ? "Merge" : "Override");
-                }}
-                aria-label="Import Mode"
-              >
-                <Switch.Thumb className="block w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out translate-x-0 data-[state=checked]:translate-x-6" />
-              </Switch.Root>
-            </div>
-          </div>
+    <div>
+      <div className="mb-6 flex justify-between items-center">
+        <div>
+          <h2 className="text-lg font-semibold mb-1">Import</h2>
+          <p className="text-slate-400 text-sm">Import your data from an existing PBS file.</p>
         </div>
-        <div className="flex gap-4 justify-center h-full">
-          <button
-            className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-sky-600 transition-all cursor-pointer"
-            onClick={handleImportPokemon}
-          >
-            <FolderUp size={24} className="mr-2" />
-            Pokemon
-          </button>
-          <button
-            className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-amber-600 transition-all cursor-pointer"
-            onClick={handleImportMoves}
-          >
-            <FolderUp size={24} className="mr-2" />
-            Moves
-          </button>
-          <button
-            className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-emerald-600 transition-all cursor-pointer"
-            onClick={handleImportAbilities}
-          >
-            <FolderUp size={24} className="mr-2" />
-            Abilities
-          </button>
-          <button
-            className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-violet-600 transition-all cursor-pointer"
-            onClick={handleImportItems}
-          >
-            <FolderUp size={24} className="mr-2" />
-            Items
-          </button>
-          <button
-            className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-rose-600 transition-all cursor-pointer"
-            onClick={handleImportTypes}
-          >
-            <FolderUp size={24} className="mr-2" />
-            Types
-          </button>
+
+        {/* Import Mode Switch */}
+        <div className="flex flex-col items-end">
+          <p className="text-slate-300">Import Mode</p>
+          <div className="flex items-center space-x-3">
+            {importMode === "Override" && <p className="text-sm text-rose-400 mt-1">Override</p>}
+            {importMode === "Merge" && <p className="text-sm text-emerald-400 mt-1">Merge</p>}
+            <Switch.Root
+              className="w-12 h-6 bg-slate-700 rounded-full relative shadow-inner mt-2 focus:outline-none"
+              checked={importChecked}
+              onCheckedChange={(checked) => {
+                setImportChecked(checked);
+                setImportMode(checked ? "Merge" : "Override");
+              }}
+              aria-label="Import Mode"
+            >
+              <Switch.Thumb className="block w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out translate-x-0 data-[state=checked]:translate-x-6" />
+            </Switch.Root>
+          </div>
         </div>
       </div>
-    </Modal>
+      <div className="flex gap-4 justify-center h-full">
+        <button
+          className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-sky-600 transition-all cursor-pointer"
+          onClick={handleImportPokemon}
+        >
+          <FolderUp size={24} className="mr-2" />
+          Pokemon
+        </button>
+        <button
+          className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-amber-600 transition-all cursor-pointer"
+          onClick={handleImportMoves}
+        >
+          <FolderUp size={24} className="mr-2" />
+          Moves
+        </button>
+        <button
+          className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-emerald-600 transition-all cursor-pointer"
+          onClick={handleImportAbilities}
+        >
+          <FolderUp size={24} className="mr-2" />
+          Abilities
+        </button>
+        <button
+          className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-violet-600 transition-all cursor-pointer"
+          onClick={handleImportItems}
+        >
+          <FolderUp size={24} className="mr-2" />
+          Items
+        </button>
+        <button
+          className="bg-slate-600 flex items-center justify-center px-8 py-6 rounded-lg hover:bg-rose-600 transition-all cursor-pointer"
+          onClick={handleImportTypes}
+        >
+          <FolderUp size={24} className="mr-2" />
+          Types
+        </button>
+      </div>
+    </div>
   );
 };
 
-export default ImportModal;
+export default ImportComponent;

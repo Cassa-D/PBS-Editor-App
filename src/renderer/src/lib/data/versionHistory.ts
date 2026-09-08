@@ -7,18 +7,16 @@
 // # - Deprecated (gray)
 
 export const versionHistory: Record<string, string[]> = {
-  "App - v.0.0.2": [
-    "*Added Type Editor with import/save functionality.",
-    "-Added type searching on Pokémon page.",
-    "-Fixed base stats reordering last three stats.",
-    "-Fixed some UI inconsistency between pages."
-  ],
-  "App - v.0.0.1": [
+  "App - v.0.1.0": [
     "*Refactored project to work as a standalone app with Electron.",
     "*Added project selection and last projects history.",
     "*Automatically reads and saves PBS information.",
+    "*Added Type Editor with import/save functionality.",
     "?You will have to select a project with a .rxproj or a PBS folder.",
-    "-Changed/Removed several UI components to best match app functionality."
+    "-Changed/Removed several UI components to best match app functionality.",
+    "-Added type searching on Pokémon page.",
+    "-Fixed base stats reordering last three stats.",
+    "-Fixed some UI inconsistency between pages."
   ],
   "Web - v.1.0.3": [
     "*Added Item Editor with import/export functionality.",
