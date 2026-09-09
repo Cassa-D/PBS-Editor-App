@@ -1,28 +1,27 @@
-# Pokemon Essentials PBS Editor
+# Pokemon Essentials PBS Editor App
 
-[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen?style=flat-square)](https://nathantbeene.github.io/PBS-Editor/)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen?style=flat-square)](https://atendev.github.io/PBS-Editor/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 [![React](https://img.shields.io/badge/React-19-61dafb?style=flat-square&logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-3178c6?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646cff?style=flat-square&logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat-square&logo=tailwind-css)](https://tailwindcss.com/)
+[![Electron](https://img.shields.io/badge/Electron-39-47848F?style=flat-square&logo=electron)](https://www.electronjs.org/)
 
-A modern React application for editing Pokemon Essentials PBS (Pokemon Battle System) data files with a user-friendly interface, eliminating the need to manually edit raw text files.
+A modern Electron + React application for editing Pokemon Essentials PBS (Pokemon Battle System) data files with a user-friendly interface, eliminating the need to manually edit raw text files.
 
-[Link to the Live Page](https://nathantbeene.github.io/PBS-Editor/)
+[Link to the Original Live Page](https://atendev.github.io/PBS-Editor/)
 
 ## Overview
 
-> [!NOTE]
-> Importing functionality is in a very basic stage and has not been fully checked. Should you need to remove all of the pokemon, you can either clear your indexDB database, or grab the **PBS** files from the `/public` folder and use the **override** import mode.
+Provides a visual editor for Pokémon Essentials PBS data, letting you:
 
-Provides a visual editor for Pokemon Essentials PBS data, letting you:
-
-- **Manage Pokemon**: Create, edit, and manage Pokemon data including stats, types, abilities, moves, and more
+- **Manage Pokémon**: Create, edit, and manage Pokémon data including stats, types, abilities, moves, and more
 - **Edit Moves**: Define and modify moves with their properties, effects, and battle mechanics
-- **Alter Abilities**: Create and edit Pokemon abilities with descriptions and flags
+- **Alter Abilities**: Create and edit Pokémon abilities with descriptions and flags
+- **Manage Items**: Change and add Items with their properties, battle and non-battle mechanics
+- **Modify Types**: Create and edit Pokémon types with their interactions between each-other
 - **Live Preview**: See changes instantly without switching between files
-- **Export Functionality**: Export your edited data back to PBS format for use in Pokemon Essentials
 
 ## Features
 
@@ -53,12 +52,17 @@ Provides a visual editor for Pokemon Essentials PBS data, letting you:
 - Field and battle usage configuration
 - Flag system for item properties
 
+### Type Editor
+- Type properties (name, is pseudo type, is special type)
+- Icon position configuration
+- Weaknesses/Resistances/Immunities interactions
+
 ### Technical Features
 - **React 19** with modern hooks and state management
 - **TypeScript** for type safety
 - **Tailwind CSS** for responsive styling
-- **IndexedDB** for local data persistence
 - **Vite** for fast development and building
+- **Electron** for app building and app version control
 - **Modular architecture** with reusable components
 
 ## Getting Started
@@ -71,8 +75,8 @@ Provides a visual editor for Pokemon Essentials PBS data, letting you:
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/PBS-Editor.git
-cd PBS-Editor
+git clone https://github.com/your-username/PBS-Editor-App.git
+cd PBS-Editor-App
 ```
 
 2. Install dependencies:
@@ -90,7 +94,14 @@ npm run dev
 ### Building for Production
 
 ```bash
-npm run build
+# For windows
+npm run build:win
+
+# For macOS
+npm run build:mac
+
+# For Linux
+npm run build:linux
 ```
 
 The built application will be available in the `dist` directory.
@@ -100,9 +111,11 @@ The built application will be available in the `dist` directory.
 ### Available Scripts
 
 - `npm run dev` - Start development server
-- `npm run build` - Build for production
+- `npm run build` - Build for type check and initial build setup
 - `npm run lint` - Run ESLint
-- `npm run preview` - Preview production build
+- `npm run build:win` - Build for Windows
+- `npm run build:linux` - Build for Linux
+- `npm run build:mac` - Build for Mac
 
 ### Project Structure
 ```
@@ -111,6 +124,8 @@ src/
     pokemon/           # Pokemon-specific components
     move/              # Move editor components
     ability/           # Ability editor components
+    item/              # Item editor components
+    type/              # Type editor components
     ui/                # Reusable UI components
     layout/            # Layout components
   lib/
@@ -118,8 +133,8 @@ src/
     models/            # Data models and types
     services/          # Business logic and utilities
     providers/         # React context providers
+    utils/             # Generic utilities
   routes/              # Page components
-  assets/              # Static assets including sample PBS files
 ```
 
 ## Contributing
@@ -134,40 +149,4 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - Built for the Pokemon Essentials community
 - Inspired by the need for better PBS data management tools
-
----
-
-# pbs-editor-app
-
-An Electron application with React and TypeScript
-
-## Recommended IDE Setup
-
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
-## Project Setup
-
-### Install
-
-```bash
-$ npm install
-```
-
-### Development
-
-```bash
-$ npm run dev
-```
-
-### Build
-
-```bash
-# For windows
-$ npm run build:win
-
-# For macOS
-$ npm run build:mac
-
-# For Linux
-$ npm run build:linux
-```
+- Forked from Aten.Dev's PBS Editor page

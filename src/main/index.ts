@@ -1,23 +1,24 @@
 import { app, shell, BrowserWindow, ipcMain, dialog, type OpenDialogOptions } from "electron";
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import icon from '../../resources/icon.png?asset'
+import iconPNG from '../../resources/icon.png?asset'
+import iconICO from '../../resources/icon.ico?asset'
 import * as fs from "node:fs";
 import * as url from 'node:url'
 
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 870,
+    width: 1500,
+    height: 900,
     show: false,
     autoHideMenuBar: true,
-    ...(process.platform === 'linux' ? { icon } : {}),
+    icon: process.platform === "linux" ? iconPNG : iconICO,
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, "../preload/index.js"),
       sandbox: false
     }
-  })
+  });
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

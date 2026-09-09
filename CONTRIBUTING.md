@@ -8,8 +8,8 @@ If you would like to contribute to the project, please follow the guidelines bel
 #### 1. Fork the repo
 ```bash
 # Click the "Fork" button on GitHub, then clone your fork
-git clone https://github.com/your-username/PBS-Editor.git
-cd PBS-Editor
+git clone https://github.com/your-username/PBS-Editor-APP.git
+cd PBS-Editor-APP
 ```
 
 #### 2. Set up development environment
@@ -39,7 +39,7 @@ git checkout -b feature/your-feature-name
 git add .
 
 # Commit with a descriptive message
-git commit -m "Add: brief description of your changes"
+git commit -m "[Add] brief description of your changes"
 ```
 
 #### 6. Push and create a pull request
