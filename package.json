@@ -4,7 +4,7 @@
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "Cassa-D",
-  "homepage": "https://atendev.github.io/PBS-Editor/",
+  "homepage": "https://github.com/Cassa-D/PBS-Editor-App/",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
